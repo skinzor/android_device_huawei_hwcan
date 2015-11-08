@@ -171,6 +171,7 @@ persist.radio.sw_mbn_update=0
 persist.radio.hw_mbn_update=0
 service.qti.ims.enabled=1
 telephony.lteOnCdmaDevice=1
+persist.data.qmi.adb_logmask=0
 
 # Time Services
 persist.timed.enable=true
