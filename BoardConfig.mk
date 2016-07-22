@@ -181,6 +181,7 @@ TARGET_PER_MGR_ENABLED := true
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
+TARGET_POWER_SET_FEATURE_LIB := libpower_huawei
 
 # Properties
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
