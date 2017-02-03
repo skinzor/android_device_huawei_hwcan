@@ -1,3 +1,31 @@
+# Bluetooth
+bin/btnvtool
+bin/hci_qcomm_init
+vendor/lib/libbtnv.so
+vendor/lib64/libbtnv.so
+
+# DRM
+bin/qseecomd
+vendor/bin/qseeproxydaemon
+vendor/lib/libQSEEComAPI.so
+vendor/lib64/lib-sec-disp.so
+vendor/lib64/libGPreqcancel.so
+vendor/lib64/libGPreqcancel_svc.so
+vendor/lib64/libQSEEComAPI.so
+vendor/lib64/libSecureUILib.so
+vendor/lib64/libStDrvInt.so
+vendor/lib64/libdrmfs.so
+vendor/lib64/libdrmtime.so
+vendor/lib64/libqisl.so
+vendor/lib64/librpmb.so
+vendor/lib64/libsecureui.so
+vendor/lib64/libsecureui_svcsock.so
+vendor/lib64/libssd.so
+
+# Gatekeeper
+vendor/lib/hw/gatekeeper.msm8953.so
+vendor/lib64/hw/gatekeeper.msm8953.so
+
 # Graphics
 vendor/lib/egl/eglSubDriverAndroid.so
 vendor/lib/egl/libEGL_adreno.so
@@ -58,3 +86,62 @@ etc/firmware/a506_zap.b01
 etc/firmware/a506_zap.b02
 etc/firmware/a506_zap.elf
 etc/firmware/a506_zap.mdt
+
+# Keystore
+vendor/lib/hw/keystore.msm8953.so
+vendor/lib64/hw/keystore.msm8953.so
+
+# Media
+lib/libOmxVpp.so
+lib/libvpplibrary.so
+vendor/lib/libI420colorconvert.so
+vendor/lib/libOmxAacDec.so
+vendor/lib/libOmxEvrcDec.so
+vendor/lib/libOmxQcelp13Dec.so
+vendor/lib/libmm-color-convertor.so
+vendor/lib/libmmosal.so
+vendor/lib/libvqzip.so
+
+# Network
+-priv-app/QtiTetherService/QtiTetherService.apk|1f4c07ac5b46914f1ce732266ae2f14dc2f9b61d
+vendor/lib/libconnctrl.so
+vendor/lib64/libconnctrl.so
+vendor/lib64/libQtiTether.so
+
+# Perf
+bin/energy-awareness
+bin/iop
+bin/msm_irqbalance
+lib64/libqti-iop.so
+vendor/bin/perfd
+vendor/lib/libqc-opt.so
+vendor/lib/libqti-iop-client.so
+vendor/lib/libqti-perfd-client.so
+vendor/lib64/libqc-opt.so
+vendor/lib64/libqti-iop-client.so
+vendor/lib64/libqti-perfd-client.so
+
+# Peripheral manager
+bin/pm-proxy
+bin/pm-service
+vendor/lib/libperipheral_client.so
+vendor/lib64/libperipheral_client.so
+
+# Thermal
+etc/thermal-engine.conf
+vendor/bin/thermal-engine
+-vendor/lib/libthermalclient.so
+-vendor/lib64/libthermalclient.so
+vendor/lib64/libthermalioctl.so
+
+# Time services
+-app/TimeService/TimeService.apk|9b75c62cc4671ec7a5454e203431a4bb8396846b
+bin/time_daemon
+-vendor/lib/libtime_genoff.so
+vendor/lib/libTimeService.so
+-vendor/lib64/libtime_genoff.so
+vendor/lib64/libTimeService.so
+
+# Wifi
+bin/cnss-daemon
+bin/cnss_diag

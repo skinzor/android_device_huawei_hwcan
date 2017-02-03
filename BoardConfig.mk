@@ -66,8 +66,14 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
 
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(PLATFORM_PATH)/bluetooth
+
 # Charger
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
+# Crypto
+TARGET_HW_DISK_ENCRYPTION := true
 
 # Display
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
@@ -90,6 +96,9 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 
+# Keystore
+TARGET_PROVIDES_KEYMASTER := true
+
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 83886080
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
@@ -103,8 +112,17 @@ TARGET_USERIMAGES_USE_F2FS := true
 # Recovery
 TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/fstab.qcom
 
+# RIL
+TARGET_RIL_VARIANT := caf
+
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
+
+# Sensors
+USE_SENSOR_MULTI_HAL := true
+
+# Timeservice
+BOARD_USES_QC_TIME_SERVICES := true
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
