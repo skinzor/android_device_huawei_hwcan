@@ -29,10 +29,11 @@ $(call inherit-product, frameworks/native/build/phone-xxhdpi-3072-hwui-memory.mk
 
 # Display
 PRODUCT_PACKAGES += \
-    gralloc.msm8953 \
     copybit.msm8953 \
+    gralloc.msm8953 \
     hwcomposer.msm8953 \
-    memtrack.msm8953
+    memtrack.msm8953 \
+    libtinyxml
 
 # Ramdisk
 PRODUCT_PACKAGES += \
