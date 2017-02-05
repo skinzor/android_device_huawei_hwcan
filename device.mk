@@ -95,6 +95,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/sound_trigger_mixer_paths_wcd9335.xml:system/etc/sound_trigger_mixer_paths_wcd9335.xml \
     $(LOCAL_PATH)/audio/sound_trigger_platform_info.xml:system/etc/sound_trigger_platform_info.xml
 
+# Compatibility
+PRODUCT_PACKAGES += \
+    libshim_cutils
+
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8953 \

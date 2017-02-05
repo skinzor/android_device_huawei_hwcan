@@ -35,6 +35,8 @@ on early-init
     mkdir /log 0775 system log
 
 on fs
+    export LD_SHIM_LIBS /system/lib64/libcutils.so|libshim_cutils.so:/system/lib/libcutils.so|libshim_cutils.so
+
     wait /dev/block/bootdevice
 
     mount_all fstab.qcom
