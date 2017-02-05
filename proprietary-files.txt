@@ -20,6 +20,7 @@ vendor/lib/rfsa/adsp/libscveObjectSegmentation_skel.so
 vendor/lib/rfsa/adsp/libscveTextReco_skel.so
 
 # Audio
+lib/soundfx/libeagle.so
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
@@ -82,7 +83,6 @@ vendor/lib/libadreno_utils.so
 vendor/lib/libbccQTI.so
 vendor/lib/libc2d30-a5xx.so
 vendor/lib/libc2d30_bltlib.so
-vendor/lib/libc2d30_bltlib.so
 vendor/lib/libdisp-aba.so
 vendor/lib/libgsl.so
 vendor/lib/libllvm-glnext.so
@@ -112,7 +112,6 @@ vendor/lib64/libRSDriver_adreno.so
 vendor/lib64/libadreno_utils.so
 vendor/lib64/libbccQTI.so
 vendor/lib64/libc2d30-a5xx.so
-vendor/lib64/libc2d30_bltlib.so
 vendor/lib64/libc2d30_bltlib.so
 vendor/lib64/libdisp-aba.so
 vendor/lib64/libgsl.so
