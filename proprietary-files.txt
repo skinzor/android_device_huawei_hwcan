@@ -255,3 +255,17 @@ vendor/lib64/libTimeService.so
 # Wifi
 bin/cnss-daemon
 bin/cnss_diag
+etc/wifi/WCNSS_hw_wlan_nv.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_al00.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_al00_no_fem.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_cl00.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_l01.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_l02.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_l03.bin
+etc/wifi/WCNSS_hw_wlan_nv_can_tl00.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_al00.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_cl00.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_l01.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_l02.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_l03.bin
+etc/wifi/WCNSS_hw_wlan_nv_mla_tl00.bin
