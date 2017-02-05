@@ -160,16 +160,18 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    ipacm \
-    ipacm-diag \
-    IPACM_cfg.xml \
-    libqsap_sdk \
-    libQWiFiSoftApCfg \
-    libwpa_client \
     hostapd \
+    wcnss_service \
+    wpa_supplicant
+
+PRODUCT_PACKAGES += \
     dhcpcd.conf \
-    wpa_supplicant \
-    wpa_supplicant.conf
+    hostapd_default.conf \
+    hostapd.accept \
+    hostapd.deny \
+    wpa_supplicant.conf \
+    wpa_supplicant_overlay.conf \
+    p2p_supplicant_overlay.conf
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/hostapd.accept:system/etc/hostapd/hostapd.accept \
