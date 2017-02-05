@@ -162,6 +162,11 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.qcom.rc
 
+# RIL
+PRODUCT_PACKAGES += \
+    librmnetctl \
+    libxml2
+
 # Wifi
 PRODUCT_PACKAGES += \
     hostapd \
