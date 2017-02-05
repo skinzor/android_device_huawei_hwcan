@@ -135,6 +135,14 @@ etc/firmware/a506_zap.b01
 etc/firmware/a506_zap.b02
 etc/firmware/a506_zap.elf
 etc/firmware/a506_zap.mdt
+etc/firmware/a530_gpmu.fw2
+etc/firmware/a530_pfp.fw
+etc/firmware/a530_pm4.fw
+etc/firmware/a530v1_pfp.fw
+etc/firmware/a530v1_pm4.fw
+etc/firmware/a530v2_seq.fw2
+etc/firmware/a530v3_gpmu.fw2
+etc/firmware/a530v3_seq.fw2
 
 # Keystore
 vendor/lib/hw/keystore.msm8953.so
