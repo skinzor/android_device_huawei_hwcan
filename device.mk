@@ -128,6 +128,9 @@ PRODUCT_PACKAGES += \
     fs_config_files
 
 # GPS
+PRODUCT_PACKAGES += \
+    libcurl
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/flp.conf:system/etc/flp.conf \
     $(LOCAL_PATH)/gps/etc/gps.conf:system/etc/gps.conf \
