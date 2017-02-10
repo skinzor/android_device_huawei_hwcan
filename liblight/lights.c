@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
+#include <math.h>
 
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -171,7 +172,8 @@ set_light_backlight(struct light_device_t *dev,
 
     pthread_mutex_lock(&g_lock);
 
-    err = write_int(LCD_FILE, brightness);
+    float adjusted = (brightness / 255.0f) * 4095.0f;
+    err = write_int(LCD_FILE, (int) roundf(adjusted));
 
     pthread_mutex_unlock(&g_lock);
 
