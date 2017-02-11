@@ -1218,12 +1218,6 @@ service wlan_detect /system/bin/wlan_detect
     group root
     oneshot
 
-on property:wlan.driver.status=ok
-    write /proc/wifi_built_in/wifi_start "start"
-
-on property:wlan.driver.status=unloaded
-    write /proc/wifi_built_in/wifi_start "stop"
-
 #add poweroffhandler
 service poweroffhandler /system/bin/poweroffhandler
     class core
