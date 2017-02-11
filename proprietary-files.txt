@@ -148,6 +148,9 @@ etc/firmware/a530v3_seq.fw2
 vendor/lib/hw/keystore.msm8953.so
 vendor/lib64/hw/keystore.msm8953.so
 
+# Lights
+bin/libqmi_oem_main
+
 # Media
 lib/libOmxVpp.so
 lib/libvpplibrary.so
@@ -188,9 +191,9 @@ vendor/lib64/libperipheral_client.so
 bin/irsc_util
 etc/permissions/qti_permissions.xml
 lib/libqmi_nv_api.so
-lib/libqmi_oem_api.so
+-lib/libqmi_oem_api.so
 lib64/libqmi_nv_api.so
-lib64/libqmi_oem_api.so
+-lib64/libqmi_oem_api.so
 vendor/lib/libdiag.so
 vendor/lib/libdsi_netctrl.so
 vendor/lib/libdsutils.so

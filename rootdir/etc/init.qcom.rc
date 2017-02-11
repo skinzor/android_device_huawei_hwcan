@@ -1200,9 +1200,8 @@ service seemp_healthd /system/vendor/bin/seemp_healthd
 on charger
     setprop persist.sys.usb.config charging
 
-service libqmi_oem_main /sbin/libqmi_oem_main
+service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
-    seclabel u:r:libqmi_oem_main:s0
 
 service wifi_aging /system/xbin/wifi_aging
     user root
