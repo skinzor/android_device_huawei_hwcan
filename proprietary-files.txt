@@ -293,9 +293,6 @@ vendor/lib64/libTimeService.so
 # Wifi
 bin/cnss-daemon
 bin/cnss_diag
-bin/fstman
-bin/wlan_detect
-etc/wifi/fstman.ini
 etc/wifi/WCNSS_hw_wlan_nv.bin
 etc/wifi/WCNSS_hw_wlan_nv_can_al00.bin
 etc/wifi/WCNSS_hw_wlan_nv_can_al00_no_fem.bin

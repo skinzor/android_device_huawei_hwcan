@@ -40,7 +40,6 @@ on init
     # Set permissions for persist partition
     mkdir /persist 0771 system system
 
-
     # Create cgroup mount point for memory
     mkdir /sys/fs/cgroup/memory/bg 0750 root system
     write /sys/fs/cgroup/memory/bg/memory.swappiness 140
@@ -1218,6 +1217,12 @@ service wlan_detect /system/bin/wlan_detect
     user root
     group root
     oneshot
+
+on property:wlan.driver.status=ok
+    write /proc/wifi_built_in/wifi_start "start"
+
+on property:wlan.driver.status=unloaded
+    write /proc/wifi_built_in/wifi_start "stop"
 
 #add poweroffhandler
 service poweroffhandler /system/bin/poweroffhandler
