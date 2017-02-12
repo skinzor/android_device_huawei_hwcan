@@ -167,6 +167,10 @@ PRODUCT_PACKAGES += \
     librmnetctl \
     libxml2
 
+# Sensors
+PRODUCT_PACKAGES += \
+    sensors.msm8953
+
 # Wifi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \

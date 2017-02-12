@@ -149,6 +149,11 @@ on boot
     chmod 0664 /sys/class/graphics/fb0/msm_cmd_autorefresh_en
 
     # Sensors
+    chmod 0775 /persist/sensors
+    chmod 0664 /persist/sensors/sensors_settings
+    chown system root /persist/sensors/sensors_settings
+    mkdir /data/misc/sensors 0775 system root
+
     chown system system /sys/set_app_info/set_app_info_node
     chmod 0440 /sys/devices/soc0/huawei_product
     chown system system /sys/devices/8789.huawei_hall_sensor/enable_hall_sensor
@@ -729,7 +734,6 @@ service sensors /system/bin/sensors.qcom
     class core
     user root
     group root
-    disabled
 
 on property:ro.use_data_netmgrd=false
     # netmgr not supported on specific target
