@@ -1,33 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
-    Copyright (c) 2015-16, The Linux Foundation. All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are
-    met:
-        * Redistributions of source code must retain the above copyright
-          notice, this list of conditions and the following disclaimer.
-        * Redistributions in binary form must reproduce the above
-          copyright notice, this list of conditions and the following
-          disclaimer in the documentation and/or other materials provided
-          with the distribution.
-        * Neither the name of The Linux Foundation nor the names of its
-          contributors may be used to endorse or promote products derived
-          from this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-    ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-    BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-    BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-    OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-
 <mixer>
     <!-- These are the initial mixer settings -->
     <ctl name="Voice Rx Device Mute" id="0" value="0" />
@@ -51,9 +22,6 @@
     <ctl name="TTY Mode" value="OFF" />
     <ctl name="HPHL Volume" value="9" />
     <ctl name="HPHR Volume" value="9" />
-    <ctl name="RX HPH Mode" value="NORMAL" />
-    <ctl name="COMP0 RX1" value="0" />
-    <ctl name="COMP0 RX2" value="0" />
     <ctl name="RX1 Digital Volume" value="84" />
     <ctl name="RX2 Digital Volume" value="84" />
     <ctl name="RX3 Digital Volume" value="84" />
@@ -84,10 +52,11 @@
     <ctl name="HPHL" value="ZERO" />
     <ctl name="HPHR" value="ZERO" />
     <ctl name="SPK" value="ZERO" />
-    <ctl name="LINE_OUT" value="ZERO" />
+    <ctl name="WSA Spk Switch" value="ZERO" />
     <ctl name="SpkrMono WSA_RDAC" value="ZERO" />
     <ctl name="SpkrMono BOOST Switch" value="1" />
     <ctl name="EAR PA Gain" value="POS_6_DB" />
+    <ctl name="Speaker Boost" value="ENABLE" />
     <ctl name="EAR PA Gain" value="POS_1P5_DB" />
     <ctl name="EAR PA Boost" value="ENABLE" />
     <ctl name="MI2S_RX Channels" value="One" />
@@ -141,11 +110,11 @@
     <ctl name="Speaker Enable" value="Off" />
     <ctl name="Left Speaker Gain" value="20" />
     <ctl name="Speaker Gain" value="20" />
-    <ctl name="Imon Enable" value="Off" />
-    <ctl name="Vmon Enable" value="Off" />
-    <ctl name="ClassD Only" value="On" />
-    <ctl name="Boost Output Voltage" value="6.5V" />
+    <ctl name="Imon Enable" value="On" />
+    <ctl name="Vmon Enable" value="On" />
+    <ctl name="ClassD Only" value="Off" />
     <!-- These are initial mixer settings for QUIN_I2S-->
+    <ctl name="QUIN_MI2S_RX_DL_HL Switch" value="0" />
     <ctl name="QUIN_MI2S_RX_Voice Mixer CSVoice" value="0" />
     <ctl name="QUIN_MI2S_RX_Voice Mixer Voice2" value="0" />
     <ctl name="QUIN_MI2S_RX_Voice Mixer VoLTE" value="0" />
@@ -154,6 +123,7 @@
     <ctl name="QUIN_MI2S_RX_Voice Mixer Voip" value="0" />
     <ctl name="QUIN_MI2S_RX_Voice Mixer QCHAT" value="0" />
     <ctl name="QUIN_MI2S_RX_Voice Mixer VoWLAN" value="0" />
+    <ctl name="QUIN_MI2S_RX Port Mixer INTERNAL_FM_TX" value="0" />
 
     <!-- Voice2 -->
     <ctl name="PRI_MI2S_RX_Voice Mixer Voice2" value="0" />
@@ -508,21 +478,8 @@
         <ctl name="QUIN_MI2S_RX Audio Mixer MultiMedia7" value="1" />
     </path>
 
-    <path name="compress-offload-playback2 afe-proxy">
-        <ctl name="AFE_PCM_RX Audio Mixer MultiMedia7" value="1" />
-    </path>
-
-    <path name="compress-offload-playback2 usb-headphones">
-        <path name="compress-offload-playback2 afe-proxy" />
-    </path>
-
     <path name="compress-offload-playback2 speaker-and-hdmi">
         <path name="compress-offload-playback2 hdmi" />
-        <path name="compress-offload-playback2" />
-    </path>
-
-    <path name="compress-offload-playback2 speaker-and-usb-headphones">
-        <path name="compress-offload-playback2 usb-headphones" />
         <path name="compress-offload-playback2" />
     </path>
 
@@ -779,13 +736,13 @@
     <path name="play-fm">
         <ctl name="Internal FM RX Volume" value="1" />
         <ctl name="PRI_MI2S_RX Port Mixer INTERNAL_FM_TX" value="1" />
-        <ctl name="MI2S_DL_HL Switch" value="1" />
+        <ctl name="PRI_MI2S_RX_DL_HL Switch" value="1" />
     </path>
 
     <path name="play-fm speaker">
         <ctl name="Internal FM RX Volume" value="1" />
         <ctl name="QUIN_MI2S_RX Port Mixer INTERNAL_FM_TX" value="1" />
-        <ctl name="MI2S_DL_HL Switch" value="1" />
+        <ctl name="QUIN_MI2S_RX_DL_HL Switch" value="1" />
     </path>
 
     <path name="vowlan-call">
@@ -828,6 +785,10 @@
         <ctl name="VoiceMMode1_Tx Mixer TERT_MI2S_TX_MMode1" value="1" />
     </path>
 
+    <path name="voicemmode1-call speaker-and-headphones">
+        <path name="voicemmode1-call" />
+    </path>
+
     <path name="voicemmode1-call bt-sco">
         <ctl name="INTERNAL_BT_SCO_RX_Voice Mixer VoiceMMode1" value="1" />
         <ctl name="VoiceMMode1_Tx Mixer INT_BT_SCO_TX_MMode1" value="1" />
@@ -855,6 +816,10 @@
     <path name="voicemmode2-call speaker">
         <ctl name="QUIN_MI2S_RX_Voice Mixer VoiceMMode2" value="1" />
         <ctl name="VoiceMMode2_Tx Mixer TERT_MI2S_TX_MMode2" value="1" />
+    </path>
+
+    <path name="voicemmode2-call speaker-and-headphones">
+        <path name="voicemmode2-call" />
     </path>
 
     <path name="voicemmode2-call bt-sco">
@@ -1161,6 +1126,7 @@
         <ctl name="RX3 MIX1 INP1" value="RX1" />
         <ctl name="RX3 Digital Volume" value="84" />
         <ctl name="LINE_OUT" value="Switch" />
+        <ctl name="WSA Spk Switch" value="WSA" />
         <ctl name="SpkrMono WSA_RDAC" value="Switch" />
    </path>
 
@@ -1181,10 +1147,6 @@
         <path name="wsa-speaker" />
         <ctl name="PRI_MI2S_RX_VI_FB_MUX" value="SENARY_TX" />
         <ctl name="SpkrMono VISENSE Switch" value="1" />
-    </path>
-
-    <path name="voice-speaker-protected">
-        <path name="speaker-protected" />
     </path>
 
    <path name="speaker-mic">
@@ -1217,9 +1179,6 @@
         <ctl name="MI2S_RX Channels" value="Two" />
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="RX2 MIX1 INP1" value="RX2" />
-        <ctl name="RX HPH Mode" value="HD2" />
-        <ctl name="COMP0 RX1" value="1" />
-        <ctl name="COMP0 RX2" value="1" />
         <ctl name="RDAC2 MUX" value="RX2" />
         <ctl name="HPHL" value="Switch" />
         <ctl name="HPHR" value="Switch" />
@@ -1249,7 +1208,7 @@
         <path name="sidetone-iir" />
         <ctl name="RX1 MIX2 INP1" value="IIR1" />
         <ctl name="RX2 MIX2 INP1" value="IIR1" />
-        <ctl name="IIR1 INP1 Volume" value="53" />
+        <ctl name="IIR1 INP1 Volume" value="15" />
     </path>
 
 
@@ -1280,11 +1239,8 @@
     <path name="speaker-and-headphones">
         <path name="speaker" />
         <path name="headphones" />
-    </path>
-
-    <path name="wsa-speaker-and-headphones">
-        <path name="wsa-speaker" />
-        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="76" />
+        <ctl name="RX2 Digital Volume" value="76" />
     </path>
 
     <path name="usb-headphones">
@@ -1298,11 +1254,6 @@
 
     <path name="speaker-and-usb-headphones">
         <path name="speaker" />
-        <path name="usb-headphones" />
-    </path>
-
-    <path name="wsa-speaker-and-usb-headphones">
-        <path name="wsa-speaker" />
         <path name="usb-headphones" />
     </path>
 
@@ -1457,9 +1408,93 @@
           <path name="speaker-and-headphones" />
     </path>
 
-    <path name="wsa-speaker-and-line">
-        <path name="wsa-speaker" />
+    <path name="autommi-mastermic">
+        <path name="adc1" />
+        <ctl name="ADC1 Volume" value="6" />
+        <ctl name="DEC1 Volume" value="81" />
+    </path>
+
+    <path name="autommi-secondmic">
+        <path name="adc3" />
+        <ctl name="ADC3 Volume" value="4" />
+        <ctl name="DEC1 Volume" value="84" />
+    </path>
+
+    <path name="autommi-headsetmic">
+        <path name="headset-mic" />
+        <ctl name="ADC2 Volume" value="2" />
+        <ctl name="DEC1 Volume" value="84" />
+    </path>
+
+    <path name="autommi-headset">
+        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="84" />
+        <ctl name="RX2 Digital Volume" value="84" />
+    </path>
+
+    <path name="autommi-speaker">
+        <path name="speaker" />
+    </path>
+
+    <path name="autommi-receiver">
+        <path name="handset" />
+        <ctl name="RX1 Digital Volume" value="87" />
+    </path>
+
+    <path name="cvaa-headphones">
+        <path name="headphones" />
+        <ctl name="MI2S_RX Channels" value="One" />
+    </path>
+
+    <path name="cvaa-voice-headphones">
+        <path name="cvaa-headphones" />
+    </path>
+
+    <path name="cvaa-speaker-and-headphones">
+        <path name="speaker" />
+        <path name="cvaa-headphones" />
+    </path>
+
+    <path name="cvaa-headphones-fm">
+        <path name="cvaa-headphones" />
+    </path>
+
+    <path name="speaker-fm">
+        <path name="speaker" />
+    </path>
+
+    <path name="headphone-fm">
         <path name="headphones" />
     </path>
 
+    <path name="speaker-right">
+        <path name="speaker" />
+    </path>
+
+    <path name="autommi-speaker-left">
+        <ctl name="Left Speaker Gain" value="20" />
+        <ctl name="Left Speaker Enable" value="On" />
+    </path>
+
+    <path name="autommi-speaker-right">
+        <ctl name="Right Speaker Gain" value="20" />
+        <ctl name="Right Speaker Enable" value="On" />
+    </path>
+
+    <path name="second-mic">
+        <path name="adc3" />
+        <ctl name="ADC3 Volume" value="8" />
+    </path>
+
+    <path name="all-mic">
+        <path name="dmic-endfire" />
+    </path>
+
+    <path name="dts-headphones">
+        <path name="headphones" />
+    </path>
+    <path name="handset-and-speaker">
+        <path name="handset" />
+        <path name="speaker" />
+    </path>
 </mixer>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- Copyright (c) 2015 - 2016, The Linux Foundation. All rights reserved.         -->
+<!-- Copyright (c) 2015, The Linux Foundation. All rights reserved.         -->
 <!--                                                                        -->
 <!-- Redistribution and use in source and binary forms, with or without     -->
 <!-- modification, are permitted provided that the following conditions are -->
@@ -29,7 +29,16 @@
         <device name="SND_DEVICE_OUT_SPEAKER" backend="speaker"/>
         <device name="SND_DEVICE_OUT_SPEAKER_REVERSE" backend="speaker"/>
         <device name="SND_DEVICE_OUT_VOICE_SPEAKER" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_VOICE_SPEAKER_LVM" backend="speaker"/>
         <device name="SND_DEVICE_OUT_SPEAKER_AND_HEADPHONES" backend="speaker-and-headphones"/>
+        <device name="SND_DEVICE_OUT_AUTOMMI_SPEAKER" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_AUTOMMI_SPEAKER_LEFT" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_AUTOMMI_SPEAKER_RIGHT" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_SPEAKER_LEFT" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_SPEAKER_RIGHT" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_FM_SPEAKER" backend="speaker"/>
+        <device name="SND_DEVICE_OUT_CVAA_SPEAKER_HEADSET" backend="speaker-and-headphones"/>
+        <device name="SND_DEVICE_OUT_HANDSET_AND_SPEAKER" backend="speaker-and-headphones"/>
     </backend_names>
 
     <bit_width_configs>
@@ -55,16 +64,5 @@
         <usecase name="USECASE_VOICEMMODE2_CALL" type="in" id="35"/>
         <usecase name="USECASE_VOICEMMODE2_CALL" type="out" id="35"/>
     </pcm_ids>
-    <config_params>
-        <param key="spkr_1_tz_name" value="wsa881x.0f"/>
-        <param key="spkr_2_tz_name" value=""/>
-    </config_params>
-    <acdb_ids>
-        <device name="SND_DEVICE_OUT_SPEAKER_PROTECTED" acdb_id="136"/>
-        <device name="SND_DEVICE_OUT_VOICE_SPEAKER_PROTECTED" acdb_id="136"/>
-        <device name="SND_DEVICE_OUT_SPEAKER_PROTECTED_VBAT" acdb_id="136"/>
-        <device name="SND_DEVICE_OUT_VOICE_SPEAKER_PROTECTED_VBAT" acdb_id="136"/>
-        <device name="SND_DEVICE_IN_CAPTURE_VI_FEEDBACK" acdb_id="137"/>
-    </acdb_ids>
 </audio_platform_info>
 
