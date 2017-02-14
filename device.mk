@@ -170,7 +170,11 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.msm8953
+    sensors.msm8953 \
+    sensors.nosensorhub.wrapper
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:system/etc/sensors/hals.conf
 
 # Wifi
 PRODUCT_PACKAGES += \

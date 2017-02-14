@@ -377,7 +377,6 @@ vendor/lib64/libxml.so
 
 # Sensors
 bin/sensors.qcom
-etc/sensors/hals.conf
 etc/sensors/sensor_def_qcomdev.conf
 vendor/etc/calmodule.cfg
 vendor/lib/hw/activity_recognition.msm8953.so
