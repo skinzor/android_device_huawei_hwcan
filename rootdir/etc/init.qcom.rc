@@ -1260,6 +1260,10 @@ service macaddrwriter /init.mac.sh
     class late_start
     user root
     oneshot
+    disabled
+
+on property:wlan.driver.status=ok
+    start macaddrwriter
 
 service knuckle /system/bin/sensors_qcom
     class late_start
