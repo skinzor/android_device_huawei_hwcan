@@ -48,7 +48,6 @@ etc/acdbdata/mlal010203/Handset_cal.acdb
 etc/acdbdata/mlal010203/Hdmi_cal.acdb
 etc/acdbdata/mlal010203/Headset_cal.acdb
 etc/acdbdata/mlal010203/Speaker_cal.acdb
-lib/soundfx/libeagle.so
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
