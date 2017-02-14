@@ -1256,6 +1256,11 @@ service macaddr /system/bin/mac_addr_normalization
     group root bluetooth net_bt_stack wifi
     oneshot
 
+service macaddrwriter /init.mac.sh
+    class late_start
+    user root
+    oneshot
+
 service knuckle /system/bin/sensors_qcom
     class late_start
     user system

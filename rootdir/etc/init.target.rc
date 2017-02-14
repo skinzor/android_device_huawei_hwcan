@@ -310,5 +310,9 @@ service check_root /sbin/check_root
     disabled
     seclabel u:r:check_root:s0
 
+service oeminfo_nvm /system/bin/oeminfo_nvm_server
+    class core
+    user root
+
 on property:sys.boot_completed=1
     start check_root

@@ -27,6 +27,9 @@ tunnel.audio.encode=false
 use.voice.path.for.pcm.voip=true
 voice.playback.conc.disabled=true
 
+# Bluetooth
+ro.bt.bdaddr_path=/data/misc/bluedroid/macbt
+
 # Enable Delay Service Restart
 ro.am.reschedule_service=true
 

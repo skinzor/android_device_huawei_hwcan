@@ -69,6 +69,13 @@ vendor/lib64/libaudiodevarb.so
 # Bluetooth
 bin/btnvtool
 bin/hci_qcomm_init
+bin/mac_addr_normalization
+bin/oeminfo_nvm_server
+lib/libbtaddr.so
+lib/libhuawei_secure.so
+lib64/libbtaddr.so
+lib64/libbtpower.so
+lib64/libhuawei_secure.so
 vendor/lib/libbtnv.so
 vendor/lib64/libbtnv.so
 
