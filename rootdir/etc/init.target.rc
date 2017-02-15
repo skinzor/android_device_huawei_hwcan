@@ -68,7 +68,7 @@ on post-fs-data
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
-    group camera system inet input graphics dsm
+    group camera system inet input graphics
 
 on init
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
