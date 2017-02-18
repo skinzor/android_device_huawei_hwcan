@@ -31,24 +31,17 @@ voice.playback.conc.disabled=true
 ro.bt.bdaddr_path=/data/misc/bluedroid/macbt
 
 # Camera
+persist.camera.gyro.disable=0
 vidc.enc.dcvs.extra-buff-count=2
 persist.hw_camera.video_sta=false
 ro.config.camera_target_track=true
-ro.config.hw_auto_scene=true
-ro.config.hw_burst_snapshot=true
-ro.config.hw_camera_bestShot=true
-ro.config.hw_camera_davinci=true
 ro.config.hw_camera_hdr=true
 ro.config.hw_camera_mfd=true
-ro.config.hw_camera_nicefood=true
 ro.config.hw_camera_omron=true
 ro.config.hw_camera_refocus=true
 ro.config.hw_camera_smartae=false
 ro.config.hw_camera_zsl=true
 ro.config.hw_manual_focus=true
-ro.config.hw_photo_beauty=true
-ro.config.hw_video_beauty=true
-ro.config.hw_camera_docbeauty=true
 
 # FRP
 ro.frp.pst=/dev/block/bootdevice/by-name/config
