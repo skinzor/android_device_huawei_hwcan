@@ -37,6 +37,7 @@ int get_app_info(char* key, char* value) {
     char buf[128] = { 0 };
     char* tok;
     FILE* f;
+    int i;
 
 #ifdef HW_LIBC_DEBUG
     ALOGI("Getting App Info for %s", key);
@@ -58,15 +59,18 @@ int get_app_info(char* key, char* value) {
     }
 
     while (!feof(f)) {
-        if (fgets(buf, 128, f) != NULL &&
+        if (fgets(buf, sizeof(buf), f) != NULL &&
                 strstr(buf, key) != NULL) {
             tok = strchr(buf, ':');
-            if (tok != NULL)
-                tok = strtok(tok, ": ");
-            if (tok != NULL) {
-                snprintf(value, APP_INFO_VALUE_LENGTH, "%s", tok);
-                strtok(value, "\n");
+            // Increase pointer to get rid of ':'
+            tok++;
+            // Remove all whitespaces on the left side
+            for (i = 0; i < strlen(tok); i++) {
+                if (tok[i] != ' ') break;
             }
+            tok += i;
+            snprintf(value, APP_INFO_VALUE_LENGTH, "%s", tok);
+            strtok(value, "\n");
             break;
         }
     }
