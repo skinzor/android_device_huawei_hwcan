@@ -97,6 +97,10 @@ PRODUCT_PACKAGES += \
     memtrack.msm8953 \
     libtinyxml
 
+# Fingerprint
+PRODUCT_PACKAGES += \
+    fingerprintd
+
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \

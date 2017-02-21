@@ -630,6 +630,13 @@ vendor/lib64/libsecureui.so
 vendor/lib64/libsecureui_svcsock.so
 vendor/lib64/libssd.so
 
+# Fingerprint
+bin/teecd
+lib64/hw/fingerprint.msm8953.so
+lib64/lib_fpc_tac_shared.so
+lib64/libservices.huawei.so
+lib64/libteec.so
+
 # Gatekeeper
 vendor/lib/hw/gatekeeper.msm8953.so
 vendor/lib64/hw/gatekeeper.msm8953.so

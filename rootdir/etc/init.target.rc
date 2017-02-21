@@ -314,5 +314,9 @@ service oeminfo_nvm /system/bin/oeminfo_nvm_server
     class core
     user root
 
+service teecd /system/bin/teecd
+    class core
+    user root
+
 on property:sys.boot_completed=1
     start check_root
