@@ -41,6 +41,7 @@ flac.sw.decoder.24bit.support=true
 # Bluetooth
 bluetooth.hfp.client=1
 ro.bt.bdaddr_path=/data/misc/bluedroid/macbt
+qcom.bluetooth.soc=smd
 
 # Camera
 persist.camera.isp.clock.optmz=0
