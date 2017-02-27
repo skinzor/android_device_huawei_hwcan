@@ -101,6 +101,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fingerprintd
 
+# FM
+PRODUCT_PACKAGES += \
+	FMRadio \
+	libfmjni
+
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \

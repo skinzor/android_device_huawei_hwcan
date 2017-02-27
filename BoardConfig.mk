@@ -119,6 +119,9 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 
+# FM
+TARGET_QCOM_NO_FM_FIRMWARE := true
+
 # Keystore
 TARGET_PROVIDES_KEYMASTER := true
 
