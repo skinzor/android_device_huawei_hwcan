@@ -950,6 +950,19 @@ vendor/lib/libTimeService.so
 -vendor/lib64/libtime_genoff.so
 vendor/lib64/libTimeService.so
 
+# Touchscreen
+etc/firmware/cannes_boe2_fw.img
+etc/firmware/cannes_boe_fw.img
+etc/firmware/cannes_lg_fw.img
+etc/firmware/cannes_tianma_fw.img
+etc/firmware/milan_4322_ihex.bin
+etc/firmware/milan_boe2_fw.img
+etc/firmware/milan_boe_fw.img
+etc/firmware/milan_ctc_fw.img
+etc/firmware/milan_jdi_fw.img
+etc/firmware/milan_tianma_ft8716_fw.bin
+etc/firmware/milan_tianma_fw.img
+
 # Wifi
 bin/cnss-daemon
 bin/cnss_diag
@@ -967,3 +980,12 @@ etc/wifi/WCNSS_hw_wlan_nv_mla_l01.bin
 etc/wifi/WCNSS_hw_wlan_nv_mla_l02.bin
 etc/wifi/WCNSS_hw_wlan_nv_mla_l03.bin
 etc/wifi/WCNSS_hw_wlan_nv_mla_tl00.bin
+
+# OTHER Firmware
+etc/firmware/ice40.bin
+etc/firmware/ilitek_i2c.bin
+etc/firmware/leia_pfp_470.fw
+etc/firmware/leia_pm4_470.fw
+etc/firmware/qtc800s.bin
+etc/firmware/qtc800s.cfg
+etc/firmware/venus_boe_fw.img
