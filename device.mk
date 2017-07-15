@@ -271,6 +271,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
 
+# Weather providers
+PRODUCT_PACKAGES += \
+    OpenWeatherMapWeatherProvider \
+    YahooWeatherProvider \
+    WundergroundWeatherProvider
+
 # Wifi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
