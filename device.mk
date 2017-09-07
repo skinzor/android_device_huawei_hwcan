@@ -114,6 +114,7 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     libshim_camera \
+    libshims_sensorlistener \
     libcamera_shim_mediaserver
 
 PRODUCT_PACKAGES += \

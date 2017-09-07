@@ -216,6 +216,7 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib64/libcutils.so|libshim_cutils.so \
     /system/lib/libcutils.so|libshim_cutils.so \
     /system/lib/hw/camera.msm8953.so|/system/vendor/lib/libshim_camera.so \
+    /system/lib/hw/camera.msm8953.so|libshims_sensorlistener.so \
     /system/lib/libcamera_post_mediaserver.so|libcamera_shim_mediaserver.so \
     /system/vendor/lib/libmmcamera_ppeiscore.so|/system/vendor/lib/libshim_camera.so
 
