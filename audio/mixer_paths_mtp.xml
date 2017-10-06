@@ -1124,7 +1124,7 @@
 
     <path name="wsa-speaker">
         <ctl name="RX3 MIX1 INP1" value="RX1" />
-        <ctl name="RX3 Digital Volume" value="84" />
+        <ctl name="RX3 Digital Volume" value="88" />
         <ctl name="LINE_OUT" value="Switch" />
         <ctl name="WSA Spk Switch" value="WSA" />
         <ctl name="SpkrMono WSA_RDAC" value="Switch" />
