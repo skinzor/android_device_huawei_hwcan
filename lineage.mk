@@ -16,20 +16,20 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit from can device.
-$(call inherit-product, device/huawei/can/device.mk)
+# Inherit from hwcan device.
+$(call inherit-product, device/huawei/hwcan/device.mk)
 
 # Inherit some common Lineage stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-PRODUCT_NAME := cm_can
-PRODUCT_DEVICE := can
+PRODUCT_NAME := lineage_hwcan
+PRODUCT_DEVICE := hwcan
 PRODUCT_BRAND := HUAWEI
-PRODUCT_MODEL := HUAWEI CAN-L01
+PRODUCT_MODEL := HUAWEI CAN-L11
 PRODUCT_MANUFACTURER := HUAWEI
 
 PRODUCT_GMS_CLIENTID_BASE := android-huawei
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=HUAWEI/CAN-L01/HWCAN:6.0/HUAWEICAN-L01/C432B140:user/release-keys \
-    PRIVATE_BUILD_DESC="CAN-L01-user 6.0 HUAWEICAN-L01 C432B140 release-keys"
+    BUILD_FINGERPRINT=HUAWEI/CAN-L11/HWCAN:7.0/HUAWEICAN-L11/C432B382:user/release-keys \
+    PRIVATE_BUILD_DESC="CAN-L11-user 7.0 HUAWEICAN-L11 C432B382 release-keys"

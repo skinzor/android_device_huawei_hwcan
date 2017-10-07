@@ -1,3 +1,3 @@
-add_lunch_combo cm_can-user
-add_lunch_combo cm_can-userdebug
-add_lunch_combo cm_can-eng
+add_lunch_combo lineage_hwcan-user
+add_lunch_combo lineage_hwcan-userdebug
+add_lunch_combo lineage_hwcan-eng
