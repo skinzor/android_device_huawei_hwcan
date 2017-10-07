@@ -113,6 +113,10 @@ PRODUCT_PACKAGES += \
 	FMRadio \
 	libfmjni
 
+# Fs_config
+PRODUCT_PACKAGES += \
+    fs_config_files
+
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \
