@@ -632,7 +632,7 @@ vendor/lib64/libssd.so
 
 # Fingerprint
 bin/teecd
-lib64/hw/fingerprint.msm8953.so
+lib64/hw/fingerprint.vendor.msm8953.so
 lib64/lib_fpc_tac_shared.so
 lib64/libservices.huawei.so
 lib64/libteec.so
