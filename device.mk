@@ -102,7 +102,15 @@ PRODUCT_PACKAGES += \
     gralloc.msm8953 \
     hwcomposer.msm8953 \
     memtrack.msm8953 \
+    liboverlay \
+    libjni_livedisplay \
     libtinyxml
+
+# Ebtables
+PRODUCT_PACKAGES += \
+    ebtables \
+    ethertypes \
+    libebtc
 
 # Fingerprint
 PRODUCT_PACKAGES += \
@@ -148,12 +156,12 @@ PRODUCT_COPY_FILES += \
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
-    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
+    libOmxSwVencHevc \
     libOmxVdec \
     libOmxVenc \
     libstagefrighthw
