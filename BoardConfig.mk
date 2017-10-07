@@ -64,6 +64,7 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/huawei/msm8953
 TARGET_KERNEL_CONFIG := hwcan_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+#BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 
 # ANT
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
