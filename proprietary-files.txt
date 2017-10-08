@@ -20,34 +20,6 @@ vendor/lib/rfsa/adsp/libscveObjectSegmentation_skel.so
 vendor/lib/rfsa/adsp/libscveTextReco_skel.so
 
 # Audio
-etc/acdbdata/can/Bluetooth_cal.acdb
-etc/acdbdata/can/General_cal.acdb
-etc/acdbdata/can/Global_cal.acdb
-etc/acdbdata/can/Handset_cal.acdb
-etc/acdbdata/can/Hdmi_cal.acdb
-etc/acdbdata/can/Headset_cal.acdb
-etc/acdbdata/can/Speaker_cal.acdb
-etc/acdbdata/canl010203/Bluetooth_cal.acdb
-etc/acdbdata/canl010203/General_cal.acdb
-etc/acdbdata/canl010203/Global_cal.acdb
-etc/acdbdata/canl010203/Handset_cal.acdb
-etc/acdbdata/canl010203/Hdmi_cal.acdb
-etc/acdbdata/canl010203/Headset_cal.acdb
-etc/acdbdata/canl010203/Speaker_cal.acdb
-etc/acdbdata/milan/Bluetooth_cal.acdb
-etc/acdbdata/milan/General_cal.acdb
-etc/acdbdata/milan/Global_cal.acdb
-etc/acdbdata/milan/Handset_cal.acdb
-etc/acdbdata/milan/Hdmi_cal.acdb
-etc/acdbdata/milan/Headset_cal.acdb
-etc/acdbdata/milan/Speaker_cal.acdb
-etc/acdbdata/mlal010203/Bluetooth_cal.acdb
-etc/acdbdata/mlal010203/General_cal.acdb
-etc/acdbdata/mlal010203/Global_cal.acdb
-etc/acdbdata/mlal010203/Handset_cal.acdb
-etc/acdbdata/mlal010203/Hdmi_cal.acdb
-etc/acdbdata/mlal010203/Headset_cal.acdb
-etc/acdbdata/mlal010203/Speaker_cal.acdb
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
@@ -92,7 +64,6 @@ lib/libarcsoft_beautyshot.so
 lib/libcamera_post_mediaserver.so
 lib/libcamera_wrapper_algo_omron_makeup.so
 lib/libdcamera_sr.so
-lib/libdmd.so
 lib/libhdr.so
 lib/libmm-qcamera.so
 lib/libmmcamera_interface.so
@@ -107,15 +78,12 @@ lib/libmrc_cg_postprocess.so
 lib/libqomx_core.so
 lib/libscenedetection.so
 lib/libtrack.so
-lib64/libdmd.so
 vendor/lib/libSonyIMX298PdafLibrary.so
 vendor/lib/libSonyIMX386PdafLibrary.so
 vendor/lib/libflash_pmic.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegdmahw.so
 vendor/lib/libjpegehw.so
-vendor/lib/libllvd_smore.so
-vendor/lib/libllvd_sw_tnr.so
 vendor/lib/libmmcamera2_c2d_module.so
 vendor/lib/libmmcamera2_cpp_module.so
 vendor/lib/libmmcamera2_dcrf.so
@@ -196,13 +164,10 @@ vendor/lib/libmmcamera_pdafcamif.so
 vendor/lib/libmmcamera_ppbase_module.so
 vendor/lib/libmmcamera_sony_imx298_eeprom.so
 vendor/lib/libmmcamera_stillmore_lib.so
-vendor/lib/libmmcamera_sw_tnr.so
 vendor/lib/libmmcamera_thread_services.so
 vendor/lib/libmmcamera_tintless_algo.so
 vendor/lib/libmmcamera_tintless_bg_pca_algo.so
 vendor/lib/libmmcamera_trueportrait_lib.so
-vendor/lib/libmmcamera_tuning.so
-vendor/lib/libmmcamera_tuning_lookup.so
 vendor/lib/libmmcamera_ubifocus_lib.so
 vendor/lib/libmmjpeg.so
 vendor/lib/libmmqjpeg_codec.so
@@ -543,10 +508,6 @@ etc/camera/filter/filter.xml
 etc/camera/filter/filterscap.xml
 etc/camera/filter/mixIm.dat
 etc/camera/hi843s_ofilm_chromatix.xml
-etc/camera/hwldc/device.config
-etc/camera/hwldc/hi843s_ofilm/hwldc_config.xml
-etc/camera/hwldc/imx219_liteon/hwldc_config.xml
-etc/camera/hwldc/imx219_sunny/hwldc_config.xml
 etc/camera/imx219_liteon_chromatix.xml
 etc/camera/imx219_sunny_chromatix.xml
 etc/camera/imx298_chromatix.xml
@@ -558,47 +519,16 @@ etc/camera/imx298_sunny_chromatix.xml
 etc/camera/imx298_sunny_chromatix_fty.xml
 etc/camera/imx386_foxconn_chromatix.xml
 etc/camera/imx386_liteon_chromatix.xml
-etc/camera/msm8953_camera.xml
-etc/camera/msm8953_camera_fty.xml
 etc/camera/ov12870_sunny_chromatix.xml
 etc/camera/smartae/default/SmartAE.xml
-etc/camera/smartae/device.config
-etc/camera/smartae/hi843s_ofilm/SmartAE.xml
-etc/camera/smartae/imx219_liteon/SmartAE.xml
-etc/camera/smartae/imx219_sunny/SmartAE.xml
-etc/camera/smartae/imx298_lgit/SmartAE.xml
-etc/camera/smartae/imx298_liteon/SmartAE.xml
-etc/camera/smartae/imx298_sunny/SmartAE.xml
-etc/camera/smartae/imx386_foxconn/SmartAE.xml
-etc/camera/smartae/imx386_liteon/SmartAE.xml
-etc/camera/smartae/ov12870_sunny/SmartAE.xml
 etc/camera/tornado/FoliageMinMaxTOA.txt
 etc/camera/tornado/FoliageModelTOA.model
 etc/camera/tornado/NightMinMaxTOA.txt
 etc/camera/tornado/NightModelTOA.model
 etc/camera/tornado/SunsetMinMaxTOA.txt
 etc/camera/tornado/SunsetModelTOA.model
-etc/camera/tornado/cfgpath.config
 etc/camera/tornado/default/TornadoI.ini
 etc/camera/tornado/default/hwsdcfg.xml
-etc/camera/tornado/hi843s_ofilm/TornadoI.ini
-etc/camera/tornado/hi843s_ofilm/hwsdcfg.xml
-etc/camera/tornado/imx219_liteon/TornadoI.ini
-etc/camera/tornado/imx219_liteon/hwsdcfg.xml
-etc/camera/tornado/imx219_sunny/TornadoI.ini
-etc/camera/tornado/imx219_sunny/hwsdcfg.xml
-etc/camera/tornado/imx298_lgit/TornadoI.ini
-etc/camera/tornado/imx298_lgit/hwsdcfg.xml
-etc/camera/tornado/imx298_liteon/TornadoI.ini
-etc/camera/tornado/imx298_liteon/hwsdcfg.xml
-etc/camera/tornado/imx298_sunny/TornadoI.ini
-etc/camera/tornado/imx298_sunny/hwsdcfg.xml
-etc/camera/tornado/imx386_foxconn/TornadoI.ini
-etc/camera/tornado/imx386_foxconn/hwsdcfg.xml
-etc/camera/tornado/imx386_liteon/TornadoI.ini
-etc/camera/tornado/imx386_liteon/hwsdcfg.xml
-etc/camera/tornado/ov12870_sunny/TornadoI.ini
-etc/camera/tornado/ov12870_sunny/hwsdcfg.xml
 etc/camera/tracking/targettracking.xml
 
 # Camera firmware
@@ -778,7 +708,6 @@ vendor/lib64/libgeofence.so
 vendor/lib64/libizat_core.so
 vendor/lib64/liblbs_core.so
 vendor/lib64/libloc_ext.so
-vendor/lib64/libloc_xtra.so
 vendor/lib64/liblocationservice.so
 vendor/lib64/liblocationservice_glue.so
 vendor/lib64/liblowi_client.so
@@ -820,10 +749,8 @@ bin/iop
 bin/msm_irqbalance
 lib64/libqti-iop.so
 vendor/bin/perfd
-vendor/lib/libqc-opt.so
 vendor/lib/libqti-iop-client.so
 vendor/lib/libqti-perfd-client.so
-vendor/lib64/libqc-opt.so
 vendor/lib64/libqti-iop-client.so
 vendor/lib64/libqti-perfd-client.so
 
@@ -884,7 +811,6 @@ vendor/lib64/libsmemlog.so
 bin/hvdcp_opti
 
 # Radio
--app/shutdownlistener/shutdownlistener.apk|a4f715eea03bb1518f3a12536eaafa1ab78f58f9
 bin/netmgrd
 bin/qmuxd
 bin/radish
@@ -893,7 +819,6 @@ etc/data/dsi_config.xml
 etc/data/netmgr_config.xml
 etc/data/qmi_config.xml
 etc/permissions/qcrilhook.xml
--framework/qcnvitems.jar|61aecee0b2fb2177ffa21d688bd241e6eaa60a5e
 -framework/qcrilhook.jar|3d69b8681bb236c7f30fa750f4c9b6783d27e248
 lib/libhuaweicust.so
 lib/libhw_hal.so
@@ -960,7 +885,6 @@ etc/firmware/milan_boe2_fw.img
 etc/firmware/milan_boe_fw.img
 etc/firmware/milan_ctc_fw.img
 etc/firmware/milan_jdi_fw.img
-etc/firmware/milan_tianma_ft8716_fw.bin
 etc/firmware/milan_tianma_fw.img
 
 # Wifi
@@ -986,6 +910,4 @@ etc/firmware/ice40.bin
 etc/firmware/ilitek_i2c.bin
 etc/firmware/leia_pfp_470.fw
 etc/firmware/leia_pm4_470.fw
-etc/firmware/qtc800s.bin
-etc/firmware/qtc800s.cfg
 etc/firmware/venus_boe_fw.img
