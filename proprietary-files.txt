@@ -621,6 +621,8 @@ etc/camera/s5k3l8_mono_chromatix.xml
 etc/camera/smartae/default/SmartAE.xml
 etc/camera/tornado/FoliageMinMaxTOA.txt
 etc/camera/tornado/FoliageModelTOA.model
+etc/camera/tornado/IndoorFeatureFilterTOA.txt
+etc/camera/tornado/IndoorModelTOA.model
 etc/camera/tornado/NightMinMaxTOA.txt
 etc/camera/tornado/NightModelTOA.model
 etc/camera/tornado/SunsetMinMaxTOA.txt
