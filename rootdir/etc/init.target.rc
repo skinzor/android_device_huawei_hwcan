@@ -124,7 +124,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
    group root
 
 service time_daemon /system/bin/time_daemon
-   class late_start
+   class main
    user root
    group root
 
@@ -181,7 +181,7 @@ service ims_rtp_daemon /system/bin/ims_rtp_daemon
 service imscmservice /system/bin/imscmservice
    class main
    user system
-   group radio net_raw diag diag log
+   group radio diag inet log
    disabled
 
 on property:sys.ims.DATA_DAEMON_STATUS=1
@@ -303,13 +303,6 @@ on boot
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/fw_name PR1702898-s3528t_00260005_00380008.img
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/update_fw 1
 
-service check_root /sbin/check_root
-    user root
-    group radio system
-    oneshot
-    disabled
-    seclabel u:r:check_root:s0
-
 service oeminfo_nvm /system/bin/oeminfo_nvm_server
     class core
     user root
@@ -317,6 +310,3 @@ service oeminfo_nvm /system/bin/oeminfo_nvm_server
 service teecd /system/bin/teecd
     class core
     user root
-
-on property:sys.boot_completed=1
-    start check_root

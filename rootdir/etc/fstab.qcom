@@ -21,4 +21,4 @@
 /devices/soc/7864900.sdhci/mmc_host*       /storage/sdcard1  vfat    nosuid,nodev                                                                                 wait,voldmanaged=sdcard1:auto,noemulatedsd
 /devices/soc/7000000.ssusb/7000000.dwc3/*  /storage/usbotg   vfat    nosuid,nodev                                                                                 wait,voldmanaged=usbotg:auto
 
-/dev/block/zram0                           none              swap    defaults                                                                                     zramsize=536870912
+/dev/block/zram0                           none              swap    defaults                                                                                     zramsize=1073741824
