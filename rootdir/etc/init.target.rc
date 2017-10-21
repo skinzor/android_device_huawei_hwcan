@@ -27,30 +27,48 @@
 #
 #
 
+import init.carrier.rc
+
 on early-init
     mkdir /firmware 0771 system system
     mkdir /system 0777 root root
     symlink /data/tombstones /tombstones
     mkdir /dsp 0771 media media
-    mkdir /log 0775 system log
+    write /proc/boottime "INIT: on init start"
 
 on fs
-    export LD_SHIM_LIBS /system/lib64/libcutils.so|libshim_cutils.so:/system/lib/libcutils.so|libshim_cutils.so
+    mkdir /patch_hw 0775 system system
 
+    write /proc/boottime "INIT:eMMC:Mount_START"
     wait /dev/block/bootdevice
 
     mount_all fstab.qcom
     write /proc/sys/vm/swappiness 100
 
+    mount_all_patch /patch_hw/fstab.patch_step1
+
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
     # results in failure to launch late-start class.
 
+    # wait /dev/block/bootdevice/by-name/cache
+    # mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev barrier=1
+
     # wait /dev/block/bootdevice/by-name/persist
     # mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
     mkdir /persist/data 0700 system system
+    restorecon_recursive /persist
 
+    wait /dev/block/bootdevice/by-name/dsp
+    mount ext4 /dev/block/bootdevice/by-name/dsp /dsp ro nosuid nodev barrier=1
+
+    wait /dev/block/bootdevice/by-name/modem
+    mount vfat /dev/block/bootdevice/by-name/modem /firmware ro context=u:object_r:firmware_file:s0,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
     #write /sys/kernel/boot_adsp/boot 1
+
+    #wait /dev/block/bootdevice/by-name/oem
+    #mount ext4 /dev/block/bootdevice/by-name/oem /oem ro nosuid nodev barrier=1
+    write /proc/boottime "INIT:eMMC:Mount_END"
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
@@ -62,13 +80,12 @@ on post-fs-data
     mkdir /persist/data/tz 0700 system system
     mkdir /data/misc/dts 0771 media audio
     mkdir /data/misc/hbtp 0750 system system
-    mkdir /data/log/ramdump 0771 sytem system
 
 #start camera server as daemon
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
-    group camera system inet input graphics
+    group camera system inet input graphics dsm
 
 on init
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
@@ -115,6 +132,13 @@ service perfd /system/vendor/bin/perfd
    user root
    disabled
 
+service gamed /system/vendor/bin/gamed
+   class main
+   user system
+   group system
+   disabled
+   socket gamed seqpacket 0640 system system
+
 service thermal-engine /system/vendor/bin/thermal-engine
    class main
    user root
@@ -124,7 +148,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
    group root
 
 service time_daemon /system/bin/time_daemon
-   class main
+   class late_start
    user root
    group root
 
@@ -145,11 +169,8 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b7000.i2c/i2c-3/3-0020/input/input0/secure_touch
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch
-    chmod 0666 /sys/class/leds/torch-light0/brightness
-    chmod 0666 /sys/class/leds/torch-light1/brightness
-    swapon_all fstab.qcom
 
-service wcnss-service /system/bin/wcnss_service
+service wcnss-service /vendor/bin/wcnss_service
     class main
     user system
     group system wifi radio
@@ -181,7 +202,7 @@ service ims_rtp_daemon /system/bin/ims_rtp_daemon
 service imscmservice /system/bin/imscmservice
    class main
    user system
-   group radio diag inet log
+   group radio net_raw diag diag log
    disabled
 
 on property:sys.ims.DATA_DAEMON_STATUS=1
@@ -228,15 +249,6 @@ on charger
     start qcom-post-boot
     setprop persist.sys.usb.config mass_storage
     start hvdcp_opti
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 652800
-    write /sys/devices/system/cpu/cpu1/online 0
-    write /sys/devices/system/cpu/cpu2/online 0
-    write /sys/devices/system/cpu/cpu3/online 0
-    write /sys/devices/system/cpu/cpu4/online 0
-    write /sys/devices/system/cpu/cpu5/online 0
-    write /sys/devices/system/cpu/cpu6/online 0
-    write /sys/devices/system/cpu/cpu7/online 0
 
 service dts_configurator /system/bin/dts_configurator
     class late_start
@@ -291,22 +303,6 @@ service mdtpd /system/vendor/bin/mdtpd
     user root
     group system radio drmrpc
 
-# AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 BEGIN
-# DTS HPX service
-service dts_hpx_service /system/bin/dts_hpx_service
-    class late_start
-    user system
-    group audio media
-# AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 END
-
 on boot
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/fw_name PR1702898-s3528t_00260005_00380008.img
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/update_fw 1
-
-service oeminfo_nvm /system/bin/oeminfo_nvm_server
-    class core
-    user root
-
-service teecd /system/bin/teecd
-    class core
-    user root

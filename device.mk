@@ -213,9 +213,17 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     init.class_main.sh \
     init.mac.sh \
+    init.mdm.sh \
+    init.msm.usb.configfs.rc \
+    init.qcom.class_core.sh \
+    init.qcom.early_boot.sh \
+    init.qcom.factory.rc \
     init.qcom.rc \
     init.qcom.sh \
+    init.qcom.sensors.sh \
+    init.qcom.syspart_fixup.sh \
     init.qcom.usb.rc \
+    init.qcom.usb.sh \
     init.target.rc \
     ueventd.qcom.rc
 
