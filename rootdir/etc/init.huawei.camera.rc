@@ -1,0 +1,6 @@
+on post-fs-data
+#add for camera
+    mkdir /data/img
+    chown system camera /data/img
+    chmod 0775 /data/img
+    chmod 0775 /data/img/adaptdata.txt

@@ -1,0 +1,11 @@
+#factory mode need can be rewrite this file for smartpa calib
+on property:ro.runmode=factory && property:sys.boot_completed=1
+    chown media audio /persist/audio/speaker_calibdata.bin
+
+# AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 BEGIN
+# DTS HPX service
+service dts_hpx_service /system/bin/dts_hpx_service
+    class late_start
+    user system
+    group audio media
+# AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 END

@@ -1,0 +1,118 @@
+on boot
+    chown system system /sys/class/hw_power/charger/charge_data/enable_charger
+    chmod 0664 /sys/class/hw_power/charger/charge_data/enable_charger
+    chown system system /sys/class/hw_power/charger/charge_data/iin_runningtest
+    chmod 0664 /sys/class/hw_power/charger/charge_data/iin_runningtest
+    chown system system /sys/class/hw_power/charger/charge_data/factory_diag
+    chmod 0664 /sys/class/hw_power/charger/charge_data/factory_diag
+    chown system system /sys/class/hw_power/charger/charge_data/iin_thermal
+    chmod 0664 /sys/class/hw_power/charger/charge_data/iin_thermal
+    chown system system /sys/class/hw_power/charger/charge_data/running_test_status
+    chmod 0660 /sys/class/hw_power/charger/charge_data/running_test_status
+    chown system system /sys/class/hw_power/charger/charge_data/update_volt_now
+    chmod 0660 /sys/class/hw_power/charger/charge_data/update_volt_now
+    chown system system /sys/class/hw_power/charger/charge_data/enable_hiz
+    chmod 0664 /sys/class/hw_power/charger/charge_data/enable_hiz
+    chown system system /sys/class/hw_power/charger/charge_data/iin_rt_current
+    chmod 0664 /sys/class/hw_power/charger/charge_data/iin_rt_current
+
+    restorecon /sys/class/hw_power/charger/charge_data/running_test_status
+    restorecon /sys/class/hw_power/charger/charge_data/enable_charger
+    restorecon /sys/class/hw_power/charger/charge_data/iin_runningtest
+    restorecon /sys/class/hw_power/charger/charge_data/factory_diag
+    restorecon /sys/class/hw_power/charger/charge_data/iin_thermal
+    restorecon /sys/class/hw_power/charger/charge_data/update_volt_now
+    restorecon /sys/class/hw_power/charger/charge_data/enable_hiz
+    restorecon /sys/class/hw_power/charger/charge_data/iin_rt_current
+
+#Hw Power and Thermal Monitor
+    chown system system /sys/power/monitor/ap_sleep
+    chmod 0644 /sys/power/monitor/ap_sleep
+    chown system system /sys/power/monitor/modem_sleep
+    chmod 0644 /sys/power/monitor/modem_sleep
+    chown system system /sys/power/monitor/suspend_failed
+    chmod 0644 /sys/power/monitor/suspend_failed
+    chown system system /sys/power/monitor/freezing_failed
+    chmod 0644 /sys/power/monitor/freezing_failed
+    chown system system /sys/power/monitor/wakeup_abnormal
+    chmod 0644 /sys/power/monitor/wakeup_abnormal
+    chown system system /sys/power/monitor/driver_abnormal
+    chmod 0644 /sys/power/monitor/driver_abnormal
+    chown system system /sys/power/monitor/wakeup_irq
+    chmod 0644 /sys/power/monitor/wakeup_irq
+    chown system system /sys/power/monitor/wakeup_gpio
+    chmod 0644 /sys/power/monitor/wakeup_gpio
+#add for chargemonitor
+    chmod 0664 /sys/class/power_supply/bms/chg_cycle_count
+    chown system system /sys/class/power_supply/bms/chg_cycle_count
+    chmod 0660 /sys/class/power_supply/bms/reset_learned_cc
+    chown system system /sys/class/power_supply/bms/reset_learned_cc
+    chmod 0660 /sys/class/power_supply/battery/voltage_max
+    chown system system /sys/class/power_supply/battery/voltage_max
+    chmod 0660 /sys/class/power_supply/battery/constant_charge_current_max
+    chown system system /sys/class/power_supply/battery/constant_charge_current_max
+    mkdir /persist/charger
+    chmod 0775 /persist/charger
+    chown system system /persist/charger
+#add poweroffhandler
+service poweroffhandler /system/bin/poweroffhandler
+    class core
+    user media
+    group graphics audio
+    disabled
+    oneshot
+
+service chargemonitor /vendor/bin/chargemonitor
+    class late_start
+    user system
+    group system
+    seclabel u:r:chargemonitor:s0
+
+# add for power engine
+service hwpged /system/bin/hwpged
+    class main
+    socket MsgHubSock stream 0660 root system
+    socket iawared seqpacket 0660 system system
+    user root
+    group readproc
+    seclabel u:r:hwpged:s0
+# add for power engine
+service powerlogd /system/bin/powerlogd
+    class core
+    socket powerlogd stream 0600 system system
+    socket powerlogdr seqpacket 0600 system system
+    socket powerlogdw dgram 0220 system system
+    seclabel u:r:powerlogd:s0
+
+on property:persist.sys.hlcharging=1
+    write /sys/module/qpnp_smbcharger/parameters/chg_no_temp_limit 1
+on property:persist.sys.hlcharging=0
+    write /sys/module/qpnp_smbcharger/parameters/chg_no_temp_limit 0
+
+on property:persist.sys.huawei.usb.900ma=1
+	write /sys/module/qpnp_smbcharger/parameters/chg_usb_current 900
+on property:persist.sys.huawei.usb.900ma=0
+	write /sys/module/qpnp_smbcharger/parameters/chg_usb_current 0
+
+on property:persist.sys.ntcharging=1
+    write /sys/module/qpnp_smbcharger/parameters/chg_no_timer 1
+on property:persist.sys.ntcharging=0
+    write /sys/module/qpnp_smbcharger/parameters/chg_no_timer 0
+
+on charger
+    setprop sys.usb.configfs 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 652800
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/devices/system/cpu/cpu4/online 0
+    write /sys/devices/system/cpu/cpu5/online 0
+    write /sys/devices/system/cpu/cpu6/online 0
+    write /sys/devices/system/cpu/cpu7/online 0
+
+service per_proxy /system/bin/pm-proxy
+    class core
+    user system
+    group system
+    disabled

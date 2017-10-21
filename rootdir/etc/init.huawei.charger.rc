@@ -1,0 +1,191 @@
+import /init.${ro.usb.config.file}.rc
+
+on early-init
+    # Set init and its forked children's oom_adj.
+    write /proc/1/oom_score_adj -1000
+    start ueventd
+    mount debugfs debugfs /sys/kernel/debug
+
+on init
+    export PATH /sbin:/system/bin
+    export ANDROID_ROOT /system
+    export ANDROID_DATA /data
+    export EXTERNAL_STORAGE /sdcard
+
+    symlink /system/etc /etc
+
+    symlink /system/vendor /vendor
+    mkdir /system
+    mkdir /data
+    mkdir /firmware
+    mkdir /log
+    mkdir /firmware 0771 system system
+    mkdir /persist
+    wait /dev/block/bootdevice/by-name/persist
+    mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
+    write /proc/sys/kernel/panic_on_oops 1
+    chown system log /log
+    chmod 0770 /log
+    write /proc/sys/vm/max_map_count 1000000
+    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
+    mount_all fstab.qcom
+
+service qseecomd /system/bin/qseecomd
+    class core
+    user root
+    group root
+
+on charger-fs
+    start qseecomd
+    start vold
+    start logserver
+    start chargemonitor
+
+on charger
+   class_start charger
+
+on charger
+    wait /dev/block/bootdevice/by-name/system
+    wait /dev/block/bootdevice/by-name/vendor
+    cust_parse
+    load_system_props
+    start qcom-post-boot
+    chmod 0660 /sys/class/hw_power/charger/charge_data/iin_thermal
+    chown system system /sys/class/hw_power/charger/charge_data/iin_thermal
+    chmod 0660 /sys/class/hw_power/charger/charge_data/iin_thermal_aux
+    chown system system /sys/class/hw_power/charger/charge_data/iin_thermal_aux
+    chmod 0660 /sys/class/hw_power/charger/charge_data/limit_charging
+    chown system system /sys/class/hw_power/charger/charge_data/limit_charging
+    start limit_current
+
+    chmod 0664 /sys/class/power_supply/bms/chg_cycle_count
+    chown system system /sys/class/power_supply/bms/chg_cycle_count
+    chmod 0660 /sys/class/power_supply/bms/reset_learned_cc
+    chown system system /sys/class/power_supply/bms/reset_learned_cc
+    chmod 0660 /sys/class/power_supply/battery/voltage_max
+    chown system system /sys/class/power_supply/battery/voltage_max
+    chmod 0660 /sys/class/power_supply/battery/constant_charge_current_max
+    chown system system /sys/class/power_supply/battery/constant_charge_current_max
+    mkdir /persist/charger
+    chmod 0775 /persist/charger
+    chown system system /persist/charger
+/* adb reboot */
+on property:sys.powerctl=*
+   powerctl ${sys.powerctl}
+
+service ueventd /sbin/ueventd
+    critical
+    seclabel u:r:ueventd:s0
+
+service charger /charger
+    class charger
+    group system
+    seclabel u:r:healthd:s0
+
+service adbd /sbin/adbd --root_seclabel=u:r:su:s0
+    disabled
+    socket adbd stream 660 system system
+    seclabel u:r:adbd:s0
+
+# /* to process the usb port switch uevent */
+#service hw_ueventd /sbin/hw_ueventd
+#    seclabel u:r:hw_ueventd:s0
+
+# /* control cpu core */
+service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
+    class late_start
+    user root
+    disabled
+    oneshot
+
+# /* mount decrypt data */
+on property:vold.decrypt=trigger_default_encryption
+    start defaultcrypto
+
+on nonencrypted
+    trigger data_ready
+
+on data_ready
+    setprop sys.userdata_is_ready 1
+    load_persist_props
+    start logctl_service
+    start logcat_service
+
+on post-fs-data
+    mkdir /data/log/android_logs 0755 system system
+    mkdir /data/log/charge_monitor 0755 system system
+    setprop vold.post_fs_data_done 1
+
+on property:vold.decrypt=trigger_restart_framework
+    trigger data_ready
+
+on property:vold.decrypt=trigger_post_fs_data
+    trigger post-fs-data
+
+service vold /system/bin/vold \
+        --blkid_context=u:r:blkid:s0 --blkid_untrusted_context=u:r:blkid_untrusted:s0 \
+        --fsck_context=u:r:fsck:s0 --fsck_untrusted_context=u:r:fsck_untrusted:s0
+    class core
+    socket vold stream 0660 root mount
+    socket cryptd stream 0660 root mount
+    ioprio be 2
+
+service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
+    disabled
+    oneshot
+
+# /*The service, trigger, persist  associated with the log */
+service logserver /system/bin/logserver
+    class late_start
+    socket logservice stream 0660 system system
+    oneshot
+    seclabel u:r:logserver:s0
+
+service logctl_service /sbin/logctl_service -m 1
+    class late_start
+    disabled
+    user root
+    group system
+    oneshot
+    seclabel u:r:hwlogcat:s0
+
+service logcat_service /sbin/logctl_service -m 1 -t 1
+    class late_start
+    disabled
+    user root
+    group system
+    oneshot
+    seclabel u:r:hwlogcat:s0
+
+#service logd /system/bin/logd
+#   class core
+#   socket logd stream 0666 logd logd
+#   socket logdr seqpacket 0666 logd logd
+#   socket logdw dgram 0222 logd logd
+#   seclabel u:r:logd:s0
+
+#service applogcat /system/bin/logcat -v threadtime -r 4096 -z 10 -n 8 -f /data/log/android_logs/applogcat-log
+#    disabled
+#    seclabel u:r:hwlogcat:s0
+
+service chargelogcat /system/vendor/bin/chargelogcat -r 4096 -n 5 -z 5 -t 5 -p /data/log/charge-log/
+    disabled
+    seclabel u:r:chargelogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service kmsglogcat /sbin/kmsgcat -r 4096 -z 5 -n 8 -f /data/log/android_logs/kmsgcat-log
+    disabled
+    seclabel u:r:kmsgcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service chargemonitor /vendor/bin/chargemonitor
+    class late_start
+    user system
+    group system
+
+#limit current through thermal-daemon --limit_current(-l)
+service limit_current /system/vendor/bin/limit_current -l
+    user system
+    group system
+    disabled
+    seclabel u:r:limit_current:s0

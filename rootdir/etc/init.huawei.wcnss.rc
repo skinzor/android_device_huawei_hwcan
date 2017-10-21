@@ -1,0 +1,84 @@
+on boot
+    # for wifi driver built in
+    chown system system /proc/wifi_built_in/wifi_start
+    chown system system /proc/wifi_built_in/mac_addr_hw
+    chown system system /proc/wifi_built_in/debug_level_hw
+    # NFC local data and nfcee xml storage
+    mkdir /data/nfc 0770 nfc nfc
+    mkdir /data/nfc/param 0770 nfc nfc
+
+    setprop ro.nfc.port "I2C"
+    chmod 0660 /dev/pn544
+    chown nfc nfc /dev/pn544
+
+    chown nfc nfc /sys/nfc/nfc_fwupdate
+    chmod 0664 /sys/nfc/nfc_fwupdate
+    chown nfc nfc /sys/nfc/nxp_config_name
+    chmod 0664 /sys/nfc/nxp_config_name
+    chown nfc nfc /sys/nfc/nfc_brcm_conf_name
+    chmod 0664 /sys/nfc/nfc_brcm_conf_name
+    chown nfc nfc /sys/nfc/nfc_sim_switch
+    chmod 0664 /sys/nfc/nfc_sim_switch
+    chown nfc nfc /sys/nfc/nfc_sim_status
+    chmod 0444 /sys/nfc/nfc_sim_status
+    chown nfc nfc /sys/nfc/rd_nfc_sim_status
+    chmod 0444 /sys/nfc/rd_nfc_sim_status
+    chown nfc nfc /sys/nfc/nfc_enable_status
+    chmod 0664 /sys/nfc/nfc_enable_status
+    chown nfc nfc /sys/nfc/nfc_card_num
+    chmod 0444 /sys/nfc/nfc_card_num
+    chown nfc nfc /sys/nfc/nfc_chip_type
+    chmod 0444 /sys/nfc/nfc_chip_type
+    chown nfc nfc /sys/nfc/nfc_dmd_notify
+    chmod 0664 /sys/nfc/nfc_dmd_notify
+
+on post-fs-data
+    # ttach selinux tag
+    restorecon_recursive /data/misc/wifi
+
+service fmhal_service /system/bin/fmhal_service
+    class late_start
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+
+service wifi_aging /vendor/xbin/wifi_aging
+    user root
+    disabled
+    oneshot
+
+service wifi_power_off /vendor/xbin/wifi_power_off
+    user root
+    disabled
+    oneshot
+
+service wlan_detect /vendor/bin/wlan_detect
+    class main
+    user root
+    group root
+    oneshot
+
+on post-fs-data
+#add for wifi
+    chown wifi wifi /data/misc/wifi/p2p_supplicant.conf
+    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
+    chmod 0660 /data/misc/wifi/p2p_supplicant.conf
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+    #add for wapi certificate
+    mkdir /data/wapi_certificate
+    chmod 0770 /data/wapi_certificate
+    chown system wifi /data/wapi_certificate
+    restorecon_recursive /data/wapi_certificate
+
+#add for bluetooth
+on property:bluetooth.log.file.create=true
+    mkdir /data/log/bt
+    chown bluetooth net_bt_stack /data/log/bt
+    chmod 775 /data/log/bt
+    setprop bluetooth.log.file.create false
+
+service macaddr /vendor/bin/mac_addr_normalization
+    class late_start
+    user root
+    group root bluetooth net_bt_stack wifi
+    oneshot

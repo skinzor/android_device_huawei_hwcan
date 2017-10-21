@@ -1,0 +1,278 @@
+on early-boot
+    # Support legacy paths
+    #symlink /sdcard /mnt/sdcard
+    #symlink /storage/sdcard0 /sdcard
+    symlink /storage/self/primary /storage/sdcard0
+
+on early-boot
+    # Update dm-verity state and set partition.*.verified properties
+    verity_update_state
+
+on boot
+    start test_diag
+
+# for mini dump
+on property:persist.sys.ssr.enable_ramdumps=2
+    write /sys/module/subsystem_restart/parameters/enable_ramdumps 0
+    mkdir /data/ramdump 770 system system
+    start ss_ramdump
+
+service libqmi_oem_main /sbin/libqmi_oem_main
+    class main
+    seclabel u:r:libqmi_oem_main:s0
+
+# set primary sd directory
+service preparesdservice /system/bin/vdc volume storagetosd
+   class main
+   disabled
+   oneshot
+
+on property:persist.sys.primarysd=*
+   start preparesdservice
+
+on init
+# add for power engine
+    mkdir /dev/frz
+    mount cgroup none /dev/frz freezer
+
+    restorecon      /sys/kernel/set_hmp_thresholds/policy
+    restorecon      /sys/class/graphics/fb0/lcd_cabc_mode
+    restorecon      /sys/class/leds/torch/flash_thermal_protect
+    restorecon      /sys/class/hw_power/charger/charge_data/iin_thermal
+    restorecon      /sys/devices/qcom,huawei_charger/iin_thermal
+
+#cpuset config begin
+    # Create cgroup mount points for process groups
+    mkdir /dev/cpuctl
+    mount cgroup none /dev/cpuctl cpu
+    chown system system /dev/cpuctl
+    chown system system /dev/cpuctl/tasks
+    chmod 0666 /dev/cpuctl/tasks
+    write /dev/cpuctl/cpu.shares 1024
+    write /dev/cpuctl/cpu.rt_runtime_us 800000
+    write /dev/cpuctl/cpu.rt_period_us 1000000
+
+    mkdir /dev/cpuctl/bg_non_interactive
+    chown system system /dev/cpuctl/bg_non_interactive/tasks
+    chmod 0666 /dev/cpuctl/bg_non_interactive/tasks
+    # 5.0 %
+    write /dev/cpuctl/bg_non_interactive/cpu.shares 52
+    write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 700000
+    write /dev/cpuctl/bg_non_interactive/cpu.rt_period_us 1000000
+
+    # sets up initial cpusets for ActivityManager
+    mkdir /dev/cpuset
+    mount cgroup none /dev/cpuset cpuset,cpuset_noprefix
+    mount cgroup none /dev/cpuset remount cpuset,blkio,cpuset_noprefix
+
+    # this ensures that the cpusets are present and usable, but the device's
+    # init.rc must actually set the correct cpus
+    mkdir /dev/cpuset/foreground
+    write /dev/cpuset/foreground/cpus 0-7
+    write /dev/cpuset/foreground/mems 0
+    mkdir /dev/cpuset/foreground/boost
+    write /dev/cpuset/foreground/boost/cpus 0-7
+    write /dev/cpuset/foreground/boost/mems 0
+    mkdir /dev/cpuset/background
+    write /dev/cpuset/background/cpus 0-3
+    write /dev/cpuset/background/mems 0
+
+    # system-background is for system tasks that should only run on
+    # little cores, not on bigs
+    # to be used only by init, so don't change system-bg permissions
+    mkdir /dev/cpuset/system-background
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/system-background/mems 0
+
+    mkdir /dev/cpuset/top-app
+    write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/top-app/mems 0
+
+    # change permissions for all cpusets we'll touch at runtime
+    chown system system /dev/cpuset
+    chown system system /dev/cpuset/foreground
+    chown system system /dev/cpuset/foreground/boost
+    chown system system /dev/cpuset/background
+    chown system system /dev/cpuset/system-background
+    chown system system /dev/cpuset/top-app
+    chown system system /dev/cpuset/tasks
+    chown system system /dev/cpuset/foreground/tasks
+    chown system system /dev/cpuset/foreground/boost/tasks
+    chown system system /dev/cpuset/background/tasks
+    chown system system /dev/cpuset/system-background/tasks
+    chown system system /dev/cpuset/top-app/tasks
+
+    # set system-background to 0775 so SurfaceFlinger can touch it
+    chmod 0775 /dev/cpuset/system-background
+
+    chmod 0664 /dev/cpuset/foreground/tasks
+    chmod 0664 /dev/cpuset/foreground/boost/tasks
+    chmod 0664 /dev/cpuset/background/tasks
+    chmod 0664 /dev/cpuset/system-background/tasks
+    chmod 0664 /dev/cpuset/top-app/tasks
+    chmod 0664 /dev/cpuset/tasks
+#cpuset config end
+
+service huawei_version /sbin/huawei_version
+    class late_start
+    user root
+    oneshot
+    disabled
+    seclabel u:r:huawei_version:s0
+
+service inotifywait /vendor/bin/inotifywait -rm -e modify -e attrib -e close_write -e moved_to -e moved_from -e move -e move_self -e create -e delete -e delete_self -i "%Y/%m/%d %H:%M" -n "%T %w%f %e" -o /log/inotify.log /system
+    class late_start
+    user system
+    group system
+    oneshot
+    disabled
+
+on property:sys.boot_completed=1
+    start huawei_version
+
+on property:sys.boot_completed=1 && property:ro.runmode=normal
+    start inotifywait
+
+service teecd /sbin/teecd
+    class core
+    user root
+    seclabel u:r:tee:s0
+
+#on property:persist.sys.huawei.debug.on=1
+#    setprop systeminfo.enable true
+
+#service systeminfo /system/bin/systeminfo
+#    class main
+#    disabled
+#    seclabel u:r:systeminfo:s0
+#    oneshot
+
+#on property:systeminfo.enable=true
+#    start systeminfo
+
+#on property:systeminfo.enable=false
+#    stop systeminfo
+
+service ddrtest /vendor/bin/do_ddrtest
+    user root
+    disabled
+    oneshot
+
+service stop_ddrtest /vendor/bin/do_ddrtest
+    user root
+    disabled
+    oneshot
+
+service hwnffserver /sbin/hwnffserver
+    class core
+    oneshot
+    seclabel u:r:hwnffserver:s0
+
+service thermal-daemon /vendor/bin/thermal-daemon
+    class main
+    user system
+    group system
+    seclabel u:r:thermal-daemon:s0
+
+on property:debug.rt.ddr.test=1
+    stop ddrtest
+    start ddrtest
+on property:debug.rt.ddr.test=2
+    start ddrtest
+on property:debug.rt.ddr.test=3
+    start ddrtest
+on property:debug.rt.ddr.test=4
+    start stop_ddrtest
+on property:debug.rt.ddr.test=5
+    stop ddrtest
+    start ddrtest
+on property:debug.rt.ddr.test=6
+    start ddrtest
+
+on boot
+    write /proc/sys/kernel/hung_task_panic 1
+    write /proc/sys/kernel/hung_task_timeout_secs 90
+    write /proc/hung_task/hw_monitor_list "whitelist,system_server,surfaceflinger,init"
+    write /proc/hung_task/hw_enable "on"
+    
+    chown root system /dev/hwlog_jank
+    chmod 0662 /dev/hwlog_jank
+
+#add for antenna cable detect
+    chmod 0660 /sys/class/antenna_cable/detect/state
+    chown system radio /sys/class/antenna_cable/detect/state
+
+on post-fs
+    chown system system /proc/uid_iostats/show_uid_iostats
+    chmod 0440 /proc/uid_iostats/show_uid_iostats
+    chown system system /proc/uid_iostats/uid_iomonitor_list
+    chmod 0660 /proc/uid_iostats/uid_iomonitor_list
+    chown system system /proc/uid_iostats/remove_uid_list
+    chmod 0660 /proc/uid_iostats/remove_uid_list
+
+service rf_test_srv /system/bin/rf_test_srv
+    class core
+    user root
+    oneshot
+    disabled
+
+service hw_fsck_msdos /sbin/fsck_msdos_s
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:hw_fsck_sbin:s0
+
+on property:ro.runmode=factory
+    start rf_test_srv
+
+on early-init
+    mkdir /log 0775 system log
+
+on post-fs-data
+    mkdir /data/log/ramdump 0775 system system
+
+    #DTS2016101406299 wWX367520 20161029
+    mkdir /data/apkpush
+    chmod 0770 /data/apkpush
+    chown system cache /data/apkpush
+    restorecon_recursive /data/apkpush
+
+    #DTS2016103106924 wWX367520 20161107
+    mkdir /data/cota
+    chmod 0775 /data/cota
+    chown system system /data/cota
+    restorecon_recursive /data/cota
+
+    mkdir /data/cota/cloud
+    chmod 0770 /data/cota/cloud
+    chown system system /data/cota/cloud
+    restorecon_recursive /data/cota/cloud
+
+service defragd /system/vendor/bin/defragd
+    class late_start
+
+on property:init.svc.zygote=stopped
+    stop defragd
+
+on property:init.svc.zygote=running && property:sys.userdata_is_ready=1
+    start defragd
+
+on property:sys.userdata_is_ready=1
+    exec u:r:blkcginit:s0 root root -- /system/bin/sh /system/etc/blkcg_init.sh 0 0
+
+on property:init.svc.per_mgr=running
+    start per_proxy
+
+on property:sys.shutdown.requested=*
+    stop per_proxy
+
+service check_root /sbin/check_root
+    user root
+    group radio system
+    oneshot
+    disabled
+    seclabel u:r:check_root:s0
+
+on property:sys.boot_completed=1
+    start check_root

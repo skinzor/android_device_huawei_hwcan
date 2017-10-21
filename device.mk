@@ -227,6 +227,15 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.qcom.rc
 
+PRODUCT_PACKAGES += \
+    init.huawei.audio.rc \
+    init.huawei.camera.rc \
+    init.huawei.device.rc \
+    init.huawei.os.rc \
+    init.huawei.power.rc \
+    init.huawei.target.rc \
+    init.huawei.wcnss.rc
+
 # RIL
 PRODUCT_PACKAGES += \
     librmnetctl \
