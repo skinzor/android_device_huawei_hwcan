@@ -39,7 +39,6 @@ on charger-fs
     start qseecomd
     start vold
     start logserver
-    start chargemonitor
 
 on charger
    class_start charger
@@ -177,11 +176,6 @@ service kmsglogcat /sbin/kmsgcat -r 4096 -z 5 -n 8 -f /data/log/android_logs/kms
     disabled
     seclabel u:r:kmsgcat:s0
     writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
-
-service chargemonitor /vendor/bin/chargemonitor
-    class late_start
-    user system
-    group system
 
 #limit current through thermal-daemon --limit_current(-l)
 service limit_current /system/vendor/bin/limit_current -l

@@ -4,10 +4,6 @@ on early-boot
     #symlink /storage/sdcard0 /sdcard
     symlink /storage/self/primary /storage/sdcard0
 
-on early-boot
-    # Update dm-verity state and set partition.*.verified properties
-    verity_update_state
-
 on boot
     start test_diag
 
@@ -17,7 +13,7 @@ on property:persist.sys.ssr.enable_ramdumps=2
     mkdir /data/ramdump 770 system system
     start ss_ramdump
 
-service libqmi_oem_main /sbin/libqmi_oem_main
+service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
     seclabel u:r:libqmi_oem_main:s0
 
@@ -113,7 +109,7 @@ on init
     chmod 0664 /dev/cpuset/tasks
 #cpuset config end
 
-service huawei_version /sbin/huawei_version
+service huawei_version /system/bin/huawei_version
     class late_start
     user root
     oneshot
@@ -133,7 +129,7 @@ on property:sys.boot_completed=1
 on property:sys.boot_completed=1 && property:ro.runmode=normal
     start inotifywait
 
-service teecd /sbin/teecd
+service teecd /system/bin/teecd
     class core
     user root
     seclabel u:r:tee:s0
@@ -266,13 +262,3 @@ on property:init.svc.per_mgr=running
 
 on property:sys.shutdown.requested=*
     stop per_proxy
-
-service check_root /sbin/check_root
-    user root
-    group radio system
-    oneshot
-    disabled
-    seclabel u:r:check_root:s0
-
-on property:sys.boot_completed=1
-    start check_root

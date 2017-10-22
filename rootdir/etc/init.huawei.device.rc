@@ -1,4 +1,4 @@
-service fingerprint_log  /system/vendor/bin/fingerprint_log
+service fingerprint_log /system/vendor/bin/fingerprint_log
     class late_start
     user system
     group system
@@ -13,15 +13,15 @@ service fingerprintd /system/bin/fingerprintd
 
 on boot
 #add for fingerprint
-    chmod  0660  /dev/fingerprint
-    chown  system  system  /dev/fingerprint
-    chmod  0660  /sys/devices/platform/fingerprint/irq
-    chown  system  system  /sys/devices/platform/fingerprint/irq
-    chmod  0660  /sys/devices/platform/fingerprint/result
-    chown  system  system  /sys/devices/platform/fingerprint/result
-    chown  system  system  /sys/devices/platform/fingerprint/fingerprint_chip_info
-    chmod  0660  /sys/devices/platform/fingerprint/read_image_flag
-    chown  system  system  /sys/devices/platform/fingerprint/read_image_flag
+    chmod 0660 /dev/fingerprint
+    chown system system /dev/fingerprint
+    chmod 0660 /sys/devices/platform/fingerprint/irq
+    chown system system /sys/devices/platform/fingerprint/irq
+    chmod 0660 /sys/devices/platform/fingerprint/result
+    chown system system /sys/devices/platform/fingerprint/result
+    chown system system /sys/devices/platform/fingerprint/fingerprint_chip_info
+    chmod 0660 /sys/devices/platform/fingerprint/read_image_flag
+    chown system system /sys/devices/platform/fingerprint/read_image_flag
 
     chown system system /sys/devices/platform/huawei_tp_color/tp_color_info
     chmod 0664 /sys/devices/platform/huawei_tp_color/tp_color_info

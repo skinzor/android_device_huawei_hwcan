@@ -25,7 +25,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#import init.qcom.usb.rc
+import init.qcom.usb.rc
 import init.msm.usb.configfs.rc
 import init.target.rc
 import init.qcom.factory.rc
@@ -333,9 +333,9 @@ on post-fs-data
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/wifi/load 0775 system system
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
-    restorecon_recursive /data/misc/wifi
 
     #create port-bridge log dir
     mkdir /data/misc/port_bridge 0770 radio radio
@@ -678,8 +678,12 @@ service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
 on property:bluetooth.hciattach=true
     start hciattach
 
-on property:bluetooth.hciattach=false
-    setprop bluetooth.status off
+# FM
+on property:hw.fm.init=0
+     write /sys/module/radio_iris_transport/parameters/fmsmd_set 0
+
+on property:hw.fm.init=1
+     write /sys/module/radio_iris_transport/parameters/fmsmd_set 1
 
 service hciattach_ath3k /system/bin/sh /system/etc/init.ath3k.bt.sh
      class late_start
@@ -736,7 +740,7 @@ service qmiproxy /system/bin/qmiproxy
     disabled
 
 # QMUX must be in multiple groups to support external process connections
-service qmuxd /vendor/bin/qmuxd
+service qmuxd /system/bin/qmuxd
     class main
     user root
     group radio audio bluetooth gps nfc qcom_diag
@@ -907,13 +911,13 @@ service iprenew_wigig0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service ptt_socket_app /vendor/bin/ptt_socket_app
+service ptt_socket_app /system/bin/ptt_socket_app
     user root
     group root
     disabled
     oneshot
 
-service ptt_ffbm /vendor/bin/ptt_socket_app -f -d
+service ptt_ffbm /system/bin/ptt_socket_app -f -d
     user root
     group root
     disabled
@@ -929,13 +933,13 @@ service wifi_ftmd /system/bin/wifi_ftmd
 on property:wifi.ftmd.load=true
     insmod /system/lib/modules/pronto/pronto_wlan.ko con_mode=5
 
-service cnss_diag /vendor/bin/cnss_diag -q -f -d
+service cnss_diag /system/bin/cnss_diag -q -f -d
     class main
     user system
     group system wifi inet net_admin sdcard_rw media_rw diag
     oneshot
 
-service cnss-daemon /vendor/bin/cnss-daemon -n -l
+service cnss-daemon /system/bin/cnss-daemon -n -l
     class late_start
     user system
     group system inet net_admin wifi
@@ -1084,7 +1088,7 @@ service ril-daemon2 /system/bin/rild -c 2
     socket rild-debug2 stream 660 radio system
     user root
     disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw qcom_diag diag log system
+    group radio cache inet misc audio sdcard_r sdcard_rw qcom_diag diag log
 
 service ril-daemon3 /system/bin/rild -c 3
     class main
@@ -1092,7 +1096,7 @@ service ril-daemon3 /system/bin/rild -c 3
     socket rild-debug3 stream 660 radio system
     user root
     disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw qcom_diag diag log system
+    group radio cache inet misc audio sdcard_r sdcard_rw qcom_diag diag log
 
 service usb_uicc_enable /system/bin/sh /system/etc/init.qcom.uicc.sh
     class late_start

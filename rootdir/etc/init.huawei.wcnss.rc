@@ -77,7 +77,7 @@ on property:bluetooth.log.file.create=true
     chmod 775 /data/log/bt
     setprop bluetooth.log.file.create false
 
-service macaddr /vendor/bin/mac_addr_normalization
+service macaddr /system/bin/mac_addr_normalization
     class late_start
     user root
     group root bluetooth net_bt_stack wifi
