@@ -37,15 +37,13 @@ on early-init
     write /proc/boottime "INIT: on init start"
 
 on fs
-    mkdir /patch_hw 0775 system system
+    export LD_SHIM_LIBS /system/lib64/libcutils.so|libshim_cutils.so:/system/lib/libcutils.so|libshim_cutils.so
 
     write /proc/boottime "INIT:eMMC:Mount_START"
     wait /dev/block/bootdevice
 
     mount_all fstab.qcom
     write /proc/sys/vm/swappiness 100
-
-    mount_all_patch /patch_hw/fstab.patch_step1
 
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
@@ -85,7 +83,7 @@ on post-fs-data
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
-    group camera system inet input graphics dsm
+    group camera system inet input graphics
 
 on init
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
@@ -170,7 +168,7 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch
 
-service wcnss-service /vendor/bin/wcnss_service
+service wcnss-service /system/bin/wcnss_service
     class main
     user system
     group system wifi radio
