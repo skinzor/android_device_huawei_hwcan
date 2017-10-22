@@ -68,6 +68,8 @@ on fs
     #mount ext4 /dev/block/bootdevice/by-name/oem /oem ro nosuid nodev barrier=1
     write /proc/boottime "INIT:eMMC:Mount_END"
 
+    mkdir /data/fpc 0700 system system
+
 on post-fs-data
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
