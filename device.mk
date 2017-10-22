@@ -228,6 +228,7 @@ PRODUCT_PACKAGES += \
     ueventd.qcom.rc
 
 PRODUCT_PACKAGES += \
+    init.huawei.rc \
     init.huawei.audio.rc \
     init.huawei.camera.rc \
     init.huawei.device.rc \
