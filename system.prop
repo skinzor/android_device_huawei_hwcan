@@ -42,6 +42,8 @@ audio.offload.multiple.enabled=false
 # Bluetooth
 bluetooth.hfp.client=1
 ro.bt.bdaddr_path=/data/misc/bluedroid/macbt
+ro.qualcomm.bt.hci_transport=smd
+ro.bluetooth.hfp.ver=1.7
 qcom.bluetooth.soc=smd
 
 # Camera
