@@ -185,7 +185,7 @@ Only the three quirks included above are recognized at this point:
 	<!-- AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 BEGIN  -->
         <MediaCodec name="OMX.DTS.audio_decoder.dts" type="audio/dts" />
 	<!-- AR0004KQRS DTS_EAGLE xiehui 00350179 201600901 END  -->
-        <MediaCodec name="OMX.qti.audio.decoder.flac" type="audio/flac" />
+   <!-- <MediaCodec name="OMX.qti.audio.decoder.flac" type="audio/flac" /> -->
         <!-- Video Hardware  -->
         <MediaCodec name="OMX.qcom.video.decoder.avc" type="video/avc" >
             <Quirk name="requires-allocate-on-input-ports" />
