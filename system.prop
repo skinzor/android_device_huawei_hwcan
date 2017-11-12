@@ -146,6 +146,7 @@ ril.subscription.types=NV,RUIM
 DEVICE_PROVISIONED=1
 ro.telephony.default_network=22,20
 ro.telephony.call_ring.multiple=false
+ro.telephony.ril.config=simactivation
 persist.radio.multisim.config=dsds
 ro.config.dsds_mode=cdma_gsm
 persist.radio.sib16_support=1
