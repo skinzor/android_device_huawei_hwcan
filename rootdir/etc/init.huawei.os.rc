@@ -110,11 +110,9 @@ on init
 #cpuset config end
 
 service huawei_version /system/bin/huawei_version
-    class late_start
+    class core
     user root
     oneshot
-    disabled
-    seclabel u:r:huawei_version:s0
 
 service inotifywait /vendor/bin/inotifywait -rm -e modify -e attrib -e close_write -e moved_to -e moved_from -e move -e move_self -e create -e delete -e delete_self -i "%Y/%m/%d %H:%M" -n "%T %w%f %e" -o /log/inotify.log /system
     class late_start
@@ -122,9 +120,6 @@ service inotifywait /vendor/bin/inotifywait -rm -e modify -e attrib -e close_wri
     group system
     oneshot
     disabled
-
-on property:sys.boot_completed=1
-    start huawei_version
 
 on property:sys.boot_completed=1 && property:ro.runmode=normal
     start inotifywait

@@ -18,7 +18,7 @@
 /dev/block/bootdevice/by-name/log          /log              vfat    nosuid,nodev,uid=1000,gid=1007,fmask=0007,dmask=0007                                         wait
 /dev/block/bootdevice/by-name/config       /frp              emmc    defaults                                                                                     defaults
 
-/devices/soc/7864900.sdhci/mmc_host/*       auto  auto    defaults                                                                                 voldmanaged=sdcard1:auto,encryptable=userdata
+/devices/soc/7864900.sdhci/mmc_host/*       auto             auto    defaults                                                                                     voldmanaged=sdcard1:auto,encryptable=userdata
 /devices/soc/7000000.ssusb/7000000.dwc3/*  /storage/usbotg   vfat    nosuid,nodev                                                                                 wait,voldmanaged=usbotg:auto
 
 /dev/block/zram0                           none              swap    defaults                                                                                     zramsize=1073741824
