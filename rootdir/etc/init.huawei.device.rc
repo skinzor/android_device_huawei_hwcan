@@ -9,7 +9,7 @@ service fingerprint_log /system/vendor/bin/fingerprint_log
 service fingerprintd /system/bin/fingerprintd
     class late_start
     user system
-    group input
+    group system input
 
 on boot
 #add for fingerprint

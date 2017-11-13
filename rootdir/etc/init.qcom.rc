@@ -1316,12 +1316,3 @@ service oeminfo_nvm /system/bin/oeminfo_nvm_server
 on property:ro.runmode=factory && property:sys.boot_completed=1
     chown media audio /persist/audio/speaker_calibdata.bin
     chown media audio /dev/tfa98xx_calibrate
-
-## Service definition
-service imonitor /system/bin/imonitor
-    class late_start
-    user root
-    group system log readproc
-    seclabel u:r:logserver:s0
-    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
-## Service definition
