@@ -684,12 +684,6 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     disabled
     oneshot
 
-service cnss_diag /system/bin/cnss_diag -q -f -d
-    class main
-    user system
-    group system wifi inet net_admin sdcard_rw media_rw diag
-    oneshot
-
 service cnss-daemon /system/bin/cnss-daemon -n -l
     class late_start
     user system
