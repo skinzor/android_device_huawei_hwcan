@@ -1097,7 +1097,6 @@ vendor/lib64/libthermalioctl.so
 # Time services
 -app/TimeService/TimeService.apk|9b75c62cc4671ec7a5454e203431a4bb8396846b
 bin/time_daemon
--vendor/lib/libtime_genoff.so
 vendor/lib/libTimeService.so
 -vendor/lib64/libtime_genoff.so
 vendor/lib64/libTimeService.so
