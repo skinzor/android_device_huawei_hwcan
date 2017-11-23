@@ -190,6 +190,7 @@ BOARD_USES_QC_TIME_SERVICES := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
 
 # RIL
+BOARD_RIL_CLASS := ../../../device/huawei/hwcan/ril
 TARGET_RIL_VARIANT := caf
 
 # Root
