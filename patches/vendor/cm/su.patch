@@ -1,0 +1,32 @@
+From 6589965ab7df15c68b74001ecb2779fb000002a5 Mon Sep 17 00:00:00 2001
+From: "#Henkate @xda" <robertpopescu95@yahoo.com>
+Date: Sat, 25 Nov 2017 17:34:03 +0200
+Subject: [PATCH] Build su
+
+* Revert this commit: https://github.com/LineageOS/android_vendor_cm/commit/6af9acb65050d1b70e8e3c8e0b32d1feba84572c#diff-586e166078026fce81b505a6d45be0ff
+* Ive added WITH_SU := true in BoardConfig, but it doesnt seems that ROOT gets included. On LOS13 it worked fine.
+---
+ config/common.mk | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 3212571b1..77aef085c 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -218,14 +218,9 @@ PRODUCT_BOOT_JARS += \
+ ifneq ($(TARGET_BUILD_VARIANT),user)
+ PRODUCT_PACKAGES += \
+     procmem \
+-    procrank
+-
+-# Conditionally build in su
+-ifeq ($(WITH_SU),true)
+-PRODUCT_PACKAGES += \
++    procrank \
+     su
+ endif
+-endif
+ 
+ DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
+ 
+
