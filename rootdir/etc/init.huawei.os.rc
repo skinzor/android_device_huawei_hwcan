@@ -15,6 +15,7 @@ on property:persist.sys.ssr.enable_ramdumps=2
 
 service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
+    seclabel u:r:libqmi_oem_main:s0
 
 # set primary sd directory
 service preparesdservice /system/bin/vdc volume storagetosd
