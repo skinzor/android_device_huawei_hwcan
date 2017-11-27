@@ -4,9 +4,6 @@ on early-boot
     #symlink /storage/sdcard0 /sdcard
     symlink /storage/self/primary /storage/sdcard0
 
-on boot
-    start test_diag
-
 # for mini dump
 on property:persist.sys.ssr.enable_ramdumps=2
     write /sys/module/subsystem_restart/parameters/enable_ramdumps 0
@@ -16,15 +13,6 @@ on property:persist.sys.ssr.enable_ramdumps=2
 service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
     seclabel u:r:libqmi_oem_main:s0
-
-# set primary sd directory
-service preparesdservice /system/bin/vdc volume storagetosd
-   class main
-   disabled
-   oneshot
-
-on property:persist.sys.primarysd=*
-   start preparesdservice
 
 on init
 # add for power engine
@@ -114,71 +102,10 @@ service huawei_version /system/bin/huawei_version
     user root
     oneshot
 
-service inotifywait /vendor/bin/inotifywait -rm -e modify -e attrib -e close_write -e moved_to -e moved_from -e move -e move_self -e create -e delete -e delete_self -i "%Y/%m/%d %H:%M" -n "%T %w%f %e" -o /log/inotify.log /system
-    class late_start
-    user system
-    group system
-    oneshot
-    disabled
-
-on property:sys.boot_completed=1 && property:ro.runmode=normal
-    start inotifywait
-
 service teecd /system/bin/teecd
     class core
     user root
     seclabel u:r:tee:s0
-
-#on property:persist.sys.huawei.debug.on=1
-#    setprop systeminfo.enable true
-
-#service systeminfo /system/bin/systeminfo
-#    class main
-#    disabled
-#    seclabel u:r:systeminfo:s0
-#    oneshot
-
-#on property:systeminfo.enable=true
-#    start systeminfo
-
-#on property:systeminfo.enable=false
-#    stop systeminfo
-
-service ddrtest /vendor/bin/do_ddrtest
-    user root
-    disabled
-    oneshot
-
-service stop_ddrtest /vendor/bin/do_ddrtest
-    user root
-    disabled
-    oneshot
-
-service hwnffserver /sbin/hwnffserver
-    class core
-    oneshot
-    seclabel u:r:hwnffserver:s0
-
-service thermal-daemon /vendor/bin/thermal-daemon
-    class main
-    user system
-    group system
-    seclabel u:r:thermal-daemon:s0
-
-on property:debug.rt.ddr.test=1
-    stop ddrtest
-    start ddrtest
-on property:debug.rt.ddr.test=2
-    start ddrtest
-on property:debug.rt.ddr.test=3
-    start ddrtest
-on property:debug.rt.ddr.test=4
-    start stop_ddrtest
-on property:debug.rt.ddr.test=5
-    stop ddrtest
-    start ddrtest
-on property:debug.rt.ddr.test=6
-    start ddrtest
 
 on boot
     write /proc/sys/kernel/hung_task_panic 1
@@ -200,22 +127,6 @@ on post-fs
     chmod 0660 /proc/uid_iostats/uid_iomonitor_list
     chown system system /proc/uid_iostats/remove_uid_list
     chmod 0660 /proc/uid_iostats/remove_uid_list
-
-service rf_test_srv /system/bin/rf_test_srv
-    class core
-    user root
-    oneshot
-    disabled
-
-service hw_fsck_msdos /sbin/fsck_msdos_s
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:hw_fsck_sbin:s0
-
-on property:ro.runmode=factory
-    start rf_test_srv
 
 on early-init
     mkdir /log 0775 system log
@@ -240,20 +151,5 @@ on post-fs-data
     chown system system /data/cota/cloud
     restorecon_recursive /data/cota/cloud
 
-service defragd /system/vendor/bin/defragd
-    class late_start
-
-on property:init.svc.zygote=stopped
-    stop defragd
-
-on property:init.svc.zygote=running && property:sys.userdata_is_ready=1
-    start defragd
-
 on property:sys.userdata_is_ready=1
     exec u:r:blkcginit:s0 root root -- /system/bin/sh /system/etc/blkcg_init.sh 0 0
-
-on property:init.svc.per_mgr=running
-    start per_proxy
-
-on property:sys.shutdown.requested=*
-    stop per_proxy

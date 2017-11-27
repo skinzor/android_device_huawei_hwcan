@@ -36,28 +36,6 @@ on post-fs-data
     # ttach selinux tag
     restorecon_recursive /data/misc/wifi
 
-service fmhal_service /system/bin/fmhal_service
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-
-service wifi_aging /vendor/xbin/wifi_aging
-    user root
-    disabled
-    oneshot
-
-service wifi_power_off /vendor/xbin/wifi_power_off
-    user root
-    disabled
-    oneshot
-
-service wlan_detect /vendor/bin/wlan_detect
-    class main
-    user root
-    group root
-    oneshot
-
 on post-fs-data
 #add for wifi
     chown wifi wifi /data/misc/wifi/p2p_supplicant.conf
@@ -69,13 +47,6 @@ on post-fs-data
     chmod 0770 /data/wapi_certificate
     chown system wifi /data/wapi_certificate
     restorecon_recursive /data/wapi_certificate
-
-#add for bluetooth
-on property:bluetooth.log.file.create=true
-    mkdir /data/log/bt
-    chown bluetooth net_bt_stack /data/log/bt
-    chmod 775 /data/log/bt
-    setprop bluetooth.log.file.create false
 
 service macaddr /system/bin/mac_addr_normalization
     class late_start

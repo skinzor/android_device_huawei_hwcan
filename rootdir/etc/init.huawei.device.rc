@@ -1,11 +1,3 @@
-service fingerprint_log /system/vendor/bin/fingerprint_log
-    class late_start
-    user system
-    group system
-    oneshot
-    disabled
-    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
-
 service fingerprintd /system/bin/fingerprintd
     class late_start
     user system
@@ -35,11 +27,6 @@ on post-fs-data
     chown system system /sys/devices/platform/huawei_touch/touch_chip_info
     chown system system /data/misc/sensors
     restorecon /data/misc/sensors
-
-service knuckle /system/bin/sensors_qcom
-    class late_start
-    user system
-    group system
 
 on boot
     chmod 0666 /sys/class/leds/torch-light0/brightness
