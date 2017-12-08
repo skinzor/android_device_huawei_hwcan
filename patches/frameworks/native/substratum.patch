@@ -1,0 +1,80 @@
+From 5607226cbd1aca54534d2805ca2fbdb7e3f2c45b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Tue, 15 Dec 2015 14:02:30 +0100
+Subject: [PATCH] OMS7-N: installd: add command 'rmidmap'
+
+Add an installd command to remove an idmap file. This is the inverse of
+the 'idmap' command and is intended for clean-up once an idmap file is
+no longer needed because an APK was removed, etc.
+
+Change-Id: I98cb26a51d03d7babda6b7b46b6a328abb032836
+---
+ cmds/installd/commands.cpp | 16 ++++++++++++++++
+ cmds/installd/commands.h   |  1 +
+ cmds/installd/installd.cpp |  6 ++++++
+ 3 files changed, 23 insertions(+)
+
+diff --git a/cmds/installd/commands.cpp b/cmds/installd/commands.cpp
+index cadcd1ef1..0b25da1d7 100644
+--- a/cmds/installd/commands.cpp
++++ b/cmds/installd/commands.cpp
+@@ -2047,6 +2047,22 @@ int idmap(const char *target_apk, const char *overlay_apk, uid_t uid)
+     return -1;
+ }
+ 
++int rm_idmap(const char *overlay_apk)
++{
++    char idmap_path[PATH_MAX];
++
++    if (flatten_path(IDMAP_PREFIX, IDMAP_SUFFIX, overlay_apk,
++                idmap_path, sizeof(idmap_path)) == -1) {
++        ALOGE("idmap cannot generate idmap path for overlay %s\n", overlay_apk);
++        return -1;
++    }
++    if (unlink(idmap_path) < 0) {
++        ALOGE("couldn't unlink idmap file %s\n", idmap_path);
++        return -1;
++    }
++    return 0;
++}
++
+ int restorecon_app_data(const char* uuid, const char* pkgName, userid_t userid, int flags,
+         appid_t appid, const char* seinfo) {
+     int res = 0;
+diff --git a/cmds/installd/commands.h b/cmds/installd/commands.h
+index ba275170a..2da80dd7e 100644
+--- a/cmds/installd/commands.h
++++ b/cmds/installd/commands.h
+@@ -76,6 +76,7 @@ int dexopt(const char* const params[DEXOPT_PARAM_COUNT]);
+ int mark_boot_complete(const char *instruction_set);
+ int linklib(const char* uuid, const char* pkgname, const char* asecLibDir, int userId);
+ int idmap(const char *target_path, const char *overlay_path, uid_t uid);
++int rm_idmap(const char *overlay_path);
+ int create_oat_dir(const char* oat_dir, const char *instruction_set);
+ int rm_package_dir(const char* apk_path);
+ int clear_app_profiles(const char* pkgname);
+diff --git a/cmds/installd/installd.cpp b/cmds/installd/installd.cpp
+index 8f883db05..93388cedc 100644
+--- a/cmds/installd/installd.cpp
++++ b/cmds/installd/installd.cpp
+@@ -383,6 +383,11 @@ static int do_idmap(char **arg, char reply[REPLY_MAX] ATTRIBUTE_UNUSED)
+     return idmap(arg[0], arg[1], atoi(arg[2]));
+ }
+ 
++static int do_rm_idmap(char **arg, char reply[REPLY_MAX] __unused)
++{
++    return rm_idmap(arg[0]);
++}
++
+ static int do_create_oat_dir(char **arg, char reply[REPLY_MAX] ATTRIBUTE_UNUSED)
+ {
+     /* oat_dir, instruction_set */
+@@ -450,6 +455,7 @@ struct cmdinfo cmds[] = {
+     { "freecache",            2, do_free_cache },
+     { "linklib",              4, do_linklib },
+     { "idmap",                3, do_idmap },
++    { "rmidmap",              1, do_rm_idmap },
+     { "createoatdir",         2, do_create_oat_dir },
+     { "rmpackagedir",         1, do_rm_package_dir },
+     { "clear_app_profiles",   1, do_clear_app_profiles },
+
