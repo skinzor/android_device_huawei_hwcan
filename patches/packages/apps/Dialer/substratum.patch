@@ -1,0 +1,135 @@
+From 04f9fa8dcf0f9d4b64bf79caffbf08b5e676c97a Mon Sep 17 00:00:00 2001
+From: Alex Cruz <mazdarider23@gmail.com>
+Date: Thu, 5 May 2016 11:55:05 -0500
+Subject: [PATCH 1/2] Themes: Separate background color from text color
+
+Change-Id: I19e55b64e34cb069f1967a900fd19b118c392244
+---
+ res/layout/voicemail_promo_card.xml |  4 ++--
+ res/values/projekt_colors.xml       | 20 ++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+ create mode 100644 res/values/projekt_colors.xml
+
+diff --git a/res/layout/voicemail_promo_card.xml b/res/layout/voicemail_promo_card.xml
+index ba4ac59a7..9dc7850b8 100644
+--- a/res/layout/voicemail_promo_card.xml
++++ b/res/layout/voicemail_promo_card.xml
+@@ -46,7 +46,7 @@
+                     android:layout_height="wrap_content"
+                     android:layout_marginBottom="@dimen/promo_card_title_padding"
+                     android:layout_gravity="center_vertical"
+-                    android:textColor="@color/background_dialer_white"
++                    android:textColor="@color/promo_card_header_text_color"
+                     android:textSize="@dimen/call_log_primary_text_size"
+                     android:textStyle="bold"
+                     android:text="@string/visual_voicemail_title"
+@@ -56,7 +56,7 @@
+                     android:id="@+id/promo_card_details"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+-                    android:textColor="@color/background_dialer_white"
++                    android:textColor="@color/promo_card_details_text_color"
+                     android:textSize="@dimen/call_log_detail_text_size"
+                     android:text="@string/visual_voicemail_text"
+                     android:lineSpacingExtra="@dimen/promo_card_line_spacing"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+new file mode 100644
+index 000000000..a5f4aa9bc
+--- /dev/null
++++ b/res/values/projekt_colors.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     Copyright (C) 2016 Projekt Substratum
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<resources>
++    <color name="promo_card_header_text_color">@color/background_dialer_white</color>
++    <color name="promo_card_details_text_color">@color/background_dialer_white</color>
++</resources>
+
+From 7158106d9bb2974436b1f16e2e244c3c1dbf9ddf Mon Sep 17 00:00:00 2001
+From: George G <kreach3r@users.noreply.github.com>
+Date: Mon, 14 Nov 2016 16:05:32 +0200
+Subject: [PATCH 2/2] Themes: InCallUI dialpad digits color
+
+11/2016: Port to Nougat's Dialer (from marshmallow's InCallUI) by KreAch3R
+
+InCallUI's dialpad digits (not the digits' text) color is linked to the InCallUI theme primary color, on runtime. This is coded as such because Google wanted to update the InCallUI's theme (primary and primary-dark) colors in MSIM devices on the fly, based on which SIM card was used to make the call.
+This commit:
+* makes this behavior configurable by a boolean
+* links the digits color to a color value
+
+This way, the default behavior is preserved. The themer has to set the "config_dialpadDigitsStaticColor" boolean to true, in order to theme the color value. If he doesn't change the boolean, the default behavior is preserved and the digits color works as Google wanted.
+
+Change-Id: I9fc18dc5068f8bab90fbe8b5cfc608f0500a09c8
+---
+ .../src/com/android/incallui/DialpadFragment.java    |  4 ++++
+ res/values/projekt_colors.xml                        |  1 +
+ res/values/projekt_config.xml                        | 20 ++++++++++++++++++++
+ 3 files changed, 25 insertions(+)
+ create mode 100644 res/values/projekt_config.xml
+
+diff --git a/InCallUI/src/com/android/incallui/DialpadFragment.java b/InCallUI/src/com/android/incallui/DialpadFragment.java
+index ad288bdc6..38e3d8f41 100644
+--- a/InCallUI/src/com/android/incallui/DialpadFragment.java
++++ b/InCallUI/src/com/android/incallui/DialpadFragment.java
+@@ -455,6 +455,10 @@ public void onResume() {
+ 
+     public void updateColors() {
+         int textColor = InCallPresenter.getInstance().getThemeColors().mPrimaryColor;
++        // Disable dynamic digits color, for better theme compatibility
++        if (getContext().getResources().getBoolean(R.bool.config_dialpadDigitsStaticColor)) {
++            textColor = getContext().getResources().getColor(R.color.dialpad_digits_color);
++        }
+ 
+         if (mCurrentTextColor == textColor) {
+             return;
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index a5f4aa9bc..a89429198 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -17,4 +17,5 @@
+ <resources>
+     <color name="promo_card_header_text_color">@color/background_dialer_white</color>
+     <color name="promo_card_details_text_color">@color/background_dialer_white</color>
++    <color name="dialpad_digits_color">@color/incall_background_color</color>
+ </resources>
+diff --git a/res/values/projekt_config.xml b/res/values/projekt_config.xml
+new file mode 100644
+index 000000000..1f61f1203
+--- /dev/null
++++ b/res/values/projekt_config.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++    Copyright (c) 2016 Project Substratum
++
++    Licensed under the Apache License, Version 2.0 (the "License");
++    you may not use this file except in compliance with the License.
++    You may obtain a copy of the License at
++
++        http://www.apache.org/licenses/LICENSE-2.0
++
++    Unless required by applicable law or agreed to in writing, software
++    distributed under the License is distributed on an "AS IS" BASIS,
++    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++    See the License for the specific language governing permissions and
++    limitations under the License.
++-->
++
++<resources>
++    <bool name="config_dialpadDigitsStaticColor">false</bool>
++</resources>
+

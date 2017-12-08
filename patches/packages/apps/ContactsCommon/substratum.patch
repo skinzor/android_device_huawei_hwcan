@@ -1,0 +1,123 @@
+From ff50f5449aad59951292e5cad9c17a670e1a6ef2 Mon Sep 17 00:00:00 2001
+From: bgill55 <bricam55@gmail.com>
+Date: Sat, 24 Jan 2015 18:12:39 -0700
+Subject: [PATCH 1/2] Themes: Expose hardcoded contact tile text colors
+
+Naming conventions in line with @daveyannihilation's commit
+https://github.com/daveyannihilation/Theme-Ready-Google-Contacts/commit/dedf7925f52bec3896b138fa3d9f3754218abb2d
+
+Change-Id: I85aa4349ece8a9821d9443523b13f2234edd4af7
+---
+ res/layout/contact_tile_frequent.xml              |  2 +-
+ res/layout/contact_tile_starred.xml               |  2 +-
+ res/layout/contact_tile_starred_quick_contact.xml |  2 +-
+ res/values/projekt_colors.xml                     | 22 ++++++++++++++++++++++
+ 4 files changed, 25 insertions(+), 3 deletions(-)
+ create mode 100644 res/values/projekt_colors.xml
+
+diff --git a/res/layout/contact_tile_frequent.xml b/res/layout/contact_tile_frequent.xml
+index b1e83ce0..8c718fb2 100644
+--- a/res/layout/contact_tile_frequent.xml
++++ b/res/layout/contact_tile_frequent.xml
+@@ -38,7 +38,7 @@
+             android:id="@+id/contact_tile_name"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            android:textColor="@android:color/black"
++            android:textColor="@color/frequent_contact_text_color"
+             android:textSize="@dimen/contact_browser_list_item_text_size"
+             android:singleLine="true"
+             android:fadingEdge="horizontal"
+diff --git a/res/layout/contact_tile_starred.xml b/res/layout/contact_tile_starred.xml
+index 777cc058..88aa1e88 100644
+--- a/res/layout/contact_tile_starred.xml
++++ b/res/layout/contact_tile_starred.xml
+@@ -43,7 +43,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingTop="7dp"
+-            android:textColor="#202020"
++            android:textColor="@color/contact_tile_text_color"
+             android:textSize="@dimen/contact_browser_list_item_text_size"
+             android:singleLine="true"
+             android:fadingEdge="horizontal"
+diff --git a/res/layout/contact_tile_starred_quick_contact.xml b/res/layout/contact_tile_starred_quick_contact.xml
+index ecbe5839..2134ffcb 100644
+--- a/res/layout/contact_tile_starred_quick_contact.xml
++++ b/res/layout/contact_tile_starred_quick_contact.xml
+@@ -47,7 +47,7 @@
+                 android:id="@+id/contact_tile_name"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+-                android:textColor="@android:color/white"
++                android:textColor="@color/starred_quick_contact_name_text_color"
+                 android:textSize="16sp"
+                 android:singleLine="true"
+                 android:fadingEdge="horizontal"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+new file mode 100644
+index 00000000..a5d6bd36
+--- /dev/null
++++ b/res/values/projekt_colors.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++    Copyright (c) 2016 Project Substratum
++
++    Licensed under the Apache License, Version 2.0 (the "License");
++    you may not use this file except in compliance with the License.
++    You may obtain a copy of the License at
++
++        http://www.apache.org/licenses/LICENSE-2.0
++
++    Unless required by applicable law or agreed to in writing, software
++    distributed under the License is distributed on an "AS IS" BASIS,
++    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++    See the License for the specific language governing permissions and
++    limitations under the License.
++-->
++
++<resources>
++    <color name="frequent_contact_text_color">@android:color/black</color>
++    <color name="contact_tile_text_color">#ff202020</color>
++    <color name="starred_quick_contact_name_text_color">@android:color/white</color>
++</resources>
+
+From ec66d927354448e16c7248c576f870dfab75b487 Mon Sep 17 00:00:00 2001
+From: Bryan Owens <djbryan3540@gmail.com>
+Date: Fri, 11 Dec 2015 22:04:15 -0600
+Subject: [PATCH 2/2] Themes: Define back arrow tint color for themes
+
+This will make it easier to theme and keep stock look
+
+Change-Id: I0385f7773a988c08e41acc1fd54bf32d13e0cddd
+Signed-off-by: Bryan Owens <djbryan3540@gmail.com>
+---
+ res/layout/search_bar_expanded.xml | 2 +-
+ res/values/projekt_colors.xml      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/res/layout/search_bar_expanded.xml b/res/layout/search_bar_expanded.xml
+index c5302994..e5e180a1 100644
+--- a/res/layout/search_bar_expanded.xml
++++ b/res/layout/search_bar_expanded.xml
+@@ -30,7 +30,7 @@
+         android:src="@drawable/ic_back_arrow"
+         android:background="?android:attr/selectableItemBackgroundBorderless"
+         android:contentDescription="@string/action_menu_back_from_search"
+-        android:tint="@color/actionbar_background_color" />
++        android:tint="@color/back_arrow_icon_tint_color" />
+ 
+     <EditText
+         android:id="@+id/search_view"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index a5d6bd36..07d6963d 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -19,4 +19,5 @@
+     <color name="frequent_contact_text_color">@android:color/black</color>
+     <color name="contact_tile_text_color">#ff202020</color>
+     <color name="starred_quick_contact_name_text_color">@android:color/white</color>
++    <color name="back_arrow_icon_tint_color">@color/actionbar_background_color</color>
+ </resources>
+

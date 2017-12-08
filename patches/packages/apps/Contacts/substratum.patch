@@ -1,0 +1,186 @@
+From 10da813252718a2f7c9ce84a9137918aef487148 Mon Sep 17 00:00:00 2001
+From: beanstown106 <nbenis106@gmail.com>
+Date: Fri, 20 Nov 2015 17:27:43 -0500
+Subject: [PATCH] Themes: Expose hardcoded layout and styles colors
+
+Exposed text and background colors for themes to be compatible with themeable
+google dialer. Split PeopleTheme in styles.
+
+Change-Id: I4ca0347470333508e399bfae7ed5291a1a704410
+---
+ res/layout/confirm_add_detail_activity.xml |  6 +++---
+ res/layout/editor_account_header.xml       |  2 +-
+ res/values/projekt_colors.xml              | 29 +++++++++++++++++++++++++++++
+ res/values/styles.xml                      | 27 ++++++++++++++++-----------
+ 4 files changed, 49 insertions(+), 15 deletions(-)
+ create mode 100644 res/values/projekt_colors.xml
+
+diff --git a/res/layout/confirm_add_detail_activity.xml b/res/layout/confirm_add_detail_activity.xml
+index 1fa62363b..eb54b8afb 100644
+--- a/res/layout/confirm_add_detail_activity.xml
++++ b/res/layout/confirm_add_detail_activity.xml
+@@ -55,7 +55,7 @@
+             android:layout_alignRight="@id/photo"
+             android:layout_alignStart="@id/photo"
+             android:layout_alignEnd="@id/photo"
+-            android:background="#7F000000" />
++            android:background="@color/photo_text_bar_bg" />
+ 
+         <ImageButton
+             android:id="@+id/open_details_button"
+@@ -92,7 +92,7 @@
+                 android:paddingLeft="8dip"
+                 android:paddingStart="8dip"
+                 android:gravity="center_vertical"
+-                android:textColor="@android:color/white"
++                android:textColor="@color/text_color_white"
+                 android:textSize="16sp"
+                 android:singleLine="true" />
+ 
+@@ -105,7 +105,7 @@
+                 android:paddingStart="8dip"
+                 android:gravity="center_vertical"
+                 android:textAppearance="?android:attr/textAppearanceSmall"
+-                android:textColor="@android:color/white"
++                android:textColor="@color/text_color_white"
+                 android:singleLine="true"
+                 android:paddingBottom="4dip"
+                 android:visibility="gone" />
+diff --git a/res/layout/editor_account_header.xml b/res/layout/editor_account_header.xml
+index 59ae3b126..a7d0c6252 100644
+--- a/res/layout/editor_account_header.xml
++++ b/res/layout/editor_account_header.xml
+@@ -20,7 +20,7 @@
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:minHeight="48dip"
+-    android:background="#EEEEEE"
++    android:background="@color/editor_account_header_bg"
+     android:orientation="horizontal"
+     android:paddingTop="8dip"
+     android:paddingBottom="8dip"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+new file mode 100644
+index 000000000..d2ae4f881
+--- /dev/null
++++ b/res/values/projekt_colors.xml
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++    Copyright (c) 2016 Projekt Substratum
++
++    Licensed under the Apache License, Version 2.0 (the "License");
++    you may not use this file except in compliance with the License.
++    You may obtain a copy of the License at
++
++        http://www.apache.org/licenses/LICENSE-2.0
++
++    Unless required by applicable law or agreed to in writing, software
++    distributed under the License is distributed on an "AS IS" BASIS,
++    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++    See the License for the specific language governing permissions and
++    limitations under the License.
++-->
++
++<resources>
++    <color name="photo_text_bar_bg">#7F000000</color>
++    <color name="text_color_white">@android:color/white</color>
++    <color name="editor_account_header_bg">#EEEEEE</color>
++    <color name="list_item_name_text_color">#ff212121</color>
++    <color name="white">@android:color/white</color>
++    <color name="contacts_action_bar_text_color_hint">#CCCCCC</color>
++    <color name="contacts_action_bar_text_color">@android:color/black</color>
++    <color name="section_divider_background_color">#7e7e87</color>
++    <color name="edit_kind_text_appearance_text_color">#363636</color>
++    <color name="account_type_name_text_color">#363636</color>
++</resources>
+diff --git a/res/values/styles.xml b/res/values/styles.xml
+index 95641e345..69d79eab7 100644
+--- a/res/values/styles.xml
++++ b/res/values/styles.xml
+@@ -44,7 +44,13 @@
+         <item name="android:actionBarItemBackground">@drawable/item_background_material_borderless_dark</item>
+     </style>
+ 
+-    <style name="PeopleTheme" parent="@android:style/Theme.Material.Light">
++    <style name="PeopleTheme1" parent="@android:style/Theme.Material.Light">
++        <item name="android:colorPrimary">@color/primary_color</item>
++        <item name="android:colorPrimaryDark">@color/primary_color_dark</item>
++        <item name="android:colorAccent">@color/primary_color</item>
++    </style>
++
++    <style name="PeopleTheme" parent="@style/PeopleTheme1">
+         <item name="android:actionBarStyle">@style/ContactsActionBarStyle</item>
+         <!-- Style for the tab bar (for the divider between tabs) -->
+         <item name="android:actionBarTabBarStyle">@style/ContactsActionBarTabBarStyle</item>
+@@ -62,9 +68,6 @@
+         <item name="android:icon">@android:color/transparent</item>
+         <item name="android:listViewStyle">@style/ListViewStyle</item>
+         <item name="android:windowBackground">@color/background_primary</item>
+-        <item name="android:colorPrimaryDark">@color/primary_color_dark</item>
+-        <item name="android:colorPrimary">@color/primary_color</item>
+-        <item name="android:colorAccent">@color/primary_color</item>
+         <item name="android:alertDialogTheme">@style/ContactsAlertDialogTheme</item>
+         <item name="list_item_height">?android:attr/listPreferredItemHeight</item>
+         <item name="activated_background">@drawable/list_item_activated_background</item>
+@@ -98,6 +101,8 @@
+         <item name="contact_browser_list_padding_right">0dip</item>
+         <item name="contact_browser_background">@color/background_primary</item>
+         <item name="list_item_text_indent">@dimen/contact_browser_list_item_text_indent</item>
++        <item name="list_item_name_text_color">@color/list_item_name_text_color</item>
++        <item name="list_item_name_text_size">16.0sp</item>
+         <!-- Favorites -->
+         <item name="favorites_padding_bottom">0dip</item>
+     </style>
+@@ -129,10 +134,10 @@
+     </style>
+ 
+     <style name="ContactPickerSearchTheme" parent="@style/PeopleTheme">
+-        <item name="android:textColorPrimary">@android:color/white</item>
++        <item name="android:textColorPrimary">@color/text_color_white</item>
+         <item name="android:textColorHint">?android:textColorHintInverse</item>
+         <item name="android:colorControlActivated">?android:textColorHintInverse</item>
+-        <item name="android:colorControlNormal">@android:color/white</item>
++        <item name="android:colorControlNormal">@color/white</item>
+     </style>
+ 
+     <!-- Text in the action bar at the top of the screen -->
+@@ -174,8 +179,8 @@
+     </style>
+ 
+     <style name="ContactsActionBarTheme" parent="@android:style/Theme.Material.Light">
+-        <item name="android:textColorHint">#CCCCCC</item>
+-        <item name="android:textColor">@android:color/black</item>
++        <item name="android:textColorHint">@color/contacts_action_bar_text_color_hint</item>
++        <item name="android:textColor">@color/contacts_action_bar_text_color</item>
+         <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
+         <item name="android:dropDownListViewStyle">@style/ListViewDropdownStyle</item>
+     </style>
+@@ -220,7 +225,7 @@
+     </style>
+ 
+     <style name="SectionDivider">
+-        <item name="android:background">#7e7e87</item>
++        <item name="android:background">@color/section_divider_background_color</item>
+         <item name="android:layout_height">1dip</item>
+         <item name="android:layout_width">match_parent</item>
+     </style>
+@@ -302,7 +307,7 @@
+         <item name="android:textSize">14sp</item>
+         <item name="android:textStyle">bold</item>
+         <item name="android:textAllCaps">true</item>
+-        <item name="android:textColor">#363636</item>
++        <item name="android:textColor">@color/edit_kind_text_appearance_text_color</item>
+         <item name="android:fontFamily">sans-serif</item>
+     </style>
+ 
+@@ -342,7 +347,7 @@
+ 
+     <style name="AccountTypeNameStyle">
+         <item name="android:textSize">10sp</item>
+-        <item name="android:textColor">#363636</item>
++        <item name="android:textColor">@color/account_type_name_text_color</item>
+         <item name="android:fontFamily">sans-serif</item>
+     </style>
+ </resources>
+
