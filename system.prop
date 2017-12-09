@@ -37,8 +37,6 @@ persist.speaker.prot.enable=false
 audio.offload.multiaac.enable=true
 audio.dolby.ds2.hardbypass=true
 flac.sw.decoder.24bit.support=true
-ro.config.vc_call_vol_steps=8
-ro.config.media_vol_steps=20
 
 # Bluetooth
 bluetooth.hfp.client=1
