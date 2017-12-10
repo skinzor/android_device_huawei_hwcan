@@ -22,6 +22,9 @@ $(call inherit-product, device/huawei/hwcan/device.mk)
 # Inherit some common AOSP stuff.
 $(call inherit-product, vendor/aosp/common.mk)
 
+# Bootanimation
+TARGET_BOOT_ANIMATION_RES := 1080
+
 PRODUCT_NAME := aosp_hwcan
 PRODUCT_DEVICE := hwcan
 PRODUCT_BRAND := HUAWEI
