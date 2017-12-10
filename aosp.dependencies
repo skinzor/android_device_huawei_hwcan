@@ -1,0 +1,26 @@
+[
+  {
+    "remote":      "github",
+    "repository": "skinzor/android_device_huawei_hwcan",
+    "target_path": "device/huawei/hwcan"
+    "branch":      "cm-14.1"
+  },
+  {
+    "remote":      "github",
+    "repository":  "skinzor/proprietary_vendor_huawei",
+    "target_path": "vendor/huawei"
+    "branch":      "cm-14.1"
+  },
+  {
+    "remote":      "github",
+    "repository": "skinzor/nova_stock_kernel",
+    "target_path": "kernel/huawei/msm8953"
+    "branch":      "cm-14.1"
+  },
+  {
+    "remote":      "github",
+    "repository":  "LineageOS/android_packages_resources_devicesettings",
+    "target_path": "packages/resources/devicesettings",
+    "branch":      "cm-14.1"
+  }
+]
