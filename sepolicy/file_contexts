@@ -1,1 +1,2 @@
+/dev/bluetooth                                             u:object_r:bluetooth_device:s0
 /system/bin/libqmi_oem_main                                u:object_r:libqmi_oem_main_exec:s0
