@@ -1,4 +1,4 @@
-allow fingerprintd device:chr_file { ioctl open read write };
-allow fingerprintd system_data_file:file { open write };
+allow fingerprintd device:chr_file ioctl;
+allow fingerprintd system_data_file:file open;
 allow fingerprintd tee:unix_stream_socket connectto;
 allow fingerprintd tee_device:chr_file { ioctl open read write };
