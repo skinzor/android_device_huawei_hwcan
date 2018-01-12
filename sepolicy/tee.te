@@ -1,0 +1,4 @@
+allow tee fingerprintd:dir search;
+allow tee fingerprintd:file { getattr open read };
+allow tee system_data_file:file { open write };
+allow tee system_file:file entrypoint;
