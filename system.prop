@@ -166,6 +166,9 @@ persist.radio.hw_mbn_update=0
 service.qti.ims.enabled=1
 persist.data.qmi.adb_logmask=0
 
+#SdcardFS
+ro.sys.sdcardfs=false
+
 # Time Services
 persist.timed.enable=true
 
