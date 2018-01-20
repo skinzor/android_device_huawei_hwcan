@@ -1,0 +1,65 @@
+From ee4ed78e43cf8417c3acc28e8e61754c6b6cac14 Mon Sep 17 00:00:00 2001
+From: "#Henkate @xda" <robertpopescu95@yahoo.com>
+Date: Sat, 20 Jan 2018 17:29:29 +0200
+Subject: [PATCH 1/2] [1/2] Switch from blue to red color
+
+---
+ gui/theme/portrait_hdpi/splash.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gui/theme/portrait_hdpi/splash.xml b/gui/theme/portrait_hdpi/splash.xml
+index b04baa47e..b55c25921 100644
+--- a/gui/theme/portrait_hdpi/splash.xml
++++ b/gui/theme/portrait_hdpi/splash.xml
+@@ -19,7 +19,7 @@
+ 		<variable name="screen_height" value="1920"/>
+ 		<variable name="background_color" value="#222222"/>
+ 		<variable name="header_color" value="#555555"/>
+-		<variable name="accent_color" value="#0090CA"/>
++		<variable name="accent_color" value="#CA0026"/>
+ 	</variables>
+ 
+ 	<pages>
+
+From 98c650bd08bf4554d7c280d3a272d90a9883ee49 Mon Sep 17 00:00:00 2001
+From: "#Henkate @xda" <robertpopescu95@yahoo.com>
+Date: Sat, 20 Jan 2018 17:30:30 +0200
+Subject: [PATCH 2/2] [2/2] Switch from blue to red color
+
+---
+ gui/theme/portrait_hdpi/ui.xml | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gui/theme/portrait_hdpi/ui.xml b/gui/theme/portrait_hdpi/ui.xml
+index 0545b3f6b..3d119d963 100644
+--- a/gui/theme/portrait_hdpi/ui.xml
++++ b/gui/theme/portrait_hdpi/ui.xml
+@@ -175,8 +175,8 @@
+ 		<variable name="keyboard_y" value="1149"/>
+ 		<variable name="keyboard_terminal_y" value="1053"/>
+ 		<variable name="background_color" value="#1A1A1A"/>
+-		<variable name="accent_color" value="#0090CA"/>
+-		<variable name="accent_color_semitransparent" value="#0090CA30"/>
++		<variable name="accent_color" value="#CA0026"/>
++		<variable name="accent_color_semitransparent" value="#CA002630"/>
+ 		<variable name="text_color" value="#EEEEEE"/>
+ 		<variable name="text_button_color" value="#EEEEEE"/>
+ 		<variable name="text_success_color" value="#76FF03"/>
+@@ -187,7 +187,7 @@
+ 		<variable name="semi_transparent" value="#00000099"/>
+ 		<variable name="warning" value="#F8F8A0"/>
+ 		<variable name="error" value="#FF0101"/>
+-		<variable name="highlight" value="#0090CA"/>
++		<variable name="highlight" value="#CA0026"/>
+ 		<variable name="fileselector_linecolor" value="#555555"/>
+ 		<variable name="fileselector_highlight_color" value="#555555"/>
+ 		<variable name="fileselector_separatorheight" value="2"/>
+@@ -575,7 +575,7 @@
+ 				<keylabel key="0:k:103" text="^" resource="kb_arrow_up"/>
+ 				<keylabel key="0:k:106" text="&gt;" resource="kb_arrow_right"/>
+ 				<highlight color="%highlight_color%"/>
+-				<ctrlhighlight color="#0090CA80"/>
++				<ctrlhighlight color="#CA002680"/>
+ 				<layout1>
+ 					<keysize height="96" width="154"/>
+ 					<row1 key01="155:k:29" key02="155:c:27" long02=":c:3" key03="154:c:9" key04="154:k:105" key05="154:k:108" key06="154:k:103" key07="154:k:106"/>
