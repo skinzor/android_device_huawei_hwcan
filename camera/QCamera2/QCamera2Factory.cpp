@@ -49,6 +49,8 @@ extern "C" {
 #include "mm_camera_dbg.h"
 }
 
+#define MAX_INIT_RETRIES 3
+
 using namespace android;
 
 namespace qcamera {
@@ -87,6 +89,19 @@ QCamera2Factory::QCamera2Factory()
 #ifndef QCAMERA_HAL1_SUPPORT
     isHAL3Enabled = 1;
 #endif
+
+    if (mNumOfCameras <= 0) {
+        for (int j = 0; j < MAX_INIT_RETRIES; j++) {
+            LOGI("No camera devices detected, retrying...");
+            sleep(2);
+            mNumOfCameras = get_num_of_cameras();
+            if (mNumOfCameras <= 0) {
+                continue;
+            } else {
+                break;
+            }
+        }
+    }
 
     // Signifies whether system has to enable dual camera mode
     snprintf(propDefault, PROPERTY_VALUE_MAX, "%d", isDualCamAvailable(isHAL3Enabled));
