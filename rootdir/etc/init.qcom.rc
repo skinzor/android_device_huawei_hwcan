@@ -223,6 +223,7 @@ on boot
     chmod 0777 /sys/bus/platform/drivers/qcom,ois/1b0c000.qcom,cci:qcom,ois@0/check_ois
     chown system system /sys/bus/i2c/devices/5-0053/avago_apds9110_calibration_result
     chown system system /sys/touchscreen/glove_func/signal_disparity
+    chmod 0664 /sys/touchscreen/glove_func/signal_disparity
     chown system system /sys/touchscreen/holster_touch_window
     chown system system /sys/touchscreen/touch_chip_info
     chown system system /sys/touchscreen/calibrate
@@ -233,6 +234,7 @@ on boot
     chown system system /sys/touchscreen/supported_func_indicater
     chown system system /sys/touchscreen/touch_window
     chown system system /sys/touchscreen/easy_wakeup_gesture
+    chmod 0664 /sys/touchscreen/easy_wakeup_gesture
     chown system system /sys/touchscreen/wakeup_gesture_enable
     chown system system /sys/touchscreen/touch_dsm_debug
     chown system system /sys/touchscreen/easy_wakeup_control
