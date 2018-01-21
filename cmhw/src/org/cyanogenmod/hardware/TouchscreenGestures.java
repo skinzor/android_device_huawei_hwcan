@@ -38,7 +38,7 @@ import cyanogenmod.hardware.TouchscreenGesture;
  */
 public class TouchscreenGestures {
     private static final String TAG = "TouchscreenGestures";
-    private static final String GESTURE_PATH = "/sys/touch_screen/easy_wakeup_gesture";
+    private static final String GESTURE_PATH = "/sys/touchscreen/easy_wakeup_gesture";
 
     private static int[] ALL_GESTURE_MASKS = {
             0x080,  // Gesture C
