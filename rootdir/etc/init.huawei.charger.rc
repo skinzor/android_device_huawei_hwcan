@@ -34,6 +34,7 @@ service qseecomd /system/bin/qseecomd
     class core
     user root
     group root
+    writepid /dev/cpuset/system-background/tasks
 
 on charger-fs
     start qseecomd
@@ -80,6 +81,7 @@ service charger /charger
     class charger
     group system
     seclabel u:r:healthd:s0
+    writepid /dev/cpuset/system-background/tasks
 
 service adbd /sbin/adbd --root_seclabel=u:r:su:s0
     disabled
