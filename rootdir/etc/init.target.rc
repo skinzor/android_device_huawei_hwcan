@@ -86,6 +86,7 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
     group camera system inet input graphics
+    writepid /dev/cpuset/system-background/tasks
 
 on init
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
@@ -98,32 +99,36 @@ on property:persist.usb.chgdisabled=0
     write /sys/class/power_supply/battery/charging_enabled 1
 
 service qseecomd /system/bin/qseecomd
-   class core
-   user root
-   group root
+    class core
+    user root
+    group root
+    writepid /dev/cpuset/system-background/tasks
 
 service perfd /system/vendor/bin/perfd
-   class main
-   user root
-   disabled
+    class main
+    user root
+    disabled
+    writepid /dev/cpuset/system-background/tasks
 
 service thermal-engine /system/vendor/bin/thermal-engine
-   class main
-   user root
-   socket thermal-send-client stream 0666 system system
-   socket thermal-recv-client stream 0660 system system
-   socket thermal-recv-passive-client stream 0666 system system
-   group root
+    class main
+    user root
+    socket thermal-send-client stream 0666 system system
+    socket thermal-recv-client stream 0660 system system
+    socket thermal-recv-passive-client stream 0666 system system
+    group root
+    writepid /dev/cpuset/system-background/tasks
 
 service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
+    class late_start
+    user root
+    group root
+    writepid /dev/cpuset/system-background/tasks
 
 service audiod /system/bin/audiod
-   class late_start
-   user system
-   group system
+    class late_start
+    user system
+    group system
 
 on boot
     start rmt_storage
@@ -149,6 +154,7 @@ service imsqmidaemon /system/bin/imsqmidaemon
     user system
     socket ims_qmid stream 0660 system radio
     group radio net_raw log diag
+    writepid /dev/cpuset/system-background/tasks
 
 service imsdatadaemon /system/bin/imsdatadaemon
     class main
@@ -156,22 +162,25 @@ service imsdatadaemon /system/bin/imsdatadaemon
     socket ims_datad stream 0660 system radio
     group system wifi radio inet net_raw log diag net_admin
     disabled
+    writepid /dev/cpuset/system-background/tasks
 
 on property:sys.ims.QMI_DAEMON_STATUS=1
     start imsdatadaemon
 
 service ims_rtp_daemon /system/bin/ims_rtp_daemon
-   class main
-   user system
-   socket ims_rtpd stream 0660 system radio
-   group radio net_raw diag diag inet log
-   disabled
+    class main
+    user system
+    socket ims_rtpd stream 0660 system radio
+    group radio net_raw diag diag inet log
+    disabled
+    writepid /dev/cpuset/system-background/tasks
 
 service imscmservice /system/bin/imscmservice
-   class main
-   user system
-   group radio net_raw diag diag log
-   disabled
+    class main
+    user system
+    group radio net_raw diag diag log
+    disabled
+    writepid /dev/cpuset/system-background/tasks
 
 on property:sys.ims.DATA_DAEMON_STATUS=1
     start ims_rtp_daemon
@@ -241,12 +250,14 @@ service per_mgr /system/bin/pm-service
     class core
     user system
     group system net_raw
+    writepid /dev/cpuset/system-background/tasks
 
 service per_proxy /system/bin/pm-proxy
     class core
     user system
     group system
     disabled
+    writepid /dev/cpuset/system-background/tasks
 
 on property:init.svc.per_mgr=running
     start per_proxy

@@ -13,6 +13,7 @@ on property:persist.sys.ssr.enable_ramdumps=2
 service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
     seclabel u:r:libqmi_oem_main:s0
+    writepid /dev/cpuset/system-background/tasks
 
 on init
 # add for power engine
@@ -101,11 +102,13 @@ service huawei_version /system/bin/huawei_version
     class core
     user root
     oneshot
+    writepid /dev/cpuset/system-background/tasks
 
 service teecd /system/bin/teecd
     class core
     user root
     seclabel u:r:tee:s0
+    writepid /dev/cpuset/system-background/tasks
 
 on boot
     write /proc/sys/kernel/hung_task_panic 1
