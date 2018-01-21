@@ -109,6 +109,10 @@ PRODUCT_PACKAGES += \
     libjni_livedisplay \
     libtinyxml
 
+# Doze
+PRODUCT_PACKAGES += \
+    HuaweiDoze
+
 # Ebtables
 PRODUCT_PACKAGES += \
     ebtables \
