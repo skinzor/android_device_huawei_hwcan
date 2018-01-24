@@ -1,21 +1,22 @@
-From ce1835af3e3f9d58f7cfec960a6e079c2e22217f Mon Sep 17 00:00:00 2001
+From c94546ffcf47a957499235d443879e6cb27527b6 Mon Sep 17 00:00:00 2001
 From: "#Henkate @xda" <robertpopescu95@yahoo.com>
-Date: Sat, 9 Dec 2017 16:57:35 +0200
-Subject: [PATCH] Dont build Updater - this is an unofficial build
+Date: Mon, 13 Nov 2017 18:44:38 +0200
+Subject: [PATCH] hwcan: dont build Updater - this is an unofficial build
 
 ---
  config/common.mk | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/config/common.mk b/config/common.mk
-index f8ea27443..4758beb64 100644
+index 3212571b1..4651f0f1b 100644
 --- a/config/common.mk
 +++ b/config/common.mk
-@@ -126,7 +126,6 @@ PRODUCT_PACKAGES += \
+@@ -125,7 +125,6 @@ PRODUCT_PACKAGES += \
+     Jelly \
      LockClock \
-     ThemeInterfacer \
      Trebuchet \
 -    Updater \
      WallpaperPicker \
      WeatherProvider
  
+
