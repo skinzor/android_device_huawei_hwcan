@@ -1,0 +1,1 @@
+allow init fingerprint_sysfs:file setattr;

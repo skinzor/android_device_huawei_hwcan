@@ -1,2 +1,18 @@
-/dev/bluetooth                                             u:object_r:bluetooth_device:s0
-/system/bin/libqmi_oem_main                                u:object_r:libqmi_oem_main_exec:s0
+
+/dev/bluetooth                                              u:object_r:bluetooth_device:s0
+/dev/dsm                                                    u:object_r:dsm_device:s0
+
+/system/bin/libqmi_oem_main                                 u:object_r:libqmi_oem_main_exec:s0
+
+# Fingerprint
+/data/fpc(/.*)?                                             u:object_r:fingerprintd_data_file:s0
+/data/log/fingerprint(/.*)?                                 u:object_r:fingerprintd_log_data_file:s0
+/dev/fingerprint                                            u:object_r:fingerprint_device:s0
+/sys/devices/platform/fingerprint(/.*)?                     u:object_r:fingerprint_sysfs:s0
+/system/bin/teecd                                           u:object_r:tee_exec:s0
+
+# RIL
+/data/misc/netmgr(/.*)?                                     u:object_r:netmgr_data_file:s0
+
+# WCNSS
+/data/log/wifi(/.*)?                                        u:object_r:wcnss_data_file:s0

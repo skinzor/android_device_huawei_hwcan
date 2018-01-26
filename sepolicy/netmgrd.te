@@ -1,1 +1,2 @@
-allow netmgrd system_data_file:file open;
+allow netmgrd netmgr_data_file:dir w_dir_perms;
+allow netmgrd netmgr_data_file:file create_file_perms;
