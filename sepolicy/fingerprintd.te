@@ -2,10 +2,12 @@ allow fingerprintd fingerprint_device:chr_file rw_file_perms;
 allow fingerprintd dsm_device:chr_file w_file_perms;
 allow fingerprintd fingerprint_sysfs:dir rw_dir_perms;
 allow fingerprintd fingerprint_sysfs:file rw_file_perms;
+allow fingerprintd hwlog_jank_device:chr_file { open write };
 allow fingerprintd tee_device:chr_file rw_file_perms;
 
 allow fingerprintd fingerprintd_log_data_file:dir w_dir_perms;
 allow fingerprintd fingerprintd_log_data_file:file create_file_perms;
+allow fingerprintd vfat:file { open read write };
 
 #unix_socket_connect(fingerprintd, tee, tee);
 allow fingerprintd tee:unix_stream_socket connectto;
