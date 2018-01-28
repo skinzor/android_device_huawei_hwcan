@@ -1,1 +1,2 @@
 allow mm-qcamerad diag_device:chr_file { ioctl open read write };
+allow mm-qcamerad hwlog_jank_device:chr_file { open write };

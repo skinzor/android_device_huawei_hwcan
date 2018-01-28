@@ -1,1 +1,2 @@
 allow cameraserver proc_meminfo:file { getattr open read };
+allow cameraserver hwlog_jank_device:chr_file { open write };
