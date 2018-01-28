@@ -1,8 +1,10 @@
 
 /dev/bluetooth                                              u:object_r:bluetooth_device:s0
 /dev/dsm                                                    u:object_r:dsm_device:s0
-
-/system/bin/libqmi_oem_main                                 u:object_r:libqmi_oem_main_exec:s0
+/dev/hwlog_exception                                        u:object_r:hwlog_exception_device:s0
+/dev/hwlog_jank                                             u:object_r:hwlog_jank_device:s0
+/dev/hwlog_bdat                                             u:object_r:hwlog_bdat_device:s0
+/dev/rmi0                                                   u:object_r:rmi0_device:s0
 
 # Fingerprint
 /data/fpc(/.*)?                                             u:object_r:fingerprintd_data_file:s0
@@ -10,6 +12,12 @@
 /dev/fingerprint                                            u:object_r:fingerprint_device:s0
 /sys/devices/platform/fingerprint(/.*)?                     u:object_r:fingerprint_sysfs:s0
 /system/bin/teecd                                           u:object_r:tee_exec:s0
+
+# Lights
+/system/bin/libqmi_oem_main                                 u:object_r:libqmi_oem_main_exec:s0
+
+# Persist
+/persist/audio(/.*)?                                        u:object_r:persist_audio_data_file:s0
 
 # RIL
 /data/misc/netmgr(/.*)?                                     u:object_r:netmgr_data_file:s0

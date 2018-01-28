@@ -1,9 +1,12 @@
-# fingerprint
+# Fingerprint
 type fingerprint_sysfs, sysfs_type, file_type;
 type fingerprintd_log_data_file, file_type, data_file_type;
 
 # RIL
 type netmgr_data_file, file_type, data_file_type;
+
+# Persist
+type persist_audio_data_file, file_type, data_file_type;
 
 # WCNSS
 type wcnss_data_file, file_type, data_file_type;
