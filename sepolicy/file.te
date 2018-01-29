@@ -10,3 +10,6 @@ type persist_audio_data_file, file_type, data_file_type;
 
 # WCNSS
 type wcnss_data_file, file_type, data_file_type;
+
+type proc_app_info, file_type;
+type oeminfo_nvm_socket, file_type;

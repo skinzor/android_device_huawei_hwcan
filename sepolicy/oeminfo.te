@@ -1,0 +1,24 @@
+type oeminfo, domain;
+type oeminfo_exec, exec_type, file_type;
+
+init_daemon_domain(oeminfo)
+
+allow oeminfo oem_block_device:blk_file rw_file_perms;
+allow oeminfo self:capability { fowner chown fsetid };
+
+allow oeminfo log_device:dir r_dir_perms;
+allow oeminfo log_device:chr_file w_file_perms;
+allow oeminfo proc_app_info:file r_file_perms;
+allow oeminfo self:socket { read bind create write ioctl };
+
+# oeminfo_nvm_server
+# allow oeminfo device:dir { create add_name write setattr };
+# allow oeminfo socket_device:dir { add_name write };
+# allow oeminfo socket_device:sock_file { create setattr };
+# allow oeminfo device:file { create write open setattr };
+# allow oeminfo device:dir setattr;
+
+r_dir_file(oeminfo, sysfs);
+
+set_prop(oeminfo, hw_version_prop);
+unix_socket_connect(oeminfo, qmuxd, libqmi_oem_main);

@@ -1,10 +1,14 @@
 
+/dev/block/platform/soc/7824900.sdhci/mmcblk0p17            u:object_r:oem_block_device:s0
 /dev/bluetooth                                              u:object_r:bluetooth_device:s0
 /dev/dsm                                                    u:object_r:dsm_device:s0
 /dev/hwlog_exception                                        u:object_r:hwlog_exception_device:s0
 /dev/hwlog_jank                                             u:object_r:hwlog_jank_device:s0
 /dev/hwlog_bdat                                             u:object_r:hwlog_bdat_device:s0
 /dev/rmi0                                                   u:object_r:rmi0_device:s0
+
+/dev/oinv(/.*)?                                             u:object_r:oinv_device:s0
+/dev/socket/oeminfo_nvm                                     u:object_r:oeminfo_nvm_socket:s0
 
 # Fingerprint
 /data/fpc(/.*)?                                             u:object_r:fingerprintd_data_file:s0
@@ -15,6 +19,10 @@
 
 # Lights
 /system/bin/libqmi_oem_main                                 u:object_r:libqmi_oem_main_exec:s0
+
+/system/bin/huawei_version                                  u:object_r:oeminfo_exec:s0
+/system/bin/oeminfo_nvm_server                              u:object_r:oeminfo_exec:s0
+/system/bin/mac_addr_normalization                          u:object_r:macaddr_exec:s0
 
 # Persist
 /persist/audio(/.*)?                                        u:object_r:persist_audio_data_file:s0
