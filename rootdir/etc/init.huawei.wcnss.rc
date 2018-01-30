@@ -53,3 +53,4 @@ service macaddr /system/bin/mac_addr_normalization
     user root
     group root bluetooth net_bt_stack wifi
     oneshot
+    seclabel u:r:macaddr:s0
