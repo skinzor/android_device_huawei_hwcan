@@ -12,11 +12,11 @@ allow oeminfo proc_app_info:file r_file_perms;
 allow oeminfo self:socket { read bind create write ioctl };
 
 # oeminfo_nvm_server
-# allow oeminfo device:dir { create add_name write setattr };
-# allow oeminfo socket_device:dir { add_name write };
-# allow oeminfo socket_device:sock_file { create setattr };
-# allow oeminfo device:file { create write open setattr };
-# allow oeminfo device:dir setattr;
+allow oeminfo device:dir { create add_name write setattr };
+allow oeminfo socket_device:dir { add_name write };
+allow oeminfo socket_device:sock_file { create setattr };
+allow oeminfo device:file { create write open setattr };
+allow oeminfo device:dir setattr;
 
 r_dir_file(oeminfo, sysfs);
 

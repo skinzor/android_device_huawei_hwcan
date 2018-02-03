@@ -10,7 +10,7 @@ allow macaddr wifi_data_file:dir { search write add_name };
 allow macaddr wifi_data_file:file { create read write open getattr setattr };
 
 # oeminfo_nvm_server
-# allow macaddr socket_device:sock_file write;
-# allow macaddr oeminfo:unix_stream_socket connectto;
-# allow macaddr device:file { read open getattr unlink };
-# allow macaddr device:dir { write remove_name };
+allow macaddr socket_device:sock_file write;
+allow macaddr oeminfo:unix_stream_socket connectto;
+allow macaddr device:file { read open getattr unlink };
+allow macaddr device:dir { write remove_name };
