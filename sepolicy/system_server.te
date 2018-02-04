@@ -1,1 +1,3 @@
-allow system_server libqmi_oem_main:unix_stream_socket connectto;
+allow system_server oeminfo:unix_stream_socket connectto;
+allow system_server proc_app_info:file r_file_perms;
+unix_socket_connect(system_server, qmuxd, libqmi_oem_main);

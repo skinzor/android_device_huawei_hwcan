@@ -7,7 +7,10 @@ allow fingerprintd tee_device:chr_file rw_file_perms;
 
 allow fingerprintd fingerprintd_log_data_file:dir w_dir_perms;
 allow fingerprintd fingerprintd_log_data_file:file create_file_perms;
+allow fingerprintd proc_app_info:file { open read getattr };
+allow fingerprintd sysfs:file write;
 allow fingerprintd vfat:file { open read write };
+allow fingerprintd vfat:dir search;
 
 #unix_socket_connect(fingerprintd, tee, tee);
 allow fingerprintd tee:unix_stream_socket connectto;
