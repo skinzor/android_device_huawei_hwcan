@@ -1,3 +1,2 @@
-allow ueventd device:chr_file relabelfrom;
 allow ueventd fingerprint_sysfs:file rw_file_perms;
 allow ueventd rmi0_device:chr_file { relabelfrom relabelto };

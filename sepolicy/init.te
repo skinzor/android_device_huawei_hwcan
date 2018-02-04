@@ -1,1 +1,2 @@
 allow init fingerprint_sysfs:file setattr;
+allow init oem_block_device:blk_file write;
