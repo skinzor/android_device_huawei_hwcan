@@ -31,12 +31,12 @@ include $(call all-makefiles-under,$(LOCAL_PATH))
 include $(CLEAR_VARS)
 
 # Create links for the WCNSS files
-$(shell mkdir -p $(TARGET_OUT)/etc/firmware/wlan/prima; \
+$(shell mkdir -p $(TARGET_OUT_VENDOR)/etc/firmware/wlan/prima; \
     ln -sf /data/misc/wifi/WCNSS_qcom_cfg.ini \
-	    $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini; \
+	    $(TARGET_OUT_VENDOR)/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini; \
     ln -sf /persist/WCNSS_qcom_wlan_nv.bin \
-	    $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin; \
+	    $(TARGET_OUT_VENDOR)/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin; \
     ln -sf /persist/WCNSS_wlan_dictionary.dat \
-	    $(TARGET_OUT)/etc/firmware/wlan/prima/WCNSS_wlan_dictionary.dat)
+	    $(TARGET_OUT_VENDOR)/etc/firmware/wlan/prima/WCNSS_wlan_dictionary.dat)
 
 endif
