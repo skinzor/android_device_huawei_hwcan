@@ -34,8 +34,6 @@ on early-init
     write /proc/boottime "INIT: on init start"
 
 on fs
-    export LD_SHIM_LIBS /system/lib64/libcutils.so|libshim_cutils.so:/system/lib/libcutils.so|libshim_cutils.so
-
     write /proc/boottime "INIT:eMMC:Mount_START"
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
