@@ -56,8 +56,16 @@ etc/acdbdata/QRD/QRD_Hdmi_cal.acdb:vendor/etc/acdbdata/QRD/QRD_Hdmi_cal.acdb
 etc/acdbdata/QRD/QRD_Headset_cal.acdb:vendor/etc/acdbdata/QRD/QRD_Headset_cal.acdb
 etc/acdbdata/QRD/QRD_Speaker_cal.acdb:vendor/etc/acdbdata/QRD/QRD_Speaker_cal.acdb
 
+# ANT+
+lib64/com.qualcomm.qti.ant@1.0.so
+-lib64/libantradio.so
+lib/com.qualcomm.qti.ant@1.0.so
+-lib/libantradio.so
+vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
+vendor/lib64/com.qualcomm.qti.ant@1.0_vendor.so
+
 # Bluetooth
-vendor/bin/hci_qcomm_init
+vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti
 vendor/bin/wcnss_filter
 bin/mac_addr_normalization
 bin/oeminfo_nvm_server
@@ -66,8 +74,13 @@ lib/libhuawei_secure.so
 lib64/libbtaddr.so
 lib64/libbtpower.so
 lib64/libhuawei_secure.so
-vendor/lib/libbtnv.so
+vendor/etc/init/android.hardware.bluetooth@1.0-service-qti.rc
+vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so
 vendor/lib64/libbtnv.so
+vendor/lib64/libbt-hidlclient.so
+
+# Bluetooth (shared dependencies)
+vendor/lib64/vendor.qti.hardware.fm@1.0_vendor.so
 
 # CNE
 etc/cne/andsfCne.xml

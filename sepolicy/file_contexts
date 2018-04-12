@@ -10,9 +10,6 @@
 # Audio
 /sys/bus/platform/drivers/hw_audio_info(/.*)?               u:object_r:hw_audio_info_sysfs:s0
 
-# Bluetooth
-/(vendor|system/vendor)/bin/hci_qcomm_init                  u:object_r:qti_init_shell_exec:s0
-
 # Camera
 /sys/devices/soc/soc:qcom,camera-flash/leds/dual_leds(/.*)? u:object_r:dual_leds_sysfs:s0
 
