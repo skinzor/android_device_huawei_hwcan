@@ -70,6 +70,7 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
     write /sys/kernel/boot_cdsp/boot 1
     write /sys/kernel/boot_slpi/boot 1
+    chown root audio /sys/kernel/boot_adsp/boot
     exec u:r:qti_init_shell:s0 -- /init.qcom.early_boot.sh
 
     # Graphics
@@ -547,7 +548,7 @@ service cnd /system/vendor/bin/cnd
 service dpmQmiMgr /system/vendor/bin/dpmQmiMgr
     class main
     user system
-    group system
+    group radio system
     writepid /dev/cpuset/system-background/tasks
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
@@ -639,7 +640,7 @@ service ipacm-diag /system/vendor/bin/ipacm-diag
     class main
     user radio
     socket ipacm_log_file dgram 660 radio radio
-    group radio diag
+    group radio diag oem_2901
     writepid /dev/cpuset/system-background/tasks
 
 service ipacm /system/vendor/bin/ipacm
@@ -651,7 +652,7 @@ service ipacm /system/vendor/bin/ipacm
 service qti /system/vendor/bin/qti
     class main
     user radio
-    group radio net_raw diag usb net_admin
+    group radio oem_2901 diag usb net_admin
     writepid /dev/cpuset/system-background/tasks
 
 service sensors /vendor/bin/sensors.qcom
@@ -767,3 +768,7 @@ on charger
 on property:ro.runmode=factory && property:sys.boot_completed=1
     chown media audio /persist/audio/speaker_calibdata.bin
     chown media audio /dev/tfa98xx_calibrate
+
+on property:init.svc.surfaceflinger=restarting
+    stop hwcomposer-2-1
+    start hwcomposer-2-1
