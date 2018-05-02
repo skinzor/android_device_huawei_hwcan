@@ -996,6 +996,7 @@ vendor/lib64/libsmemlog.so
 
 # Radio
 -app/embms/embms.apk
+vendor/bin/ATFWD-daemon
 bin/netmgrd
 bin/qmuxd
 bin/port-bridge
