@@ -1152,7 +1152,6 @@ vendor/etc/init/android.hardware.drm@1.0-service.widevine.rc
 vendor/lib/libwvhidl.so
 
 # Wifi
-bin/cnss-daemon
 bin/wcnss_service
 etc/wifi/WCNSS_hw_wlan_nv.bin
 etc/wifi/WCNSS_hw_wlan_nv_can_al00.bin
