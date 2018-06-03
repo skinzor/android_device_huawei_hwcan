@@ -16,4 +16,3 @@
 
 add_lunch_combo omni_hwcan-userdebug
 add_lunch_combo omni_hwcan-eng
-sh device/huawei/hwcan/patches/apply.sh
