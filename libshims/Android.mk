@@ -19,3 +19,9 @@ LOCAL_SRC_FILES := hw_cutils.c hw_log.c
 LOCAL_MODULE := libshim_cutils
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES := DisplayEventReceiver.c
+LOCAL_MODULE := libcamera_shim_display
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_SHARED_LIBRARY)
