@@ -29,3 +29,5 @@ void _ZNK7android16SensorEventQueue12enableSensorEPKNS_6SensorE() {}
 void _ZNK7android16SensorEventQueue12setEventRateEPKNS_6SensorEx() {}
 
 void _ZN7android16SensorEventQueue4readEP12ASensorEventj() {}
+
+void _ZNK7android6Sensor7getNameEv() {}
