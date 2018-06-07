@@ -21,3 +21,5 @@ void _ZN7android13SensorManager21getInstanceForPackageERKNS_8String16E() {}
 void _ZN7android13SensorManager13getSensorListEPPKPKNS_6SensorE() {}
 
 void _ZN7android13SensorManager16createEventQueueENS_7String8Ei() {}
+
+void _ZN7android13SensorManager16getDefaultSensorEi() {}
