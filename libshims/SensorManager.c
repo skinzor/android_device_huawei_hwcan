@@ -18,3 +18,4 @@
 
 void _ZN7android13SensorManager21getInstanceForPackageERKNS_8String16E() {}
 
+void _ZN7android13SensorManager13getSensorListEPPKPKNS_6SensorE() {}
