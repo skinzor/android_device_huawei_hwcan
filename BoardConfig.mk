@@ -209,6 +209,9 @@ TARGET_RIL_VARIANT := caf
 include device/qcom/sepolicy/sepolicy.mk
 #BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
+# Sensors
+USE_SENSOR_MULTI_HAL := true
+
 # Shims
 TARGET_LD_SHIM_LIBS := \
     /system/lib64/libcutils.so|libshim_cutils.so \

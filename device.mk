@@ -230,7 +230,6 @@ PRODUCT_PACKAGES += \
 # Lights
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
-    android.hardware.light@2.0-service \
     lights.msm8953
 
 # LiveDisplay native
@@ -348,9 +347,9 @@ PRODUCT_COPY_FILES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.nosensorhub.wrapper \
     android.hardware.sensors@1.0-impl \
-    android.hardware.sensors@1.0-service
+    sensors.msm8953 \
+    sensors.nosensorhub.wrapper
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
