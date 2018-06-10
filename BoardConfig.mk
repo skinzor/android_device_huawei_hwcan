@@ -202,7 +202,6 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/recovery/fstab.qcom
 
 # RIL
-BOARD_RIL_CLASS := ../../../$(DEVICE_PATH)/ril
 TARGET_RIL_VARIANT := caf
 
 # SELinux
