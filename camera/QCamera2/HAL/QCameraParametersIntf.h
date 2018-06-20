@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -52,7 +52,7 @@ class QCameraAdjustFPS
 public:
     virtual int recalcFPSRange(int &minFPS, int &maxFPS,
             const float &minVideoFPS, const float &maxVideoFPs,
-            cam_fps_range_t &adjustedRange) = 0;
+            cam_fps_range_t &adjustedRange, bool bRecordingHint) = 0;
     virtual ~QCameraAdjustFPS() {}
 };
 
@@ -145,6 +145,7 @@ public:
     bool isFpsDebugEnabled();
     bool isHistogramEnabled();
     bool isSceneSelectionEnabled();
+    bool isSmallJpegSizeEnabled();
     int32_t setSelectedScene(cam_scene_mode_type scene);
     cam_scene_mode_type getSelectedScene();
     bool isFaceDetectionEnabled();
@@ -193,7 +194,7 @@ public:
     bool isHDRThumbnailProcessNeeded();
     void setMinPpMask(cam_feature_mask_t min_pp_mask);
     bool setStreamConfigure(bool isCapture,
-            bool previewAsPostview, bool resetConfig);
+            bool previewAsPostview, bool resetConfig, uint32_t* sessionId);
     int32_t addOnlineRotation(uint32_t rotation, uint32_t streamId,
             int32_t device_rotation);
     uint8_t getNumOfExtraBuffersForImageProc();
@@ -277,6 +278,7 @@ public:
     void setLowLightLevel(cam_low_light_mode_t value);
     cam_low_light_mode_t getLowLightLevel();
     bool getLowLightCapture();
+    bool isLinkPreviewForLiveShot();
 
     /* Dual camera specific */
     bool getDcrf();

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -213,6 +213,9 @@ const char QCameraParameters::KEY_QC_INSTANT_AEC_SUPPORTED_MODES[] = "instant-ae
 const char QCameraParameters::KEY_QC_INSTANT_CAPTURE_SUPPORTED_MODES[] = "instant-capture-values";
 const char QCameraParameters::KEY_QC_LED_CALIBRATION_MODES[] = "led-calibration-mode";
 
+const char QCameraParameters::KEY_QC_DUAL_CAMERA_MODE[] = "dual-camera-mode";
+const char QCameraParameters::KEY_QC_DUAL_CAMERA_ID[] = "dual-camera-id";
+const char QCameraParameters::KEY_QC_DUAL_CAMERA_MAIN_CAMERA[] = "dual-camera-main-camera";
 // Values for effect settings.
 const char QCameraParameters::EFFECT_EMBOSS[] = "emboss";
 const char QCameraParameters::EFFECT_SKETCH[] = "sketch";
@@ -990,7 +993,11 @@ QCameraParameters::QCameraParameters()
       m_bInstantCapture(false),
       mAecFrameBound(0),
       mAecSkipDisplayFrameBound(0),
-      m_bQuadraCfa(false)
+      m_bQuadraCfa(false),
+      m_bSmallJpegSize(false),
+      m_bDualCameraMode(false),
+      mDualCamId(0),
+      m_bMainCamera(false)
 {
     char value[PROPERTY_VALUE_MAX];
     // TODO: may move to parameter instead of sysprop
@@ -1122,7 +1129,11 @@ QCameraParameters::QCameraParameters(const String8 &params)
     m_bInstantCapture(false),
     mAecFrameBound(0),
     mAecSkipDisplayFrameBound(0),
-    m_bQuadraCfa(false)
+    m_bQuadraCfa(false),
+    m_bSmallJpegSize(false),
+    m_bDualCameraMode(false),
+    mDualCamId(0),
+    m_bMainCamera(false)
 {
     memset(&m_LiveSnapshotSize, 0, sizeof(m_LiveSnapshotSize));
     memset(&m_default_fps_range, 0, sizeof(m_default_fps_range));
@@ -3952,25 +3963,25 @@ int32_t QCameraParameters::setQuadraCfaMode(uint32_t enable, bool initCommit) {
         } else  {
             setOfflineRAW(FALSE);
         }
-         if (initCommit) {
-             if (initBatchUpdate(m_pParamBuf) < 0) {
-                 LOGE("Failed to initialize group update table");
-                 return FAILED_TRANSACTION;
-             }
-         }
-         if (ADD_SET_PARAM_ENTRY_TO_BATCH(m_pParamBuf, CAM_INTF_PARM_QUADRA_CFA, enable)) {
-             LOGE("Failed to update Quadra CFA mode");
-             return BAD_VALUE;
-         }
-         if (initCommit) {
-             rc = commitSetBatch();
-             if (rc != NO_ERROR) {
-                 LOGE("Failed to commit Quadra CFA mode");
-                 return rc;
-             }
-         }
+        if (initCommit) {
+            if (initBatchUpdate(m_pParamBuf) < 0) {
+                LOGE("Failed to initialize group update table");
+                return FAILED_TRANSACTION;
+            }
+        }
+        if (ADD_SET_PARAM_ENTRY_TO_BATCH(m_pParamBuf, CAM_INTF_PARM_QUADRA_CFA, enable)) {
+            LOGE("Failed to update Quadra CFA mode");
+            return BAD_VALUE;
+        }
+        if (initCommit) {
+            rc = commitSetBatch();
+            if (rc != NO_ERROR) {
+                LOGE("Failed to commit Quadra CFA mode");
+                return rc;
+            }
+        }
+        LOGI("Quadra CFA mode %d ", enable);
     }
-    LOGI("Quadra CFA mode %d ", enable);
     return rc;
 }
 
@@ -4028,6 +4039,7 @@ int32_t QCameraParameters::setQuadraCfa(const QCameraParameters& params)
                 m_bNeedRestart = true;
             }
         }
+        setReprocCount();
     }
     LOGH("Quadra CFA mode = %d", m_bQuadraCfa);
     return rc;
@@ -5277,6 +5289,7 @@ int32_t QCameraParameters::updateParameters(const String8& p,
 
     if ((rc = setLongshotParam(params)))                final_rc = rc;
     if ((rc = setLedCalibration(params)))               final_rc = rc;
+    if ((rc = setDualCameraMode(params)))               final_rc = rc;
 
     setQuadraCfa(params);
     setVideoBatchSize();
@@ -6136,7 +6149,10 @@ int32_t QCameraParameters::initDefaultParameters()
     // Set default burst number
     set(KEY_QC_SNAPSHOT_BURST_NUM, 0);
     set(KEY_QC_NUM_RETRO_BURST_PER_SHUTTER, 0);
-
+    // Set default dual camera info
+    set(KEY_QC_DUAL_CAMERA_MODE,VALUE_OFF);
+    set(KEY_QC_DUAL_CAMERA_ID,0);
+    set(KEY_QC_DUAL_CAMERA_MAIN_CAMERA,VALUE_FALSE);
     //Get RAM size and disable features which are memory rich
     struct sysinfo info;
     sysinfo(&info);
@@ -6191,21 +6207,25 @@ int32_t QCameraParameters::initDefaultParameters()
     pic_dim.width = 0;
     pic_dim.height = 0;
 
-    for(uint32_t i = 0;
-            i < (m_pCapability->picture_sizes_tbl_cnt - 1);
-            i++) {
-        if ((pic_dim.width * pic_dim.height) <
-                (int32_t)(m_pCapability->picture_sizes_tbl[i].width *
-                m_pCapability->picture_sizes_tbl[i].height)) {
-            pic_dim.width =
-                    m_pCapability->picture_sizes_tbl[i].width;
-            pic_dim.height =
-                    m_pCapability->picture_sizes_tbl[i].height;
+    if (m_pCapability->picture_sizes_tbl_cnt > 0 &&
+        m_pCapability->picture_sizes_tbl_cnt <= MAX_SIZES_CNT) {
+        for(uint32_t i = 0;
+                i < m_pCapability->picture_sizes_tbl_cnt; i++) {
+            if ((pic_dim.width * pic_dim.height) <
+                    (int32_t)(m_pCapability->picture_sizes_tbl[i].width *
+                    m_pCapability->picture_sizes_tbl[i].height)) {
+                pic_dim.width =
+                        m_pCapability->picture_sizes_tbl[i].width;
+                pic_dim.height =
+                        m_pCapability->picture_sizes_tbl[i].height;
+            }
         }
+        LOGD("max pic size = %d %d", pic_dim.width,
+                pic_dim.height);
+        setMaxPicSize(pic_dim);
+    } else {
+        LOGW("supported picture sizes cnt is 0 or exceeds max!!!");
     }
-    LOGD("max pic size = %d %d", pic_dim.width,
-            pic_dim.height);
-    setMaxPicSize(pic_dim);
 
     setManualCaptureMode(CAM_MANUAL_CAPTURE_TYPE_OFF);
 
@@ -6384,7 +6404,7 @@ void QCameraParameters::deinit()
                              m_pCamOpsTbl->camera_handle,
                              CAM_MAPPING_BUF_TYPE_PARM_BUF);
 
-        if (m_relCamSyncInfo.sync_control == CAM_SYNC_RELATED_SENSORS_ON) {
+        if (m_relCamSyncInfo.sync_control == CAM_SYNC_RELATED_SENSORS_ON || m_bDualCameraMode) {
             m_pCamOpsTbl->ops->unmap_buf(
                     m_pCamOpsTbl->camera_handle,
                     CAM_MAPPING_BUF_TYPE_SYNC_RELATED_SENSORS_BUF);
@@ -6580,13 +6600,14 @@ int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
 
     if ( NULL != m_AdjustFPS ) {
         if (m_ThermalMode == QCAMERA_THERMAL_ADJUST_FPS &&
-                !m_bRecordingHint) {
+                !m_bRecordingHint_new) {
             float minVideoFps = min_fps, maxVideoFps = max_fps;
             if (isHfrMode()) {
                 minVideoFps = m_hfrFpsRange.video_min_fps;
                 maxVideoFps = m_hfrFpsRange.video_max_fps;
             }
-            m_AdjustFPS->recalcFPSRange(min_fps, max_fps, minVideoFps, maxVideoFps, fps_range);
+            m_AdjustFPS->recalcFPSRange(min_fps, max_fps, minVideoFps,
+                                         maxVideoFps, fps_range, m_bRecordingHint_new);
             LOGH("Thermal adjusted Preview fps range %3.2f,%3.2f, %3.2f, %3.2f",
                    fps_range.min_fps, fps_range.max_fps,
                   fps_range.video_min_fps, fps_range.video_max_fps);
@@ -10220,7 +10241,18 @@ int32_t QCameraParameters::getStreamFormat(cam_stream_type_t streamType,
         break;
     case CAM_STREAM_TYPE_OFFLINE_PROC:
         if (getQuadraCfa()) {
-            format = m_pCapability->quadra_cfa_format;
+            if (m_pCapability->color_arrangement == CAM_FILTER_ARRANGEMENT_BGGR) {
+                format = CAM_FORMAT_BAYER_IDEAL_RAW_PLAIN16_10BPP_BGGR;
+            } else if (m_pCapability->color_arrangement == CAM_FILTER_ARRANGEMENT_GBRG) {
+                format = CAM_FORMAT_BAYER_IDEAL_RAW_PLAIN16_10BPP_GBRG;
+            } else if (m_pCapability->color_arrangement == CAM_FILTER_ARRANGEMENT_GRBG) {
+                format = CAM_FORMAT_BAYER_IDEAL_RAW_PLAIN16_10BPP_GRBG;
+            } else if (m_pCapability->color_arrangement == CAM_FILTER_ARRANGEMENT_RGGB) {
+                format = CAM_FORMAT_BAYER_IDEAL_RAW_PLAIN16_10BPP_RGGB;
+            } else {
+                LOGW("Unrecognized format set by sensor, setting default");
+                format = m_pCapability->quadra_cfa_format;
+            }
         }
         break;
     case CAM_STREAM_TYPE_METADATA:
@@ -11528,6 +11560,10 @@ int32_t QCameraParameters::setFaceDetection(bool enabled, bool initCommit)
     uint32_t faceProcMask = m_nFaceProcMask;
     // set face detection mask
     if (enabled) {
+        if (m_pCapability->max_num_roi == 0) {
+            LOGE("Face detection is not support becuase max number of face is 0");
+            return BAD_VALUE;
+        }
         faceProcMask |= CAM_FACE_PROCESS_MASK_DETECTION;
         if (getRecordingHintValue() > 0) {
             faceProcMask = 0;
@@ -11636,21 +11672,22 @@ int32_t QCameraParameters::setFrameSkip(enum msm_vfe_frame_skip_pattern pattern)
 }
 
 /*===========================================================================
- * FUNCTION   : updateRAW
+ * FUNCTION   : getSensorOutputSize
  *
  * DESCRIPTION: Query sensor output size based on maximum stream dimension
  *
  * PARAMETERS :
  *   @max_dim : maximum stream dimension
+ *   @sensor_dim : sensor dimension
  *
  * RETURN     : int32_t type of status
  *              NO_ERROR  -- success
  *              none-zero failure code
  *==========================================================================*/
-int32_t QCameraParameters::updateRAW(cam_dimension_t max_dim)
+int32_t QCameraParameters::getSensorOutputSize(cam_dimension_t max_dim, cam_dimension_t &sensor_dim)
 {
     int32_t rc = NO_ERROR;
-    cam_dimension_t raw_dim, pic_dim;
+    cam_dimension_t pic_dim;
 
     //No need to update RAW dimensions if meta raw is enabled.
     if (m_bMetaRawEnabled) {
@@ -11706,17 +11743,38 @@ int32_t QCameraParameters::updateRAW(cam_dimension_t max_dim)
         return rc;
     }
 
-    READ_PARAM_ENTRY(m_pParamBuf, CAM_INTF_PARM_RAW_DIMENSION, raw_dim);
+    READ_PARAM_ENTRY(m_pParamBuf, CAM_INTF_PARM_RAW_DIMENSION, sensor_dim);
 
-    LOGH("RAW Dimension = %d X %d",raw_dim.width,raw_dim.height);
-    if (raw_dim.width == 0 || raw_dim.height == 0) {
+    LOGH("RAW Dimension = %d X %d",sensor_dim.width,sensor_dim.height);
+    if (sensor_dim.width == 0 || sensor_dim.height == 0) {
         LOGW("Error getting RAW size. Setting to Capability value");
         if (getQuadraCfa()) {
-            raw_dim = m_pCapability->quadra_cfa_dim[0];
+            sensor_dim = m_pCapability->quadra_cfa_dim[0];
         } else {
-            raw_dim = m_pCapability->raw_dim[0];
+            sensor_dim = m_pCapability->raw_dim[0];
         }
     }
+    return rc;
+}
+
+/*===========================================================================
+ * FUNCTION   : updateRAW
+ *
+ * DESCRIPTION: get sensor output size and update
+ *
+ * PARAMETERS :
+ *   @max_dim : maximum stream dimension
+ *
+ * RETURN     : int32_t type of status
+ *              NO_ERROR  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int32_t QCameraParameters::updateRAW(cam_dimension_t max_dim)
+{
+    int32_t rc = NO_ERROR;
+    cam_dimension_t raw_dim;
+
+    getSensorOutputSize(max_dim,raw_dim);
     setRawSize(raw_dim);
     return rc;
 }
@@ -12869,11 +12927,116 @@ int32_t QCameraParameters::setISType()
         // Make default value for preview IS_TYPE as IS_TYPE_EIS_2_0
         property_get("persist.camera.is_type_preview", value, "4");
         mIsTypePreview = static_cast<cam_is_type_t>(atoi(value));
+    } else if (m_bDISEnabled) {
+        char value[PROPERTY_VALUE_MAX];
+        // Make default value for Video IS_TYPE as IS_TYPE_DIS
+        property_get("persist.camera.is_type", value, "2");
+        mIsTypeVideo = static_cast<cam_is_type_t>(atoi(value));
+        if (mIsTypeVideo >= IS_TYPE_DIS) {
+            LOGW("EIS is not supported and so setting DIS");
+            mIsTypeVideo = IS_TYPE_DIS;
+        }
+        // Make default value for preview IS_TYPE as IS_TYPE_DIS
+        property_get("persist.camera.is_type_preview", value, "2");
+        mIsTypePreview = static_cast<cam_is_type_t>(atoi(value));
+        if (mIsTypePreview >= IS_TYPE_DIS) {
+            LOGW("EIS is not supported and so setting DIS");
+            mIsTypePreview = IS_TYPE_DIS;
+        }
     } else {
         mIsTypeVideo = IS_TYPE_NONE;
         mIsTypePreview = IS_TYPE_NONE;
     }
     return NO_ERROR;
+}
+/*===========================================================================
+* FUNCTION   : setSmallJpegSize
+*
+* DESCRIPTION: Picture ratio greater than VFE down scale factor
+*              set SmallJpegSize flag
+*
+* PARAMETERS :
+*  @cam_dimension_t: sensor dimension
+*                    Snapshot sream dimension
+*
+* RETURN     : None
+*==========================================================================*/
+void QCameraParameters::setSmallJpegSize(cam_dimension_t sensor_dim, cam_dimension_t snap_dim)
+{
+    uint32_t width_ratio;
+    uint32_t height_ratio;
+
+    //Picture ratio is greater than max downscale factor set small jpeg flag
+    width_ratio = CEIL_DIVISION(sensor_dim.width,snap_dim.width);
+    height_ratio = CEIL_DIVISION(sensor_dim.height,snap_dim.height);
+    FATAL_IF(m_pCapability->max_downscale_factor == 0,
+            "FATAL: max_downscale_factor cannot be zero and so assert");
+    if ( (width_ratio > m_pCapability->max_downscale_factor) ||
+          (height_ratio > m_pCapability->max_downscale_factor)) {
+          LOGH("Setting small jpeg size flag to true");
+          m_bSmallJpegSize = true;
+    } else {
+          m_bSmallJpegSize = false;
+    }
+}
+
+/*===========================================================================
+* FUNCTION   : updateSnapshotPpMask
+*
+* DESCRIPTION: Update PP mask for sanpshot stream
+*
+* PARAMETERS :
+*  @stream_config_info: Stream config information
+*
+* RETURN     : int32_t type of status
+*              NO_ERROR  -- success
+*              none-zero failure code
+*==========================================================================*/
+int32_t QCameraParameters::updateSnapshotPpMask(cam_stream_size_info_t &stream_config_info)
+
+{
+    int32_t rc = NO_ERROR;
+    cam_dimension_t sensor_dim, snap_dim;
+    cam_dimension_t max_dim = {0,0};
+
+    // Find the Maximum dimension among all the streams
+    for (uint32_t j = 0; j < stream_config_info.num_streams; j++) {
+         if (stream_config_info.stream_sizes[j].width > max_dim.width) {
+               max_dim.width = stream_config_info.stream_sizes[j].width;
+         }
+         if (stream_config_info.stream_sizes[j].height > max_dim.height) {
+               max_dim.height = stream_config_info.stream_sizes[j].height;
+         }
+    }
+    LOGH("Max Dimension = %d X %d", max_dim.width, max_dim.height);
+    getSensorOutputSize(max_dim,sensor_dim);
+    getStreamDimension(CAM_STREAM_TYPE_SNAPSHOT, snap_dim);
+    setSmallJpegSize(sensor_dim,snap_dim);
+
+    //Picture ratio is greater than VFE downscale factor.So, link CPP
+    if ( isSmallJpegSizeEnabled() ) {
+         for (uint32_t k = 0; k < stream_config_info.num_streams; k++) {
+              if( stream_config_info.type[k] == CAM_STREAM_TYPE_SNAPSHOT) {
+                  updatePpFeatureMask(CAM_STREAM_TYPE_SNAPSHOT);
+                  stream_config_info.postprocess_mask[k] =
+                      mStreamPpMask[CAM_STREAM_TYPE_SNAPSHOT];
+                  LOGI("STREAM INFO : type %d, wxh: %d x %d, pp_mask: 0x%llx \
+                        Format = %d, dt =%d cid =%d subformat =%d, is_type %d",
+                        stream_config_info.type[k],
+                        stream_config_info.stream_sizes[k].width,
+                        stream_config_info.stream_sizes[k].height,
+                        stream_config_info.postprocess_mask[k],
+                        stream_config_info.format[k],
+                        stream_config_info.dt[k],
+                        stream_config_info.vc[k],
+                        stream_config_info.sub_format_type[k],
+                        stream_config_info.is_type[k]);
+                  rc = sendStreamConfigInfo(stream_config_info);
+              }
+         }
+    }
+
+    return rc;
 }
 
 /*===========================================================================
@@ -12939,7 +13102,6 @@ bool QCameraParameters::sendStreamConfigInfo(cam_stream_size_info_t &stream_conf
         LOGE("Failed to initialize group update table");
         return BAD_TYPE;
     }
-
     if (ADD_SET_PARAM_ENTRY_TO_BATCH(m_pParamBuf,
             CAM_INTF_META_STREAM_INFO, stream_config_info)) {
         LOGE("Failed to update table");
@@ -12969,7 +13131,7 @@ bool QCameraParameters::sendStreamConfigInfo(cam_stream_size_info_t &stream_conf
  *              none-zero failure code
  *==========================================================================*/
 bool QCameraParameters::setStreamConfigure(bool isCapture,
-        bool previewAsPostview, bool resetConfig) {
+        bool previewAsPostview, bool resetConfig, uint32_t* sessionId) {
 
     int32_t rc = NO_ERROR;
     cam_stream_size_info_t stream_config_info;
@@ -12996,6 +13158,7 @@ bool QCameraParameters::setStreamConfigure(bool isCapture,
     stream_config_info.min_stride     = m_pCapability->min_stride;
     stream_config_info.min_scanline   = m_pCapability->min_scanline;
     stream_config_info.batch_size = getBufBatchCount();
+    m_bSmallJpegSize = false;
 
     LOGH("buf_alignment=%d stride X scan=%dx%d batch size = %d\n",
             m_pCapability->buf_alignment,
@@ -13256,8 +13419,68 @@ bool QCameraParameters::setStreamConfigure(bool isCapture,
                 stream_config_info.sub_format_type[k],
                 stream_config_info.is_type[k]);
     }
-
+    if (m_bMainCamera && m_bDualCameraMode){
+        stream_config_info.sync_type = CAM_TYPE_MAIN;
+    } else if (m_bDualCameraMode){
+        stream_config_info.sync_type = CAM_TYPE_AUX;
+    }
     rc = sendStreamConfigInfo(stream_config_info);
+    if (m_bDualCameraMode) {
+        if (m_pRelCamSyncHeap == NULL) {
+            m_pRelCamSyncHeap = new QCameraHeapMemory(QCAMERA_ION_USE_CACHE);
+            rc = m_pRelCamSyncHeap->allocate(1,
+                   sizeof(cam_sync_related_sensors_event_info_t), NON_SECURE);
+            if(rc != OK) {
+                rc = NO_MEMORY;
+                LOGE("Failed to allocate Related cam sync Heap memory");
+                delete m_pRelCamSyncHeap;
+                m_pRelCamSyncHeap = NULL;
+                return rc;
+            }
+
+            //Map memory for related cam sync buffer
+            rc = m_pCamOpsTbl->ops->map_buf(m_pCamOpsTbl->camera_handle,
+                    CAM_MAPPING_BUF_TYPE_SYNC_RELATED_SENSORS_BUF,
+                    m_pRelCamSyncHeap->getFd(0),
+                    sizeof(cam_sync_related_sensors_event_info_t),
+                    (cam_sync_related_sensors_event_info_t*)DATA_PTR(m_pRelCamSyncHeap,0));
+            if(rc < 0) {
+                LOGE("failed to map Related cam sync buffer");
+                rc = FAILED_TRANSACTION;
+                m_pRelCamSyncHeap->deallocate();
+                delete m_pRelCamSyncHeap;
+                m_pRelCamSyncHeap = NULL;
+                return rc;
+            }
+            m_pRelCamSyncBuf =
+                    (cam_sync_related_sensors_event_info_t*) DATA_PTR(m_pRelCamSyncHeap,0);
+        }
+        if (!resetConfig) {
+            m_pRelCamSyncBuf->sync_control = CAM_SYNC_RELATED_SENSORS_ON;
+        } else {
+            m_pRelCamSyncBuf->sync_control = CAM_SYNC_RELATED_SENSORS_OFF;
+        }
+        if (m_bMainCamera){
+             m_pRelCamSyncBuf->mode = CAM_MODE_PRIMARY;
+             m_pRelCamSyncBuf->type = CAM_TYPE_MAIN;
+             m_pRelCamSyncBuf->related_sensor_session_id = sessionId[mDualCamId];
+        } else {
+             m_pRelCamSyncBuf->mode = CAM_MODE_SECONDARY;
+             m_pRelCamSyncBuf->type = CAM_TYPE_AUX;
+             m_pRelCamSyncBuf->related_sensor_session_id = sessionId[mDualCamId];
+        }
+        rc = m_pCamOpsTbl->ops->sync_related_sensors(
+                m_pCamOpsTbl->camera_handle, m_pRelCamSyncBuf);
+        if(rc < 0) {
+            LOGE("failed to send sync command");
+            rc = FAILED_TRANSACTION;
+            m_pRelCamSyncHeap->deallocate();
+            delete m_pRelCamSyncHeap;
+            m_pRelCamSyncHeap = NULL;
+            return rc;
+        }
+    }
+    updateSnapshotPpMask(stream_config_info);
     return rc;
 }
 
@@ -13672,10 +13895,12 @@ int32_t QCameraParameters::updatePpFeatureMask(cam_stream_type_t stream_type) {
         feature_mask |= CAM_QTI_FEATURE_SW_TNR;
     }
 
-    // Do not enable feature mask for ZSL/non-ZSL/liveshot snapshot except for 4K2k case
+    // Do not enable feature mask for ZSL/non-ZSL/liveshot except for 4K2k case
+    // Enable feature mask for small Jpeg resolutions
     if ((getRecordingHintValue() &&
             (stream_type == CAM_STREAM_TYPE_SNAPSHOT) && is4k2kVideoResolution()) ||
-            (stream_type != CAM_STREAM_TYPE_SNAPSHOT)) {
+            (stream_type != CAM_STREAM_TYPE_SNAPSHOT) ||
+            ((stream_type == CAM_STREAM_TYPE_SNAPSHOT) && isSmallJpegSizeEnabled())) {
         if ((m_nMinRequiredPpMask & CAM_QCOM_FEATURE_SHARPNESS) &&
                 !isOptiZoomEnabled()) {
             feature_mask |= CAM_QCOM_FEATURE_SHARPNESS;
@@ -13709,6 +13934,7 @@ int32_t QCameraParameters::updatePpFeatureMask(cam_stream_type_t stream_type) {
             ((CAM_STREAM_TYPE_PREVIEW == stream_type) ||
             (CAM_STREAM_TYPE_VIDEO == stream_type) ||
             (CAM_STREAM_TYPE_CALLBACK == stream_type) ||
+            (CAM_STREAM_TYPE_POSTVIEW == stream_type) ||
             ((CAM_STREAM_TYPE_SNAPSHOT == stream_type) &&
             getRecordingHintValue() && is4k2kVideoResolution()))) {
          if (m_nMinRequiredPpMask & CAM_QCOM_FEATURE_DSDN) {
@@ -14580,6 +14806,43 @@ int32_t QCameraParameters::setLedCalibration(
     return NO_ERROR;
 }
 
+/*===========================================================================
+ * FUNCTION   : setDualCameraMode
+ *
+ * DESCRIPTION: set dual led calibration
+ *
+ * PARAMETERS :
+ *   @params  : user setting parameters
+ *
+ * RETURN     : int32_t type of status
+ *              NO_ERROR  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int32_t QCameraParameters::setDualCameraMode(const QCameraParameters& params)
+{
+    const char *str = params.get(KEY_QC_DUAL_CAMERA_MODE);
+    const char *prev_str = get(KEY_QC_DUAL_CAMERA_MODE);
+    int value;
+
+    if (str != NULL) {
+        if (prev_str == NULL || strcmp(str, prev_str) != 0) {
+            value = lookupAttr(ON_OFF_MODES_MAP, PARAM_MAP_SIZE(ON_OFF_MODES_MAP),
+                    str);
+            m_bDualCameraMode = value;
+        }
+    }
+    if (m_bDualCameraMode) {
+        mDualCamId  = params.getInt(KEY_QC_DUAL_CAMERA_ID);
+        str = params.get(KEY_QC_DUAL_CAMERA_MAIN_CAMERA);
+        prev_str = get(KEY_QC_DUAL_CAMERA_MAIN_CAMERA);
+        if (prev_str == NULL || strcmp(str, prev_str) != 0) {
+            value = lookupAttr(TRUE_FALSE_MODES_MAP, PARAM_MAP_SIZE(TRUE_FALSE_MODES_MAP),
+                    str);
+        m_bMainCamera = value;
+        }
+    }
+    return NO_ERROR;
+}
 
 /*===========================================================================
  * FUNCTION   : setLedCalibration
@@ -14824,6 +15087,30 @@ int32_t QCameraParameters::updateDtVc(int32_t *dt, int32_t *vc)
 
     LOGH("dt=%d vc=%d",*dt, *vc);
     return rc;
+}
+/*===========================================================================
+ * FUNCTION   : isLinkPreviewForLiveShot()
+ *
+ * DESCRIPTION: Function to check whether link preview for liveshot or not
+ *
+ * PARAMETERS : none
+ *
+ * RETURN     : true: Thumbnail is generated from Preview stream
+ *              false: Thumbnail is generated from main image
+ *==========================================================================*/
+bool QCameraParameters::isLinkPreviewForLiveShot()
+{
+
+   char prop[PROPERTY_VALUE_MAX];
+
+   memset(prop, 0, sizeof(prop));
+   // 0. Thumbnail is generated from main image  (or)
+   // 1. Thumbnail is generated from Preview stream
+   property_get("persist.camera.linkpreview", prop, "0");
+   bool enable = atoi(prop) > 0 ? TRUE : FALSE;
+
+   LOGD("Link preview for thumbnail %d", enable);
+   return enable;
 }
 
 }; // namespace qcamera

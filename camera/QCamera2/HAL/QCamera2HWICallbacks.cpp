@@ -736,7 +736,9 @@ void QCamera2HardwareInterface::synchronous_stream_cb_routine(
     // Otherwise, mBootToMonoTimestampOffset value will be 0.
     frameTime = frameTime - pme->mBootToMonoTimestampOffset;
     // Calculate the future presentation time stamp for displaying frames at regular interval
-    mPreviewTimestamp = pme->mCameraDisplay.computePresentationTimeStamp(frameTime);
+    if (pme->getRecordingHintValue() == true) {
+        mPreviewTimestamp = pme->mCameraDisplay.computePresentationTimeStamp(frameTime);
+    }
     stream->mStreamTimestamp = frameTime;
 
 #ifdef TARGET_TS_MAKEUP
@@ -836,8 +838,6 @@ void QCamera2HardwareInterface::preview_stream_cb_routine(mm_camera_super_buf_t 
     if (discardFrame) {
         LOGH("preview is not running, no need to process");
         stream->bufDone(frame->buf_idx);
-        free(super_frame);
-        return;
     }
 
     uint32_t idx = frame->buf_idx;
@@ -849,7 +849,7 @@ void QCamera2HardwareInterface::preview_stream_cb_routine(mm_camera_super_buf_t 
        pme->m_bPreviewStarted = false ;
     }
 
-    if (!stream->isSyncCBEnabled()) {
+    if (!stream->isSyncCBEnabled() && !discardFrame) {
 
         if (pme->needDebugFps()) {
             pme->debugShowPreviewFPS();
@@ -875,8 +875,6 @@ void QCamera2HardwareInterface::preview_stream_cb_routine(mm_camera_super_buf_t 
         pthread_mutex_unlock(&pme->mGrallocLock);
     }
 
-    // Display the buffer.
-    LOGD("%p displayBuffer %d E", pme, idx);
     uint8_t numMapped = memory->getMappable();
     LOGD("EnqueuedCnt %d numMapped %d", dequeueCnt, numMapped);
 
@@ -920,7 +918,7 @@ void QCamera2HardwareInterface::preview_stream_cb_routine(mm_camera_super_buf_t 
 
     // Handle preview data callback
     if (pme->m_channels[QCAMERA_CH_TYPE_CALLBACK] == NULL) {
-        if (pme->needSendPreviewCallback() &&
+        if (pme->needSendPreviewCallback() && !discardFrame &&
                 (!pme->mParameters.isSceneSelectionEnabled())) {
             int32_t rc = pme->sendPreviewCallback(stream, memory, idx);
             if (NO_ERROR != rc) {

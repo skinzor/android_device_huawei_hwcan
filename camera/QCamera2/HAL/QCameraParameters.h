@@ -1,5 +1,5 @@
 /*
-** Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+** Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
 ** Not a Contribution. Apache license notifications and license are
 ** retained for attribution purposes only.
 **
@@ -334,6 +334,11 @@ private:
 
     //Longshot
     static const char KEY_QC_LONGSHOT_SUPPORTED[];
+
+    // Dual camera mode
+    static const char KEY_QC_DUAL_CAMERA_MODE[];
+    static const char KEY_QC_DUAL_CAMERA_ID[];
+    static const char KEY_QC_DUAL_CAMERA_MAIN_CAMERA[];
 
     //ZSL+HDR
     static const char KEY_QC_ZSL_HDR_SUPPORTED[];
@@ -705,6 +710,7 @@ public:
     bool isFpsDebugEnabled() {return m_bDebugFps;};
     bool isHistogramEnabled() {return m_bHistogramEnabled;};
     bool isSceneSelectionEnabled() {return m_bSceneSelection;};
+    bool isSmallJpegSizeEnabled() {return m_bSmallJpegSize;};
     int32_t setSelectedScene(cam_scene_mode_type scene);
     cam_scene_mode_type getSelectedScene();
     bool isFaceDetectionEnabled() {return ((m_nFaceProcMask &
@@ -723,6 +729,9 @@ public:
     bool isAVTimerEnabled();
     bool isDISEnabled();
     int32_t setISType();
+    void setSmallJpegSize(cam_dimension_t sensor_dim, cam_dimension_t snap_dim);
+    int32_t updateSnapshotPpMask(cam_stream_size_info_t &stream_config_info);
+    int32_t getSensorOutputSize(cam_dimension_t max_dim, cam_dimension_t &sensor_dim);
     cam_is_type_t getVideoISType();
     cam_is_type_t getPreviewISType();
     uint8_t getMobicatMask();
@@ -754,7 +763,8 @@ public:
     const char *getASDStateString(cam_auto_scene_t scene);
     bool isHDRThumbnailProcessNeeded() { return m_bHDRThumbnailProcessNeeded; };
     void setMinPpMask(cam_feature_mask_t min_pp_mask) { m_nMinRequiredPpMask = min_pp_mask; };
-    bool setStreamConfigure(bool isCapture, bool previewAsPostview, bool resetConfig);
+    bool setStreamConfigure(bool isCapture, bool previewAsPostview, bool resetConfig,
+            uint32_t* sessionId);
     int32_t addOnlineRotation(uint32_t rotation, uint32_t streamId, int32_t device_rotation);
     uint8_t getNumOfExtraBuffersForImageProc();
     uint8_t getNumOfExtraBuffersForVideo();
@@ -884,6 +894,7 @@ public:
     int32_t getMetaRawInfo();
     bool sendStreamConfigForPickRes(cam_stream_size_info_t &stream_config_info);
     int32_t updateDtVc(int32_t *dt, int32_t *vc);
+    bool isLinkPreviewForLiveShot();
 
 private:
     int32_t setPreviewSize(const QCameraParameters& );
@@ -971,6 +982,7 @@ private:
     int32_t setSecureMode(const QCameraParameters& );
     int32_t setCacheVideoBuffers(const QCameraParameters& params);
     int32_t setCustomParams(const QCameraParameters& params);
+    int32_t setDualCameraMode(const QCameraParameters& params);
     int32_t setAutoExposure(const char *autoExp);
     int32_t setPreviewFpsRange(int min_fps,int max_fps,
             int vid_min_fps,int vid_max_fps);
@@ -1247,6 +1259,10 @@ private:
     // Number of preview frames, that HAL will hold without displaying, for instant AEC mode.
     uint8_t mAecSkipDisplayFrameBound;
     bool m_bQuadraCfa;
+    bool m_bSmallJpegSize;
+    bool m_bDualCameraMode;
+    int32_t mDualCamId;
+    bool m_bMainCamera;
 };
 
 }; // namespace qcamera

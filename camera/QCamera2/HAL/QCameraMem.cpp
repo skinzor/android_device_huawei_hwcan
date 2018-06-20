@@ -652,7 +652,7 @@ int QCameraMemoryPool::findBufferLocked(
         size_t size, bool cached, cam_stream_type_t streamType)
 {
     int rc = NAME_NOT_FOUND;
-
+    size_t alignsize = (size + 4095U) & (~4095U);
     if (mPools[streamType].empty()) {
         return NAME_NOT_FOUND;
     }
@@ -660,7 +660,7 @@ int QCameraMemoryPool::findBufferLocked(
     List<struct QCameraMemory::QCameraMemInfo>::iterator it = mPools[streamType].begin();
     if (streamType == CAM_STREAM_TYPE_OFFLINE_PROC) {
         for( ; it != mPools[streamType].end() ; it++) {
-            if( ((*it).size == size) &&
+            if( ((*it).size == alignsize) &&
                     ((*it).heap_id == heap_id) &&
                     ((*it).cached == cached) ) {
                 memInfo = *it;
@@ -1602,10 +1602,43 @@ native_handle_t *QCameraVideoMemory::getNativeHandle(uint32_t index, bool metada
 /*===========================================================================
  * FUNCTION   : closeNativeHandle
  *
- * DESCRIPTION: close video native handle and update cached ptrs
+ * DESCRIPTION: static function to close video native handle.
  *
  * PARAMETERS :
  *   @data  : ptr to video frame to be returned
+ *
+ * RETURN     : int32_t type of status
+ *              NO_ERROR  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int QCameraVideoMemory::closeNativeHandle(const void *data)
+{
+    int32_t rc = NO_ERROR;
+
+#ifdef USE_MEDIA_EXTENSIONS
+    const media_metadata_buffer *packet =
+            (const media_metadata_buffer *)data;
+    if ((packet != NULL) && (packet->eType ==
+            kMetadataBufferTypeNativeHandleSource)
+            && (packet->pHandle)) {
+        native_handle_close(packet->pHandle);
+        native_handle_delete(packet->pHandle);
+    } else {
+        LOGE("Invalid Data. Could not release");
+        return BAD_VALUE;
+    }
+#endif
+   return rc;
+}
+
+/*===========================================================================
+ * FUNCTION   : closeNativeHandle
+ *
+ * DESCRIPTION: close video native handle and update cached ptrs
+ *
+ * PARAMETERS :
+ *   @data     : ptr to video frame to be returned
+ *   @metadata : Flag to update metadata mode
  *
  * RETURN     : int32_t type of status
  *              NO_ERROR  -- success
@@ -1622,6 +1655,8 @@ int QCameraVideoMemory::closeNativeHandle(const void *data, bool metadata)
         if ((packet != NULL) && (packet->eType ==
                 kMetadataBufferTypeNativeHandleSource)
                 && (packet->pHandle)) {
+            native_handle_close(packet->pHandle);
+            native_handle_delete(packet->pHandle);
             for (int i = 0; i < mMetaBufCount; i++) {
                 if(mMetadata[i]->data == data) {
                     media_metadata_buffer *mem =

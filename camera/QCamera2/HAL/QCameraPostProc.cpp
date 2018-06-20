@@ -1337,7 +1337,9 @@ int32_t QCameraPostProcessor::processPPData(mm_camera_super_buf_t *frame)
                 m_parent->mParameters.isFaceDetectionEnabled());
     }
 #endif
-    if ((m_parent->isLongshotEnabled())
+    int8_t mCurReprocCount = job->reprocCount;
+    if ((m_parent->isLongshotEnabled()
+            && (!(m_parent->mParameters.getQuadraCfa())|| (mCurReprocCount == 2)))
             && (!m_parent->isCaptureShutterEnabled())
             && (!m_parent->mCACDoneReceived)) {
         // play shutter sound for longshot
@@ -1346,7 +1348,6 @@ int32_t QCameraPostProcessor::processPPData(mm_camera_super_buf_t *frame)
     }
     m_parent->mCACDoneReceived = FALSE;
 
-    int8_t mCurReprocCount = job->reprocCount;
     int8_t mCurChannelIndex = job->ppChannelIndex;
     if ( mCurReprocCount > 1 ) {
         //In case of pp 2nd pass, we can release input of 2nd pass
@@ -1428,6 +1429,50 @@ int32_t QCameraPostProcessor::processPPData(mm_camera_super_buf_t *frame)
         if (meta_frame != NULL) {
             // fill in meta data frame ptr
             jpeg_job->metadata = (metadata_buffer_t *)meta_frame->buffer;
+        }
+
+        if (m_parent->mParameters.getQuadraCfa()) {
+            // find offline metadata frame for quadra CFA
+            mm_camera_buf_def_t *pOfflineMetaFrame = NULL;
+            QCameraStream * pOfflineMetadataStream = NULL;
+            QCameraChannel *pChannel = m_parent->getChannelByHandle(frame->ch_id);
+            if (pChannel == NULL) {
+                for (int8_t i = 0; i < mPPChannelCount; i++) {
+                    if ((mPPChannels[i] != NULL) &&
+                            (mPPChannels[i]->getMyHandle() == frame->ch_id)) {
+                        pChannel = mPPChannels[i];
+                        break;
+                    }
+                }
+            }
+            if (pChannel == NULL) {
+                LOGE("No corresponding channel (ch_id = %d) exist, return here",
+                        frame->ch_id);
+                return BAD_VALUE;
+            }
+
+            for (uint32_t i = 0; i < frame->num_bufs; i++) {
+                pOfflineMetadataStream = pChannel->getStreamByHandle(frame->bufs[i]->stream_id);
+                if (pOfflineMetadataStream != NULL) {
+                    if (pOfflineMetadataStream->isOrignalTypeOf(CAM_STREAM_TYPE_METADATA)) {
+                        pOfflineMetaFrame = frame->bufs[i];
+                        break;
+                    }
+                }
+            }
+            if (pOfflineMetaFrame != NULL) {
+                // fill in meta data frame ptr
+                jpeg_job->metadata = (metadata_buffer_t *)pOfflineMetaFrame->buffer;
+
+                // Dump offline metadata for Tuning
+                char value[PROPERTY_VALUE_MAX];
+                property_get("persist.camera.dumpmetadata", value, "0");
+                int32_t enabled = atoi(value);
+                if (enabled && jpeg_job->metadata->is_tuning_params_valid) {
+                    m_parent->dumpMetadataToFile(pOfflineMetadataStream,pOfflineMetaFrame,
+                                                 (char *)"Offline_isp_meta");
+                }
+            }
         }
 
         // enqueu reprocessed frame to jpeg input queue
