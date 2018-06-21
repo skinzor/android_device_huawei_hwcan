@@ -259,13 +259,13 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml
 
-PRODUCT_PACKAGES += \
-    com.android.nfc_extras \
-    libnfc-nci \
-    nfc_nci.pn54x.default \
-    NfcNci \
-    Tag \
-    android.hardware.nfc@1.0-impl
+#PRODUCT_PACKAGES += \
+#    com.android.nfc_extras \
+#    libnfc-nci \
+#    nfc_nci.pn54x.default \
+#    NfcNci \
+#    Tag \
+#    android.hardware.nfc@1.0-impl
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
