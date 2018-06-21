@@ -216,7 +216,8 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib64/libcutils.so|libshim_cutils.so \
     /system/lib/libcutils.so|libshim_cutils.so \
     /system/lib/hw/camera.msm8953.so|libcamera_shim_display.so \
-    /system/lib/hw/camera.msm8953.so|libcamera_shim_sensor.so
+    /system/lib/hw/camera.msm8953.so|libcamera_shim_sensor.so \
+    /system/lib/libcamera_post_mediaserver.so|libcamera_shim_mediaserver
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
