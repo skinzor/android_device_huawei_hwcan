@@ -27,12 +27,6 @@ LOCAL_MODULE_TAGS := optional
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := StillMore.c
-LOCAL_MODULE := libcamera_shim_stillmore
-LOCAL_MODULE_TAGS := optional
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
     camera_shim.cpp

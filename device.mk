@@ -115,8 +115,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libshim_camera \
     libshims_sensorlistener \
-    libcamera_shim_mediaserver \
-    libcamera_shim_stillmore
+    libcamera_shim_mediaserver
 
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl-legacy \
