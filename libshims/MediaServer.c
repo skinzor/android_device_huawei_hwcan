@@ -17,4 +17,14 @@
 /* TODO: Actually provide implementations for these function! */
 
 /* libcamera_post_mediaserver */
-extern int exif_entry_gps_initialize() { return 0; }
+#include <stdio.h>
+
+int __srget(FILE *fp)
+{
+	return EOF;
+}
+
+void exif_entry_gps_initialize(void)
+{
+    return;
+}
