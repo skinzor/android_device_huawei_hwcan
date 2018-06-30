@@ -119,6 +119,7 @@ service huawei_version /system/bin/huawei_version
 service teecd /system/bin/teecd
     class core
     user root
+    seclabel u:r:tee:s0
     writepid /dev/cpuset/system-background/tasks
 
 on boot
