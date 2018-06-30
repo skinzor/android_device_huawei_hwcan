@@ -1,10 +1,10 @@
 ## This file contains the different modes and permissions of Huawei
 #init platform
-import /init.huawei.target.rc
+import /vendor/etc/init/hw/init.huawei.target.rc
 #init module
-import /init.huawei.os.rc
-import /init.huawei.power.rc
-import /init.huawei.audio.rc
-import /init.huawei.device.rc
-import /init.huawei.camera.rc
-import /init.huawei.wcnss.rc
+import /vendor/etc/init/hw/init.huawei.os.rc
+import /vendor/etc/init/hw/init.huawei.power.rc
+import /vendor/etc/init/hw/init.huawei.audio.rc
+import /vendor/etc/init/hw/init.huawei.device.rc
+import /vendor/etc/init/hw/init.huawei.camera.rc
+import /vendor/etc/init/hw/init.huawei.wcnss.rc
