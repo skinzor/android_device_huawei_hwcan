@@ -213,7 +213,8 @@ USE_SENSOR_MULTI_HAL := true
 
 # Shims
 TARGET_LD_SHIM_LIBS := \
-    /system/lib64/hw/fingerprint.vendor.msm8953.so|libshim_cutils.so \
+    /system/vendor/lib/libhwlog.so|libshim_cutils.so \
+    /system/vendor/lib64/libhwlog.so|libshim_cutils.so \
     /system/lib/hw/camera.msm8953.so|/system/vendor/lib/libshim_camera.so \
     /system/lib/hw/camera.msm8953.so|libshims_sensorlistener.so \
     /system/lib/libcamera_post_mediaserver.so|libcamera_shim_mediaserver.so \
