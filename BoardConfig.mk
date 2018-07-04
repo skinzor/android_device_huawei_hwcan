@@ -163,9 +163,6 @@ DEVICE_MATRIX_FILE   := $(DEVICE_PATH)/compatibility_matrix.xml
 # Keymaster
 TARGET_PROVIDES_KEYMASTER := true
 
-# Malloc
-MALLOC_SVELTE := true
-
 # Media
 TARGET_USES_MEDIA_EXTENSIONS := true
 
