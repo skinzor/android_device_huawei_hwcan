@@ -52,6 +52,7 @@ LOCAL_SRC_FILES := \
 
 LOCAL_MODULE := libshims_sensorlistener
 LOCAL_MODULE_TAGS := optional
+LOCAL_MULTILIB := 32
 LOCAL_SHARED_LIBRARIES := \
     libnativeloader \
     libbinder \
