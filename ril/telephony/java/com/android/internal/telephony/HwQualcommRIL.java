@@ -28,14 +28,14 @@ import android.telephony.Rlog;
 import android.telephony.SignalStrength;
 
 /**
- * RIL customization for kiwi devices
+ * RIL customization for hwcan devices
  *
  * {@hide}
  */
-public class KiwiRIL extends RIL {
+public class HwQualcommRIL extends RIL {
     private final boolean DBG = false;
 
-    public KiwiRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
+    public HwQualcommRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
         super(context, networkMode, cdmaSubscription, instanceId);
     }
 
@@ -62,7 +62,7 @@ public class KiwiRIL extends RIL {
     protected void
     send(RILRequest rr) {
         if (rr.mRequest >= 132) {
-            Rlog.i(RILJ_LOG_TAG, "KiwiRil: Unsupported request " + rr.mRequest);
+            Rlog.i(RILJ_LOG_TAG, "HwQualcommRil: Unsupported request " + rr.mRequest);
             rr.onError(REQUEST_NOT_SUPPORTED, null);
             rr.release();
         } else {
@@ -90,7 +90,7 @@ public class KiwiRIL extends RIL {
 
         if (gsmSignalStrength != -1) {
             if (DBG) {
-                Rlog.i(RILJ_LOG_TAG, "KiwiRil: original gsmSignalStrength: " + gsmSignalStrength);
+                Rlog.i(RILJ_LOG_TAG, "HwQualcommRil: original gsmSignalStrength: " + gsmSignalStrength);
             }
             gsmSignalStrength = -(gsmSignalStrength - 113) / 2;
         }
@@ -104,7 +104,7 @@ public class KiwiRIL extends RIL {
                         wcdmaRscp, true);
 
         if (DBG) {
-            Rlog.i(RILJ_LOG_TAG, "KiwiRil: " + ss.toString() + " " + gsmSignalStrength);
+            Rlog.i(RILJ_LOG_TAG, "HwQualcommRil: " + ss.toString() + " " + gsmSignalStrength);
         }
 
         return ss;
