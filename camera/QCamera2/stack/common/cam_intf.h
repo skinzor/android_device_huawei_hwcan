@@ -1011,6 +1011,36 @@ typedef struct {
     INCLUDE(CAM_INTF_PARM_JPEG_ENCODE_CROP,             cam_stream_crop_info_t,      1);
     INCLUDE(CAM_INTF_PARM_JPEG_SCALE_DIMENSION,         cam_dimension_t,             1);
     INCLUDE(CAM_INTF_META_FOCUS_DEPTH_INFO,             uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_01,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_02,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_03,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_04,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_05,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_06,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_07,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_08,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_09,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_10,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_11,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_12,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_13,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_14,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_15,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_16,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_17,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_18,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_19,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_20,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_21,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_22,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_23,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_24,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_25,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_26,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_27,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_28,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_29,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_PARM_VENDOR_30,                    uint8_t,                     1);
 } metadata_data_t;
 
 /* Update clear_metadata_buffer() function when a new is_xxx_valid is added to
