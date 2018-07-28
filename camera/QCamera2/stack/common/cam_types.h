@@ -1518,6 +1518,7 @@ typedef struct {
     int32_t est_snap_iso_value;
     uint32_t est_snap_luma;
     uint32_t est_snap_target;
+    volatile char huawei_reserved[72];
 } cam_3a_params_t;
 
 typedef struct {
@@ -1538,6 +1539,7 @@ typedef struct {
     int32_t cct_value;
     cam_awb_gain_t rgb_gains;
     cam_awb_ccm_update_t ccm_update;
+    volatile char huawei_reserved[16];
 } cam_awb_params_t;
 
 typedef struct {
@@ -2048,10 +2050,10 @@ typedef enum {
     CAM_INTF_META_SENSOR_EXPOSURE_TIME,
     /* Duration from start of frame exposure to start of next frame exposure,
      * in nanoseconds */
-    CAM_INTF_META_SENSOR_FRAME_DURATION, /* 140 */
+    CAM_INTF_META_SENSOR_FRAME_DURATION, /* 140 */  //oss 144 stock 144
     /* Gain applied to image data. Must be implemented through analog gain only
      * if set to values below 'maximum analog sensitivity'. */
-    CAM_INTF_META_SENSOR_SENSITIVITY,
+    CAM_INTF_META_SENSOR_SENSITIVITY, //oss 145 stock 145
     /* Time at start of exposure of first row */
     CAM_INTF_META_SENSOR_TIMESTAMP,
     /* Duration b/w start of first row exposure and the start of last
@@ -2104,60 +2106,61 @@ typedef enum {
 
     CAM_INTF_META_TEST_PATTERN_DATA,
     /* DNG file support */
-    CAM_INTF_META_PROFILE_TONE_CURVE,
-    CAM_INTF_META_NEUTRAL_COL_POINT, /* 170 */
+    CAM_INTF_META_PROFILE_TONE_CURVE, // 173 OK
+    CAM_INTF_META_NEUTRAL_COL_POINT, /* 170 */ // 174 OK
 
+    CAM_INTF_META_HUAWEI_01,
     /* CAC */
-    CAM_INTF_META_CAC_INFO,
-    CAM_INTF_PARM_CAC,
-    CAM_INTF_META_IMG_HYST_INFO,
+    CAM_INTF_META_CAC_INFO, // 175 176
+    CAM_INTF_PARM_CAC, // 176 177
+    CAM_INTF_META_IMG_HYST_INFO, // 177 178
 
     /* trigger for all modules to read the debug/log level properties */
-    CAM_INTF_PARM_UPDATE_DEBUG_LEVEL,
+    CAM_INTF_PARM_UPDATE_DEBUG_LEVEL, //178
 
     /* OTP : WB gr/gb */
-    CAM_INTF_META_OTP_WB_GRGB,
+    CAM_INTF_META_OTP_WB_GRGB, // 179
     /* LED override for EZTUNE */
-    CAM_INTF_META_LED_MODE_OVERRIDE,
+    CAM_INTF_META_LED_MODE_OVERRIDE, // 180 181
     /* auto lens position info */
-    CAM_INTF_META_FOCUS_POSITION,
+    CAM_INTF_META_FOCUS_POSITION, // 181 182
     /* Manual exposure time */
-    CAM_INTF_PARM_EXPOSURE_TIME,
+    CAM_INTF_PARM_EXPOSURE_TIME, // 182 183
     /* AWB meta data info */
-    CAM_INTF_META_AWB_INFO,
+    CAM_INTF_META_AWB_INFO, // 183
     /* Manual lens position info */
-    CAM_INTF_PARM_MANUAL_FOCUS_POS, /* 180 */
+    CAM_INTF_PARM_MANUAL_FOCUS_POS, /* 180 */ //184 185
     /* Manual White balance gains */
-    CAM_INTF_PARM_WB_MANUAL,
+    CAM_INTF_PARM_WB_MANUAL, //185 186
     /* Offline Data Overwrite */
-    CAM_INTF_PARM_HW_DATA_OVERWRITE,
+    CAM_INTF_PARM_HW_DATA_OVERWRITE, //186
     /* IMG LIB reprocess debug section */
-    CAM_INTF_META_IMGLIB, /* cam_intf_meta_imglib_t */
+    CAM_INTF_META_IMGLIB, /* cam_intf_meta_imglib_t */ // 187 188
     /* OEM specific parameters */
-    CAM_INTF_PARM_CUSTOM,
+    CAM_INTF_PARM_CUSTOM, // 188 189
     /* parameters added for related cameras */
     /* fetch calibration info for related cam subsystem */
-    CAM_INTF_PARM_RELATED_SENSORS_CALIBRATION,
+    CAM_INTF_PARM_RELATED_SENSORS_CALIBRATION, //189 190
     /* focal length ratio info */
-    CAM_INTF_META_AF_FOCAL_LENGTH_RATIO,
+    CAM_INTF_META_AF_FOCAL_LENGTH_RATIO, // 190
     /* crop for binning & FOV adjust */
-    CAM_INTF_META_SNAP_CROP_INFO_SENSOR,
+    CAM_INTF_META_SNAP_CROP_INFO_SENSOR, // 191
     /* crop for trimming edge pixels */
-    CAM_INTF_META_SNAP_CROP_INFO_CAMIF,
+    CAM_INTF_META_SNAP_CROP_INFO_CAMIF, // 192
     /* crop for FOV adjust and zoom */
-    CAM_INTF_META_SNAP_CROP_INFO_ISP,
+    CAM_INTF_META_SNAP_CROP_INFO_ISP, // 193
     /* crop for image-stabilization and zoom */
-    CAM_INTF_META_SNAP_CROP_INFO_CPP, /* 190 */
+    CAM_INTF_META_SNAP_CROP_INFO_CPP, /* 190 */ // 194
     /* parameter for enabling DCRF */
-    CAM_INTF_PARM_DCRF,
+    CAM_INTF_PARM_DCRF, // 195
     /* metadata tag for DCRF info */
-    CAM_INTF_META_DCRF,
+    CAM_INTF_META_DCRF,// 196 197
     /* FLIP mode parameter*/
-    CAM_INTF_PARM_FLIP,
+    CAM_INTF_PARM_FLIP, //oss 197 stock 198
     /*Frame divert info from ISP*/
-    CAM_INTF_BUF_DIVERT_INFO,
+    CAM_INTF_BUF_DIVERT_INFO, // 198 199
     /* Use AV timer */
-    CAM_INTF_META_USE_AV_TIMER,
+    CAM_INTF_META_USE_AV_TIMER, // 199 200
     CAM_INTF_META_EFFECTIVE_EXPOSURE_FACTOR,
     /* Special event to request stream frames*/
     CAM_INTF_PARM_REQUEST_FRAMES,
@@ -2167,39 +2170,39 @@ typedef enum {
     CAM_INTF_META_LDAF_EXIF,
     CAM_INTF_META_BLACK_LEVEL_SOURCE_PATTERN,
     CAM_INTF_META_BLACK_LEVEL_APPLIED_PATTERN, /* 200 */
-    CAM_INTF_META_CDS_DATA,
+    CAM_INTF_META_CDS_DATA, //206 207
     /*3A low light level information*/
-    CAM_INTF_META_LOW_LIGHT,
+    CAM_INTF_META_LOW_LIGHT, // 207 208
     /* dynamic feature detection */
-    CAM_INTF_META_IMG_DYN_FEAT, /* 200 */
+    CAM_INTF_META_IMG_DYN_FEAT, /* 200 */ // 208 209
     /*Parameter entry to communicate manual
     capture type*/
     CAM_INTF_PARM_MANUAL_CAPTURE_TYPE,
     /*AF state change detected by AF module*/
-    CAM_INTF_AF_STATE_TRANSITION,
+    CAM_INTF_AF_STATE_TRANSITION, // 210 211
     /* face recognition */
-    CAM_INTF_META_FACE_RECOG,
+    CAM_INTF_META_FACE_RECOG, // 211 212
     /* face blink detection */
-    CAM_INTF_META_FACE_BLINK,
+    CAM_INTF_META_FACE_BLINK, //212 213
     /* face gaze detection */
-    CAM_INTF_META_FACE_GAZE,
+    CAM_INTF_META_FACE_GAZE, // 213 214
     /* face smile detection */
-    CAM_INTF_META_FACE_SMILE,
+    CAM_INTF_META_FACE_SMILE, // 214 215
     /* face landmark detection */
-    CAM_INTF_META_FACE_LANDMARK, /* 210 */
+    CAM_INTF_META_FACE_LANDMARK, /* 210 */ // oss 215 stock 216
     /* face contour detection */
-    CAM_INTF_META_FACE_CONTOUR,
+    CAM_INTF_META_FACE_CONTOUR, // oss 216 stock 217
     /* Whether EIS is enabled */
     CAM_INTF_META_VIDEO_STAB_MODE,
     /* Touch exposure compensation (EV) status */
-    CAM_INTF_META_TOUCH_AE_RESULT,
+    CAM_INTF_META_TOUCH_AE_RESULT,// oss 218 stock 219
     /* Param for updating initial exposure index value*/
-    CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX,
+    CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX, // oss 219 stock  220
     /* Gain applied post raw captrue.
        ISP digital gain */
-    CAM_INTF_META_ISP_SENSITIVITY,
+    CAM_INTF_META_ISP_SENSITIVITY, //oss 220 stock 175
     /* Param for enabling instant aec*/
-    CAM_INTF_PARM_INSTANT_AEC,
+    CAM_INTF_PARM_INSTANT_AEC, //oss 221 stock 245
     /* Param for tracking previous reprocessing activity */
     CAM_INTF_META_REPROCESS_FLAGS,
     /* Param of cropping information for JPEG encoder */
@@ -2213,41 +2216,43 @@ typedef enum {
     /* Number of streams and size of streams in
        current configuration for pic res*/
     CAM_INTF_META_STREAM_INFO_FOR_PIC_RES,
-    CAM_INTF_META_FOCUS_DEPTH_INFO,
+    CAM_INTF_META_FOCUS_DEPTH_INFO, // oss 228 stock 255
+    CAM_INTF_META_HUAWEI_02,
+    CAM_INTF_META_HUAWEI_03,
+    CAM_INTF_META_HUAWEI_04,
+
+    CAM_INTF_META_HUAWEI_05,
+    CAM_INTF_META_HUAWEI_06,
+    CAM_INTF_META_HUAWEI_07,
+    CAM_INTF_META_HUAWEI_08,
+    CAM_INTF_META_HUAWEI_09,
+    CAM_INTF_META_HUAWEI_10,
+    CAM_INTF_META_HUAWEI_11,
+    CAM_INTF_META_HUAWEI_12,
+    CAM_INTF_META_HUAWEI_13,
+    CAM_INTF_META_HUAWEI_14,
+    CAM_INTF_META_HUAWEI_15,
+    CAM_INTF_META_HUAWEI_16,
+    CAM_INTF_META_HUAWEI_17,
+    CAM_INTF_META_HUAWEI_18,
+    CAM_INTF_META_HUAWEI_19,
+    CAM_INTF_META_HUAWEI_20,
+    CAM_INTF_META_HUAWEI_21,
+    CAM_INTF_META_HUAWEI_22,
+    CAM_INTF_META_HUAWEI_23,
+    CAM_INTF_META_HUAWEI_24,
+    CAM_INTF_META_HUAWEI_25,
+    CAM_INTF_META_HUAWEI_26,
+    CAM_INTF_META_HUAWEI_27,
     /*Focus value output from af core*/
     CAM_INTF_META_FOCUS_VALUE,
     /*Spot light detection result output from af core*/
     CAM_INTF_META_SPOT_LIGHT_DETECT,
-    CAM_INTF_PARM_VENDOR_01,
-    CAM_INTF_PARM_VENDOR_02,
-    CAM_INTF_PARM_VENDOR_03,
-    CAM_INTF_PARM_VENDOR_04,
-    CAM_INTF_PARM_VENDOR_05,
-    CAM_INTF_PARM_VENDOR_06,
-    CAM_INTF_PARM_VENDOR_07,
-    CAM_INTF_PARM_VENDOR_08,
-    CAM_INTF_PARM_VENDOR_09,
-    CAM_INTF_PARM_VENDOR_10,
-    CAM_INTF_PARM_VENDOR_11,
-    CAM_INTF_PARM_VENDOR_12,
-    CAM_INTF_PARM_VENDOR_13,
-    CAM_INTF_PARM_VENDOR_14,
-    CAM_INTF_PARM_VENDOR_15,
-    CAM_INTF_PARM_VENDOR_16,
-    CAM_INTF_PARM_VENDOR_17,
-    CAM_INTF_PARM_VENDOR_18,
-    CAM_INTF_PARM_VENDOR_19,
-    CAM_INTF_PARM_VENDOR_20,
-    CAM_INTF_PARM_VENDOR_21,
-    CAM_INTF_PARM_VENDOR_22,
-    CAM_INTF_PARM_VENDOR_23,
-    CAM_INTF_PARM_VENDOR_24,
-    CAM_INTF_PARM_VENDOR_25,
-    CAM_INTF_PARM_VENDOR_26,
-    CAM_INTF_PARM_VENDOR_27,
-    CAM_INTF_PARM_VENDOR_28,
-    CAM_INTF_PARM_VENDOR_29,
-    CAM_INTF_PARM_VENDOR_30,
+
+    CAM_INTF_META_HUAWEI_28,
+    CAM_INTF_META_HUAWEI_29,
+    CAM_INTF_META_HUAWEI_30,
+
     CAM_INTF_PARM_MAX
 } cam_intf_parm_type_t;
 
