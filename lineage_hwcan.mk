@@ -22,11 +22,13 @@ $(call inherit-product, device/huawei/hwcan/device.mk)
 # Inherit some common LineageOS stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
+# Device identifier. This must come after all inclusions
 PRODUCT_NAME := lineage_hwcan
 PRODUCT_DEVICE := hwcan
 PRODUCT_BRAND := HUAWEI
 PRODUCT_MODEL := NOVA CAN-L11
 PRODUCT_MANUFACTURER := HUAWEI
+TARGET_VENDOR := Huawei
 
 PRODUCT_GMS_CLIENTID_BASE := android-huawei
 
