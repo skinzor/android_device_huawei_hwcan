@@ -67,7 +67,7 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 #BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_PATH)/mkbootimg.mk
 
 # ANT
-BOARD_ANT_WIRELESS_DEVICE := "qualcomm-hidl"
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Audio
 AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
