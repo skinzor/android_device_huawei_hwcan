@@ -113,8 +113,7 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    libshim_camera \
-    libcamera_shim_mediaserver
+    libshim_camera
 
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
