@@ -14,9 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 cc_binary {
-    name: "android.hardware.biometrics.fingerprint@1.0-service.kiwi",
+    name: "android.hardware.biometrics.fingerprint@1.0-service.hwcan",
     relative_install_path: "hw",
-    init_rc: ["android.hardware.biometrics.fingerprint@1.0-service.kiwi.rc"],
+    init_rc: ["android.hardware.biometrics.fingerprint@1.0-service.hwcan.rc"],
     srcs: ["service.cpp", "BiometricsFingerprint.cpp"],
     shared_libs: [
         "libutils",
