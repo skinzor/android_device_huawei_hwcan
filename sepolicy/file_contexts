@@ -11,6 +11,7 @@
 /sys/bus/platform/drivers/hw_audio_info(/.*)?               u:object_r:hw_audio_info_sysfs:s0
 
 # Camera
+/data/camera(/.*)?                    u:object_r:camera_socket:s0
 /sys/devices/soc/soc:qcom,camera-flash/leds/dual_leds(/.*)? u:object_r:dual_leds_sysfs:s0
 
 # Fingerprint
@@ -45,4 +46,3 @@
 
 # Fingerprint custom service
 /(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@1\.0-service\.hwcan u:object_r:hal_fingerprint_default_exec:s0
-
