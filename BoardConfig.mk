@@ -67,7 +67,7 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 #BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_PATH)/mkbootimg.mk
 
 # ANT
-BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+# BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Audio
 AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
@@ -93,7 +93,6 @@ AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER := false
 AUDIO_USE_LL_AS_PRIMARY_OUTPUT := true
 BOARD_SUPPORTS_SOUND_TRIGGER := true
 BOARD_USES_ALSA_AUDIO := true
-USE_CUSTOM_AUDIO_POLICY := 1
 USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
@@ -219,11 +218,11 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/recovery/fstab.qcom
 
 # RIL
-TARGET_RIL_VARIANT := caf
+#TARGET_RIL_VARIANT := caf
 
 # SELinux
-include device/qcom/sepolicy/sepolicy.mk
-BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
+#include device/qcom/sepolicy/sepolicy.mk
+#BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
 # Sensors
 USE_SENSOR_MULTI_HAL := true
