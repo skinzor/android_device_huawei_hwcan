@@ -29,3 +29,6 @@
 
 # WCNSS
 /data/log/wifi(/.*)?                                        u:object_r:wcnss_data_file:s0
+
+# Fingerprint custom service
+/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@1\.0-service\.hwcan u:object_r:hal_fingerprint_default_exec:s0
