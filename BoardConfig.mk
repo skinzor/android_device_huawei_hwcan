@@ -215,8 +215,6 @@ USE_SENSOR_MULTI_HAL := true
 TARGET_LD_SHIM_LIBS := \
     /system/vendor/lib/libhwlog.so|libshim_cutils.so \
     /system/vendor/lib64/libhwlog.so|libshim_cutils.so \
-    /system/lib/hw/camera.msm8953.so|/system/lib/libshim_camera.so \
-    /system/lib/hw/camera.msm8953.so|libshims_sensorlistener.so \
     /system/lib/libcamera_post_mediaserver.so|/system/lib/libcamera_shim_mediaserver.so \
     /system/vendor/lib/libmmcamera_ppeiscore.so|/system/lib/libshim_camera.so
 

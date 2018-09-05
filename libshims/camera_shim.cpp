@@ -42,9 +42,3 @@ extern "C" void _ZN7android13GraphicBufferC1EjjijjP13native_handleb(
     _ZN7android13GraphicBufferC1EjjijjjP13native_handleb(inHandle, inMethod, inWidth, inHeight,
         inFormat, static_cast<uint32_t>(1), static_cast<uint64_t>(inUsage), inStride);
 }
-
-extern "C" void _ZN7android20DisplayEventReceiverC1ENS_16ISurfaceComposer11VsyncSourceE();
-
-extern "C" void _ZN7android20DisplayEventReceiverC1Ev() {
-    _ZN7android20DisplayEventReceiverC1ENS_16ISurfaceComposer11VsyncSourceE;
-}
