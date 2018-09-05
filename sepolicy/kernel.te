@@ -1,8 +1,8 @@
-allow kernel log_device:dir search;
-allow kernel log_device:dir write;
-allow kernel log_device:dir add_name;
-allow kernel log_device:file create;
-allow kernel log_device:file { read write open };
+allow kernel device:dir search;
+allow kernel device:dir write;
+allow kernel device:dir add_name;
+allow kernel device:file create;
+allow kernel device:file { read write open };
 allow kernel hwlog_exception_device:chr_file { open write };
 allow kernel hwlog_jank_device:chr_file { open write };
 allow kernel hwlog_bdat_device:chr_file { open write };
