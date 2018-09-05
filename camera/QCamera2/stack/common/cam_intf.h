@@ -858,7 +858,7 @@ typedef struct {
     INCLUDE(CAM_INTF_META_SENSOR_EXPOSURE_TIME,         int64_t,                     1);
     INCLUDE(CAM_INTF_META_SENSOR_FRAME_DURATION,        int64_t,                     1);
     INCLUDE(CAM_INTF_META_SENSOR_SENSITIVITY,           int32_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_01,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_ISP_SENSITIVITY ,             int32_t,                     1); //huawei moved
 
     INCLUDE(CAM_INTF_META_SENSOR_TIMESTAMP,             int64_t,                     1);
     INCLUDE(CAM_INTF_META_SENSOR_ROLLING_SHUTTER_SKEW,  int64_t,                     1);
@@ -966,6 +966,16 @@ typedef struct {
     INCLUDE(CAM_INTF_META_RAW,                          cam_dimension_t,             1);
     INCLUDE(CAM_INTF_META_STREAM_INFO_FOR_PIC_RES,      cam_stream_size_info_t,      1);
 
+    INCLUDE(CAM_INTF_META_HUAWEI_05,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_06,                    uint8_t,                     8);
+    INCLUDE(CAM_INTF_META_HUAWEI_07,                    uint8_t,                     324);
+    INCLUDE(CAM_INTF_META_HUAWEI_08,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_META_HUAWEI_09,                    uint8_t,                     1);
+    volatile char huawei_reserved1[6];
+    INCLUDE(CAM_INTF_META_HUAWEI_10,                    uint8_t,                     24);
+    INCLUDE(CAM_INTF_META_HUAWEI_11,                    uint8_t,                     24);
+    volatile char huawei_reserved2[4];
+    INCLUDE(CAM_INTF_META_HUAWEI_18,                    uint8_t,                     264);
 
     /* HAL3 specific */
     INCLUDE(CAM_INTF_META_STREAM_INFO,                  cam_stream_size_info_t,      1);
@@ -1015,41 +1025,29 @@ typedef struct {
     INCLUDE(CAM_INTF_PARM_MANUAL_CAPTURE_TYPE,          cam_manual_capture_type,     1);
     INCLUDE(CAM_INTF_AF_STATE_TRANSITION,               uint8_t,                     1);
     INCLUDE(CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX,       uint32_t,                    1);
+    INCLUDE(CAM_INTF_META_HUAWEI_01,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_17,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_21,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_22,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_23,                    uint8_t,                     20);
+    INCLUDE(CAM_INTF_META_HUAWEI_24,                    uint8_t,                     8);
+    INCLUDE(CAM_INTF_META_HUAWEI_25,                    uint8_t,                     8);
+    INCLUDE(CAM_INTF_META_HUAWEI_15,                    uint8_t,                     12);
     INCLUDE(CAM_INTF_PARM_INSTANT_AEC,                  uint8_t,                     1);
     INCLUDE(CAM_INTF_META_REPROCESS_FLAGS,              uint8_t,                     1);
     INCLUDE(CAM_INTF_PARM_JPEG_ENCODE_CROP,             cam_stream_crop_info_t,      1);
     INCLUDE(CAM_INTF_PARM_JPEG_SCALE_DIMENSION,         cam_dimension_t,             1);
-    INCLUDE(CAM_INTF_META_FOCUS_DEPTH_INFO,             uint8_t,                     1);
-
-    INCLUDE(CAM_INTF_META_ISP_SENSITIVITY ,             int32_t,                     1); //huawei moved
-    INCLUDE(CAM_INTF_META_HUAWEI_05,                    uint8_t,                     324);
-    INCLUDE(CAM_INTF_META_HUAWEI_06,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_07,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_08,                    uint8_t,                     24);
-    INCLUDE(CAM_INTF_META_HUAWEI_09,                    uint8_t,                     24);
-    INCLUDE(CAM_INTF_META_HUAWEI_10,                    uint8_t,                     1);
-
-    INCLUDE(CAM_INTF_META_HUAWEI_11,                    uint8_t,                     4);
-    INCLUDE(CAM_INTF_META_HUAWEI_12,                    uint8_t,                     4);
-
-
-    INCLUDE(CAM_INTF_META_HUAWEI_15,                    uint8_t,                     1);
-
-    INCLUDE(CAM_INTF_META_HUAWEI_17,                    uint8_t,                     4);
-    INCLUDE(CAM_INTF_META_HUAWEI_18,                    uint8_t,                     4);
-    INCLUDE(CAM_INTF_META_HUAWEI_19,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_20,                    uint8_t,                     1);
-
-    INCLUDE(CAM_INTF_META_HUAWEI_21,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_22,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_23,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_24,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_25,                    uint8_t,                     1);
-    INCLUDE(CAM_INTF_META_HUAWEI_26,                    uint8_t,                     4);
     INCLUDE(CAM_INTF_META_HUAWEI_27,                    uint8_t,                     1);
+    INCLUDE(CAM_INTF_META_HUAWEI_12,                    uint8_t,                     3);
+    INCLUDE(CAM_INTF_META_HUAWEI_19,                    uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_20,                    uint8_t,                     4);
     INCLUDE(CAM_INTF_META_HUAWEI_28,                    uint8_t,                     4);
     INCLUDE(CAM_INTF_META_HUAWEI_29,                    uint8_t,                     4);
     INCLUDE(CAM_INTF_META_HUAWEI_30,                    uint8_t,                     1);
+
+    INCLUDE(CAM_INTF_META_FOCUS_DEPTH_INFO,             uint8_t,                     1);
+
+    INCLUDE(CAM_INTF_META_HUAWEI_26,                    uint8_t,                     4);
 
 } metadata_data_t;
 

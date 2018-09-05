@@ -1894,7 +1894,7 @@ typedef enum {
     CAM_INTF_PARM_LOCK_CAF,
     CAM_INTF_PARM_VIDEO_HDR,
     CAM_INTF_PARM_SENSOR_HDR,
-    CAM_INTF_PARM_ROTATION,
+    CAM_INTF_PARM_ROTATION, // stock 56 oss 56 / QCameraParameters::addOnlineRotation
     CAM_INTF_PARM_SCALE,
     CAM_INTF_PARM_VT, /* indicating if it's a Video Call Apllication */
     CAM_INTF_META_CROP_DATA,
@@ -1931,7 +1931,7 @@ typedef enum {
     CAM_INTF_PARM_RDI_MODE,
     CAM_INTF_PARM_CDS_MODE,
     CAM_INTF_PARM_TONE_MAP_MODE,
-    CAM_INTF_PARM_CAPTURE_FRAME_CONFIG, /* 90 */
+    CAM_INTF_PARM_CAPTURE_FRAME_CONFIG, /* 90 */ // stock 93 oss 93 / QCameraParameters::configFrameCapture
     CAM_INTF_PARM_LED_CALIBRATION,
     CAM_INTF_PARM_ADV_CAPTURE_MODE,
 
@@ -1970,18 +1970,18 @@ typedef enum {
      * output frame. */
     CAM_INTF_META_URGENT_FRAME_NUMBER,
     /*Number of streams and size of streams in current configuration*/
-    CAM_INTF_META_STREAM_INFO,
+    CAM_INTF_META_STREAM_INFO, // stock 112 / QCameraParameters::sendStreamConfigInfo
     /* List of areas to use for metering */
     CAM_INTF_META_AEC_ROI,
     /* Whether the HAL must trigger precapture metering.*/
-    CAM_INTF_META_AEC_PRECAPTURE_TRIGGER, /* 110 */
+    CAM_INTF_META_AEC_PRECAPTURE_TRIGGER, /* 110 */ // stock 114 oss 114 / QCamera3HardwareInterface::translateCbUrgentMetadataToResultMetadata
     /* The ID sent with the latest CAMERA2_TRIGGER_PRECAPTURE_METERING call */
     /* Current state of AE algorithm */
     CAM_INTF_META_AEC_STATE,
     /* List of areas to use for focus estimation */
     CAM_INTF_META_AF_ROI,
     /* Whether the HAL must trigger autofocus. */
-    CAM_INTF_META_AF_TRIGGER,
+    CAM_INTF_META_AF_TRIGGER, // stock 117 oss 117 / QCamera3HardwareInterface::translateCbUrgentMetadataToResultMetadata
     /* Current state of AF algorithm */
     CAM_INTF_META_AF_STATE,
     /* List of areas to use for illuminant estimation */
@@ -2089,11 +2089,11 @@ typedef enum {
      * compensate for lens shading for this frame */
     CAM_INTF_META_LENS_SHADING_MAP,
     CAM_INTF_META_PRIVATE_DATA,
-    CAM_INTF_PARM_STATS_DEBUG_MASK,
-    CAM_INTF_PARM_STATS_AF_PAAF,
+    CAM_INTF_PARM_STATS_DEBUG_MASK, // stock 159 oss 159 / QCameraParameters::setStatsDebugMask
+    CAM_INTF_PARM_STATS_AF_PAAF, // stock 160 oss 160 / QCameraParameters::setPAAF
     /* Indicates streams ID of all the requested buffers */
-    CAM_INTF_META_STREAM_ID,
-    CAM_INTF_PARM_FOCUS_BRACKETING,
+    CAM_INTF_META_STREAM_ID, // stock 161 oss 161 / QCamera3HardwareInterface::setFrameParameters
+    CAM_INTF_PARM_FOCUS_BRACKETING, // stock 162 oss 162 / QCameraParameters::commitAFBracket
     CAM_INTF_PARM_FLASH_BRACKETING,
     CAM_INTF_PARM_GET_IMG_PROP, /* 160 */
     CAM_INTF_META_JPEG_GPS_COORDINATES,
@@ -2109,7 +2109,10 @@ typedef enum {
     CAM_INTF_META_PROFILE_TONE_CURVE, // 173 OK
     CAM_INTF_META_NEUTRAL_COL_POINT, /* 170 */ // 174 OK
 
-    CAM_INTF_META_HUAWEI_01,
+    /* Gain applied post raw captrue.
+       ISP digital gain */
+    CAM_INTF_META_ISP_SENSITIVITY, //oss 220 stock 175 ( //oss 175 now)
+
     /* CAC */
     CAM_INTF_META_CAC_INFO, // 175 176
     CAM_INTF_PARM_CAC, // 176 177
@@ -2137,7 +2140,7 @@ typedef enum {
     /* IMG LIB reprocess debug section */
     CAM_INTF_META_IMGLIB, /* cam_intf_meta_imglib_t */ // 187 188
     /* OEM specific parameters */
-    CAM_INTF_PARM_CUSTOM, // 188 189
+    CAM_INTF_PARM_CUSTOM, // 188 189 // stock 189 oss 189 QCameraParameters::setCustomParams
     /* parameters added for related cameras */
     /* fetch calibration info for related cam subsystem */
     CAM_INTF_PARM_RELATED_SENSORS_CALIBRATION, //189 190
@@ -2197,25 +2200,20 @@ typedef enum {
     /* Touch exposure compensation (EV) status */
     CAM_INTF_META_TOUCH_AE_RESULT,// oss 218 stock 219
     /* Param for updating initial exposure index value*/
-    CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX, // oss 219 stock  220
-    /* Gain applied post raw captrue.
-       ISP digital gain */
-    CAM_INTF_META_ISP_SENSITIVITY, //oss 220 stock 175
-    /* Param for enabling instant aec*/
-    CAM_INTF_PARM_INSTANT_AEC, //oss 221 stock 245
-    /* Param for tracking previous reprocessing activity */
-    CAM_INTF_META_REPROCESS_FLAGS,
-    /* Param of cropping information for JPEG encoder */
-    CAM_INTF_PARM_JPEG_ENCODE_CROP,
-    /* Param of scaling information for JPEG encoder */
-    CAM_INTF_PARM_JPEG_SCALE_DIMENSION,
-    /*Param for updating Quadra CFA mode */
-    CAM_INTF_PARM_QUADRA_CFA,
-    /* Meta Raw Dim */
-    CAM_INTF_META_RAW,
-    /* Number of streams and size of streams in
-       current configuration for pic res*/
-    CAM_INTF_META_STREAM_INFO_FOR_PIC_RES,
+    CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX, // oss 219 stock  220 // stock 220 oss 220 / QCameraParameters::setInitialExposureIndex
+
+    CAM_INTF_META_HUAWEI_01, // QCameraParameters::setOISEnable / CAM_INTF_PARM_OIS_ON / 221
+
+    CAM_INTF_META_HUAWEI_17, // QCameraParameters::setOISRunningMode / 222
+
+    CAM_INTF_META_HUAWEI_21, // QCameraParameters::setOISMagMode / CAM_INTF_PARM_OIS_MAG_TEST / 223
+    CAM_INTF_META_HUAWEI_22, // QCameraParameters::setOISCheckMode / CAM_INTF_PARM_OIS_CHECK_TEST / 224
+    CAM_INTF_META_HUAWEI_23, // QCameraParameters::updateColorBarValue / 225
+
+    CAM_INTF_META_HUAWEI_24,
+    CAM_INTF_META_HUAWEI_25,
+    CAM_INTF_META_HUAWEI_26,
+
     CAM_INTF_META_FOCUS_DEPTH_INFO, // oss 228 stock 255
     CAM_INTF_META_HUAWEI_02,
     CAM_INTF_META_HUAWEI_03,
@@ -2233,16 +2231,31 @@ typedef enum {
     CAM_INTF_META_HUAWEI_14,
     CAM_INTF_META_HUAWEI_15,
     CAM_INTF_META_HUAWEI_16,
-    CAM_INTF_META_HUAWEI_17,
+
+/* Param for enabling instant aec*/
+    CAM_INTF_PARM_INSTANT_AEC, //oss 221 stock 245 / QCameraParameters::setInstantAEC
+
     CAM_INTF_META_HUAWEI_18,
     CAM_INTF_META_HUAWEI_19,
     CAM_INTF_META_HUAWEI_20,
-    CAM_INTF_META_HUAWEI_21,
-    CAM_INTF_META_HUAWEI_22,
-    CAM_INTF_META_HUAWEI_23,
-    CAM_INTF_META_HUAWEI_24,
-    CAM_INTF_META_HUAWEI_25,
-    CAM_INTF_META_HUAWEI_26,
+
+    /* Param for tracking previous reprocessing activity */
+    CAM_INTF_META_REPROCESS_FLAGS, // stock 249 / v7[249] = 1;
+    /* Param of cropping information for JPEG encoder */
+    CAM_INTF_PARM_JPEG_ENCODE_CROP, // stock 250 / v7[250] = 1;
+    /* Param of scaling information for JPEG encoder */
+    CAM_INTF_PARM_JPEG_SCALE_DIMENSION, // stock 251 / v7[251] = 1;
+
+    /*Param for updating Quadra CFA mode */
+    CAM_INTF_PARM_QUADRA_CFA, // stock 252 / QCameraParameters::setQuadraCfaMode
+
+    /* Meta Raw Dim */
+    CAM_INTF_META_RAW, // stock 253 / QCameraParameters::getMetaRawInfo
+
+    /* Number of streams and size of streams in
+       current configuration for pic res*/
+    CAM_INTF_META_STREAM_INFO_FOR_PIC_RES, // stock 254 / QCameraParameters::sendStreamConfigForPickRes
+
     CAM_INTF_META_HUAWEI_27,
     /*Focus value output from af core*/
     CAM_INTF_META_FOCUS_VALUE,
