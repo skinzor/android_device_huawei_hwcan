@@ -263,9 +263,11 @@ PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     libnfc-nci \
     nfc_nci.pn54x.default \
+    nfc_nci.msm8953 \
     NfcNci \
     Tag \
-    android.hardware.nfc@1.0-impl
+    android.hardware.nfc@1.0-impl \
+    android.hardware.nfc@1.0-service
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
