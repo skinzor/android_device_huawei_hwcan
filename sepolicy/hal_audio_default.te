@@ -1,3 +1,4 @@
+allow hal_audio_default hw_audio_info_sysfs:dir search;
 allow hal_audio_default hw_audio_info_sysfs:file { read open getattr };
 allow hal_audio_default persist_audio_data_file:dir search;
 allow hal_audio_default persist_audio_data_file:file { read open getattr };
