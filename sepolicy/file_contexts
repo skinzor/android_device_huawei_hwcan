@@ -7,6 +7,9 @@
 /dev/hwlog_bdat                                             u:object_r:hwlog_bdat_device:s0
 /dev/rmi0                                                   u:object_r:rmi0_device:s0
 
+# Audio
+/sys/bus/platform/drivers/hw_audio_info(/.*)?               u:object_r:hw_audio_info_sysfs:s0
+
 # Fingerprint
 /data/fpc(/.*)?                                             u:object_r:fingerprintd_data_file:s0
 /data/log/fingerprint(/.*)?                                 u:object_r:fingerprintd_log_data_file:s0
