@@ -27,6 +27,9 @@
 # Persist
 /persist/audio(/.*)?                                        u:object_r:persist_audio_data_file:s0
 
+# QMUXD
+/system/bin/qmuxd                                           u:object_r:qmuxd_exec:s0
+
 # RIL
 /data/misc/netmgr(/.*)?                                     u:object_r:netmgr_data_file:s0
 
