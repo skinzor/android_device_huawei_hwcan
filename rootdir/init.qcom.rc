@@ -623,8 +623,7 @@ service port-bridge /system/bin/port-bridge
 service qmuxd /system/bin/qmuxd
     class main
     user root
-    group radio audio bluetooth gps nfc qcom_diag
-    disabled
+    group radio audio bluetooth gps nfc oem_2901
 
 service atfwd /vendor/bin/ATFWD-daemon
     class late_start
