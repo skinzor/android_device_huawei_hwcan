@@ -6,9 +6,5 @@ service fps_hal /vendor/bin/hw/android.hardware.biometrics.fingerprint@1.0-servi
     user system
     group system input
 
-on early-init
-    setprop sys.fingerprint 0
-
-on property:init.svc.fps_hal=running && property:sys.fingerprint=0
+on property:sys.boot_completed=1
     restart fps_hal
-    setprop sys.fingerprint 1
