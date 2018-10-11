@@ -25,7 +25,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 PRODUCT_NAME := lineage_hwcan
 PRODUCT_DEVICE := hwcan
 PRODUCT_BRAND := HUAWEI
-PRODUCT_MODEL := HUAWEI CAN-L11
+PRODUCT_MODEL := NOVA CAN-L11
 PRODUCT_MANUFACTURER := HUAWEI
 
 PRODUCT_GMS_CLIENTID_BASE := android-huawei
