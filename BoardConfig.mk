@@ -20,7 +20,7 @@
 # definition file).
 #
 
-TARGET_OTA_ASSERT_DEVICE := hwcan,can,MLA,CAZ,Nova,nova
+TARGET_OTA_ASSERT_DEVICE := hwcan
 
 DEVICE_PATH := device/huawei/hwcan
 
