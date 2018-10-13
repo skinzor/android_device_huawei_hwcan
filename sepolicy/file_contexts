@@ -10,6 +10,12 @@
 # Audio
 /sys/bus/platform/drivers/hw_audio_info(/.*)?               u:object_r:hw_audio_info_sysfs:s0
 
+# Bluetooth
+/(vendor|system/vendor)/bin/hci_qcomm_init                  u:object_r:qti_init_shell_exec:s0
+
+# Camera
+/sys/devices/soc/soc:qcom,camera-flash/leds/dual_leds(/.*)? u:object_r:dual_leds_sysfs:s0
+
 # Fingerprint
 /data/fpc(/.*)?                                             u:object_r:fingerprintd_data_file:s0
 /data/log/fingerprint(/.*)?                                 u:object_r:fingerprintd_log_data_file:s0
@@ -24,6 +30,9 @@
 /system/bin/huawei_version                                  u:object_r:oeminfo_exec:s0
 /system/bin/mac_addr_normalization                          u:object_r:macaddr_exec:s0
 
+# Partitions
+/dev/block/bootdevice/by-name/dsp                           u:object_r:dsp_block_device:s0
+
 # Persist
 /persist/audio(/.*)?                                        u:object_r:persist_audio_data_file:s0
 
@@ -32,9 +41,11 @@
 
 # RIL
 /data/misc/netmgr(/.*)?                                     u:object_r:netmgr_data_file:s0
+/(vendor|system/vendor)/radio(/.*)?                         u:object_r:radio_data_file:s0
 
 # WCNSS
 /data/log/wifi(/.*)?                                        u:object_r:wcnss_data_file:s0
 
 # Fingerprint custom service
 /(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@1\.0-service\.hwcan u:object_r:hal_fingerprint_default_exec:s0
+

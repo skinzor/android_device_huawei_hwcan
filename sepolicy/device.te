@@ -6,4 +6,5 @@ type hwlog_jank_device, dev_type;
 type hwlog_bdat_device, dev_type;
 type rmi0_device, dev_type;
 
+type dsp_block_device, dev_type;
 type oem_block_device, dev_type;

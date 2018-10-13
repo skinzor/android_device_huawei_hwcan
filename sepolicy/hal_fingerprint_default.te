@@ -1,0 +1,16 @@
+allow hal_fingerprint_default fingerprint_device:chr_file rw_file_perms;
+allow hal_fingerprint_default dsm_device:chr_file w_file_perms;
+allow hal_fingerprint_default fingerprint_sysfs:dir rw_dir_perms;
+allow hal_fingerprint_default fingerprint_sysfs:file rw_file_perms;
+allow hal_fingerprint_default hwlog_jank_device:chr_file { open write };
+allow hal_fingerprint_default tee_device:chr_file rw_file_perms;
+
+allow hal_fingerprint_default fingerprintd_log_data_file:dir w_dir_perms;
+allow hal_fingerprint_default fingerprintd_log_data_file:file create_file_perms;
+allow hal_fingerprint_default proc_app_info:file { open read getattr };
+allow hal_fingerprint_default sysfs_kgsl:file { open read write };
+
+allow hal_fingerprint_default huawei_log_file:file { open read write };
+
+#unix_socket_connect(hal_fingerprint_default, tee, tee);
+allow hal_fingerprint_default tee:unix_stream_socket connectto;

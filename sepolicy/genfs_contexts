@@ -1,1 +1,14 @@
+# App_info
 genfscon proc /app_info u:object_r:proc_app_info:s0
+
+# Camera
+genfscon sysfs /devices/soc/soc:qcom,camera-flash/leds/dual_leds u:object_r:dual_leds_sysfs:s0
+genfscon sysfs /devices/soc/1b0c000.qcom,cci/1b0c000.qcom,cci:qcom,camera@3/video4linux/video1/name u:object_r:video4linux_sysfs:s0
+genfscon sysfs /devices/soc/1b0c000.qcom,cci/1b0c000.qcom,cci:qcom,camera@4/video4linux/video2/name u:object_r:video4linux_sysfs:s0
+
+# Debugfs
+genfscon debugfs /rmt_storage	u:object_r:debugfs_rmt_storage:s0
+
+# USB
+genfscon sysfs /devices/soc/7000000.ssusb/7000000.dwc3/gadget/lun0/nofua u:object_r:nofua_sysfs:s0
+genfscon sysfs /devices/virtual/android_usb/android0/f_rndis_qc/rndis_transports u:object_r:rndis_transports_sysfs:s0

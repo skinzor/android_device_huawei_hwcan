@@ -8,12 +8,9 @@ allow libqmi_oem_main qmuxd_socket:dir { write add_name search remove_name };
 allow libqmi_oem_main qmuxd_socket:sock_file { write create setattr unlink };
 allow libqmi_oem_main self:capability { fsetid dac_override };
 allow libqmi_oem_main self:socket { read ioctl create bind write };
-allow libqmi_oem_main smem_log_device:chr_file { read write ioctl open };
 
 # allowxperm libqmi_oem_main self:socket ioctl msm_sock_ipc_ioctls;
 allowxperm libqmi_oem_main self:socket ioctl { 0xc302 0xc304 };
-
-allow libqmi_oem_main device:dir search;
 
 allow libqmi_oem_main sysfs:file r_file_perms;
 

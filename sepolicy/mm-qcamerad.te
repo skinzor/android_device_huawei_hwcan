@@ -1,2 +1,7 @@
 allow mm-qcamerad diag_device:chr_file { ioctl open read write };
 allow mm-qcamerad hwlog_jank_device:chr_file { open write };
+allow mm-qcamerad sysfs_leds:dir search;
+allow mm-qcamerad dual_leds_sysfs:dir { open read };
+allow mm-qcamerad camera_data_file:sock_file { create unlink };
+allow mm-qcamerad video4linux_sysfs:file { open read };
+allow mm-qcamerad camera_socket:sock_file unlink;

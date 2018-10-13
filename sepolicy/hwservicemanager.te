@@ -1,5 +1,6 @@
 allow hwservicemanager init:dir search;
 allow hwservicemanager init:file { open read };
 allow hwservicemanager init:process getattr;
+# allow hwservicemanager init:binder call;
 
 binder_use(hwservicemanager);

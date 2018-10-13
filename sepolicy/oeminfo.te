@@ -6,8 +6,8 @@ init_daemon_domain(oeminfo)
 allow oeminfo oem_block_device:blk_file rw_file_perms;
 allow oeminfo self:capability { fowner chown fsetid };
 
-allow oeminfo device:dir r_dir_perms;
 allow oeminfo proc_app_info:file r_file_perms;
+# allow oeminfo default_prop:property_service set;
 
 r_dir_file(oeminfo, sysfs);
 

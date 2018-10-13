@@ -5,6 +5,7 @@ init_daemon_domain(macaddr)
 allow macaddr bluetooth_data_file:dir { search write add_name };
 allow macaddr self:capability { dac_override chown fowner };
 allow macaddr bluetooth_data_file:file { create read write open getattr setattr };
+allow macaddr bluetooth_prop:file { read open getattr };
 
 allow macaddr wifi_data_file:dir { search write add_name };
 allow macaddr wifi_data_file:file { create read write open getattr setattr };

@@ -1,4 +1,4 @@
-allow tee fingerprintd:dir search;
-allow tee fingerprintd:file { getattr open read };
+allow tee hal_fingerprint_default:dir search;
+allow tee hal_fingerprint_default:file { getattr open read };
 allow tee system_data_file:file open;
 allow tee proc_app_info:file { open read };
