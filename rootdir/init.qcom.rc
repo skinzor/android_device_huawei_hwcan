@@ -285,6 +285,12 @@ on boot
 
     # End Huawei
 
+    # Sensors
+    chmod 0775 /persist/sensors
+    chmod 0664 /persist/sensors/sensors_settings
+    chown system root /persist/sensors/sensors_settings
+    mkdir /data/misc/sensors 0775 system root
+
 # msm specific files that need to be created on /data
 on post-fs-data
     mkdir /data/vendor/misc 01771 system system
@@ -692,11 +698,6 @@ service loc_launcher /system/vendor/bin/loc_launcher
 
 service qcom-sh /vendor/bin/init.qcom.sh
     class late_start
-    user root
-    oneshot
-
-service sensor-sh /system/bin/sh /init.qcom.sensors.sh
-    class core
     user root
     oneshot
 
