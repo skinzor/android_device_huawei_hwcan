@@ -12,3 +12,5 @@ genfscon debugfs /rmt_storage	u:object_r:debugfs_rmt_storage:s0
 # USB
 genfscon sysfs /devices/soc/7000000.ssusb/7000000.dwc3/gadget/lun0/nofua u:object_r:nofua_sysfs:s0
 genfscon sysfs /devices/virtual/android_usb/android0/f_rndis_qc/rndis_transports u:object_r:rndis_transports_sysfs:s0
+genfscon sysfs /module/g_android/parameters/mtp_tx_req_len u:object_r:mtp_sysfs:s0
+genfscon sysfs /module/g_android/parameters/mtp_rx_req_len u:object_r:mtp_sysfs:s0

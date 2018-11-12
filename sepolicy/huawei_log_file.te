@@ -1,0 +1,1 @@
+allow huawei_log_file huawei_log_file:filesystem associate;

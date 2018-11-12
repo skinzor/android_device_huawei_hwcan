@@ -28,6 +28,7 @@ type proc_app_info, file_type;
 # USB
 type nofua_sysfs, sysfs_type, file_type;
 type rndis_transports_sysfs, sysfs_type, file_type;
+type mtp_sysfs, sysfs_type, file_type;
 
 # WCNSS
 type wcnss_data_file, file_type, data_file_type;

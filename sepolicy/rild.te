@@ -1,2 +1,3 @@
 allow rild libqmi_oem_main:unix_stream_socket connectto;
 allow rild radio_data_file:file { open read getattr ioctl lock };
+allow rild radio_data_file:dir search;

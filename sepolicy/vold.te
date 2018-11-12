@@ -1,0 +1,1 @@
+allow vold huawei_log_file:dir read;

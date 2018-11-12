@@ -5,5 +5,6 @@ allow init property_socket:sock_file write;
 allow init hwservicemanager:binder { call transfer };
 allow init system_server:binder call;
 allow init hwlog_jank_device:chr_file write;
+allow init huawei_log_file:filesystem { relabelto relabelfrom mount };
 
 allow init diag_device:chr_file { write ioctl };
